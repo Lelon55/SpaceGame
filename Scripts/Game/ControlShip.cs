@@ -1,0 +1,72 @@
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
+
+public class ControlShip : MonoBehaviour {
+
+	public Blockade[] blockade;
+    public Vector2 speed = new Vector2(10, 0); //predkosc statku dla rigidbody
+    private Vector2 movement;
+    private Rigidbody2D gravity_ship;
+
+    private void Start()
+    {
+        gravity_ship = GetComponent<Rigidbody2D>();
+        speed = new Vector2(PlayerPrefs.GetInt("Speed_Ship"), 0);
+    }
+    private void OnTriggerStay2D(Collider2D playerek)
+    {//potem zoptymalizowac aby jedna linia byla podwojna float inputX = Input.acceleration.x; i z minuesem
+        if (playerek.gameObject.tag == "Scena")
+        {
+            float inputX = Input.acceleration.x;
+
+            movement = new Vector2(
+            speed.x * inputX, 0);
+
+            if (Input.GetKey("left"))
+            {
+                movement.x = speed.x * -0.2f;
+            }
+            if (Input.GetKey("right"))
+            {
+                movement.x = speed.x * 0.2f;
+            }
+        }
+
+        else if (playerek.gameObject.tag == "Magnetic_storm")
+        {
+            float inputX = -Input.acceleration.x;
+
+            movement = new Vector2(
+            speed.x * inputX, 0);
+
+            if (Input.GetKey("left"))
+            {
+                movement.x = speed.x * 0.2f;
+            }
+            if (Input.GetKey("right"))
+            {
+                movement.x = speed.x * -0.2f;
+            }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D mission_tutorial)
+    {
+        if ((SceneManager.GetActiveScene().name == "Tutorial"))
+        {
+            if (mission_tutorial.gameObject.tag == "sciana" && (blockade[0].mission == 1 || blockade[1].mission == 4))
+            {
+                blockade[0].check_mission = true;
+                blockade[1].check_mission = true;
+            }
+        }
+    }
+
+    private void Update()
+	{
+        gravity_ship.velocity = movement;
+      
+    }
+
+
+}

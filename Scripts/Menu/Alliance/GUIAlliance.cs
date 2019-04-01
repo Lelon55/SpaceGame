@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUIAlliance : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class GUIAlliance : MonoBehaviour {
     private GUIOverview GUIOverview;
 
     public GameObject[] panels;
+    public Text Alliance_Name;
 
     private void Start()
     {
@@ -18,6 +20,7 @@ public class GUIAlliance : MonoBehaviour {
     private void Update()
     {
         ActivePanels();
+        Get_Alliance_Name();
     }
 
     public void BtnLeave()
@@ -27,15 +30,16 @@ public class GUIAlliance : MonoBehaviour {
     }
     private bool SetActivePanels(int page)
     {
-        if (page >= 15 && page <= 17)//panelgorny dolny sojusz
-        {
-            return true;
-        }
-        return false;
+        return page >= 15 && page <= 18;//panelgorny dolny sojusz
     }
     private void ActivePanels()
     {
         panels[0].SetActive(SetActivePanels(GUIOverview.page));
         panels[1].SetActive(SetActivePanels(GUIOverview.page));
+    }
+
+    private void Get_Alliance_Name()
+    {
+        Alliance_Name.text = stats.Get_String_Data_From("Alliance_Name");
     }
 }

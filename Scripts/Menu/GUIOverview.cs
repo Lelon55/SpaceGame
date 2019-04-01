@@ -6,9 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GUIOverview : MonoBehaviour
 {
-    public Canvas CanvasMessage;
-    public Canvas CanvasNameOfAdmiral;
-    public Canvas CanvasLevelUpAdmiral;
+    public Canvas CanvasMessage, CanvasNameOfAdmiral, CanvasLevelUpAdmiral;
 
     public Canvas[] Canvases;
     public GameObject[] antymatery_field_planet;
@@ -18,12 +16,8 @@ public class GUIOverview : MonoBehaviour
 
     public InputField planet_name;
     public InputField admiral_name;
-    public Text txt_planet_name;
-    public Text txt_admiral_name;
-    public Text txt_planet_name_Overview;
+    public Text txt_planet_name, txt_admiral_name, txt_planet_name_Overview, textAntymatery, textMessage;
 
-    public Text textAntymatery;
-    public Text textMessage;
     public AudioClip sound_message;
     public AudioSource audiosource_sound_message;
 

@@ -4,13 +4,15 @@ using UnityEngine.SceneManagement;
 
 public class ControlShip : MonoBehaviour {
 
-	public Blockade[] blockade;
+	[SerializeField] private Tutorial[] tutorial;
     public Vector2 speed = new Vector2(10, 0); //predkosc statku dla rigidbody
     private Vector2 movement;
     private Rigidbody2D gravity_ship;
+    private statystyki staty;
 
     private void Start()
     {
+        staty = GameObject.Find("spaceship").GetComponent<statystyki>();
         gravity_ship = GetComponent<Rigidbody2D>();
         speed = new Vector2(PlayerPrefs.GetInt("Speed_Ship"), 0);
     }
@@ -52,12 +54,11 @@ public class ControlShip : MonoBehaviour {
     }
     private void OnCollisionEnter2D(Collision2D mission_tutorial)
     {
-        if ((SceneManager.GetActiveScene().name == "Tutorial"))
+        if (SceneManager.GetActiveScene().name == "Tutorial")
         {
-            if (mission_tutorial.gameObject.tag == "sciana" && (blockade[0].mission == 1 || blockade[1].mission == 4))
+            if (mission_tutorial.gameObject.tag == "sciana" && (staty.mission == 1 || staty.mission == 4))
             {
-                blockade[0].check_mission = true;
-                blockade[1].check_mission = true;
+                tutorial[staty.mission-1].wall = true;
             }
         }
     }
@@ -65,7 +66,6 @@ public class ControlShip : MonoBehaviour {
     private void Update()
 	{
         gravity_ship.velocity = movement;
-      
     }
 
 

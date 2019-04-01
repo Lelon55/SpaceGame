@@ -7,9 +7,7 @@ public class GUIShipPanel : MonoBehaviour
     public Text Txtship_name;
     public Image imgShip;
     public Sprite[] skin_ship;
-    public Image panelConsumption;
-    public Image panelLife;
-    public Image panelChanceDrop;
+    public Image panelConsumption, panelLife, panelChanceDrop;
 
     public GameObject[] Bonus_Panel;
     private int activate_bonus;

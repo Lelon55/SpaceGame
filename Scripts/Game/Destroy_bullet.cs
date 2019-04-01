@@ -5,14 +5,10 @@ using UnityEngine.SceneManagement;
 public class Destroy_bullet : MonoBehaviour
 {
     private statystyki staty;
-    public int luck;
-	public int drop_metal;
-	public int drop_crystal;
-	public int drop_deuter;
+    public int luck, drop_metal, drop_crystal, drop_deuter;
 
     public AudioClip antymatery_sound;
-    public GameObject point;
-    public GameObject antymatery;
+    public GameObject point, antymatery;
 
     private int max_drop_resources = 0;
 

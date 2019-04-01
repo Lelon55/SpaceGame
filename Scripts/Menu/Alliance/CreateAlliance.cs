@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CreateAlliance : MonoBehaviour
 {
     public Text[] AllianceData;
+    public InputField[] AllianceDataInput;
 
     private statystyki stats;
     private GUIOverview GUIOverview;
@@ -16,30 +17,26 @@ public class CreateAlliance : MonoBehaviour
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIOverview = GameObject.Find("Interface").GetComponent<GUIOverview>();
     }
-
+    private void Update()
+    {
+        Check_Length();
+    }
+    private void Check_Length()
+    {
+        AllianceData[2].text = AllianceDataInput[0].text.Length.ToString() + "/" + AllianceDataInput[0].characterLimit;
+        AllianceData[3].text = AllianceDataInput[1].text.Length.ToString() + "/" + AllianceDataInput[1].characterLimit;
+    }
     private bool Check_Name()
     {
-        if (AllianceData[0].text == "no alliance" || AllianceData[0].text == "")
-        {
-            return false;
-        }
-        return true;
+        return AllianceData[0].text != "no alliance" || AllianceData[0].text != "";
     }
     private bool Check_Tag()
     {
-        if (AllianceData[1].text == "no tag" || AllianceData[1].text == "")
-        {
-            return false;
-        }
-        return true;
+        return AllianceData[1].text != "no tag" || AllianceData[1].text != "";
     }
     private bool Check_Antymateries()
     {
-        if (stats.Get_Data_From("Antymatery") >= cost)
-        {
-            return true;
-        }
-        return false;
+        return stats.Get_Data_From("Antymatery") >= cost;
     }
 
     public void BtnCreateAlliance()

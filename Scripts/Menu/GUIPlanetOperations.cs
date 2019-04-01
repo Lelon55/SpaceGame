@@ -7,12 +7,7 @@ public class GUIPlanetOperations : MonoBehaviour {
     #region UI Variables
     private GUIOverview GUIOverview;
     private GameObject[] on_off_cost = new GameObject[2]; //on or off antymatery or resources
-    private Text txtMetalCost;
-    private Text txtCrystalCost;
-    private Text txtDeuterCost;
-    private Text txtAntymateries;
-    private Text txtSubjectName;
-    private Text txtSubjectDescription;
+    private Text txtMetalCost, txtCrystalCost, txtDeuterCost, txtAntymateries, txtSubjectName, txtSubjectDescription;
     private Image img;
     #endregion
     // Use this for initialization

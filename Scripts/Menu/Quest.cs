@@ -57,12 +57,7 @@ private class List_quest
         }
     }
     private List<List_quest> quest = new List<List_quest>();
-	public Text text_reward_metal;
-    public Text text_reward_crystal;
-    public Text text_reward_deuter;
-	public Text text_reward_exp;
-	public Text text_name_quest;
-	public Text text_description;
+	public Text text_reward_metal, text_reward_crystal, text_reward_deuter, text_reward_exp, text_name_quest, text_description;
 	public Button btn_reward_quest;
 	public Sprite[] SpriteCategoryQuest;
 	public Image imgCategoryQuest;

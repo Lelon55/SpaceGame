@@ -8,19 +8,11 @@ public class GUIResources : MonoBehaviour {
 	private statystyki stats;
     private Operations operations = new Operations();
 
-    public Text textIncomeMetal;
-	public Text textIncomeCrystal;
-	public Text textIncomeDeuter;
-	
-	public Text textActualMetal;
-	public Text textActualCrystal;
-	public Text textActualDeuter;
-	
+    public Text textIncomeMetal, textIncomeCrystal, textIncomeDeuter;
+	public Text textActualMetal, textActualCrystal, textActualDeuter;
 	public Text textIncomeResources;
 	
-	public Image panelMMetal;
-	public Image panelMCrystal;
-	public Image panelMDeuter;
+	public Image panelMMetal, panelMCrystal, panelMDeuter;
 
 	// Use this for initialization
 	private void Start () {

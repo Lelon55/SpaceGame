@@ -9,6 +9,7 @@ public class statystyki : MonoBehaviour {
 
     internal int Life;
     internal int ticks;
+    internal int mission;
 
     internal float gravity_bullet = -1.0f;
     public int ilosc_wczytanych_scen = 0;

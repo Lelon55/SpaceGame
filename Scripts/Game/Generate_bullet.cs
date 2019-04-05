@@ -59,7 +59,7 @@ public class Generate_bullet : MonoBehaviour {
        
         if (min_bullets >= max_bullets)
         {
-            Debug.Log("daj odpoczac");
+            //Debug.Log("daj odpoczac");
         }
         else if (min_bullets <= max_bullets)
         {
@@ -68,7 +68,7 @@ public class Generate_bullet : MonoBehaviour {
             nr = Random.Range(0, 3);
             Instantiate(shot, bullet_position, shot.transform.rotation);
             AudioSource.PlayClipAtPoint(laser_sound[nr], staty.transform.position);
-            Debug.Log("wystrzelono: " + nr + "liczba: " + min_bullets);
+            //Debug.Log("wystrzelono: " + nr + "liczba: " + min_bullets);
         }
 	}
 

@@ -51,26 +51,26 @@ public class Destroy_bullet : MonoBehaviour
                     AudioSource.PlayClipAtPoint(antymatery_sound, transform.position);
                     staty.Add_Dropped_Antymatery(1);
                     Generate_antymatery();
-                    Debug.Log("DODANO ANTYMATERIE SZANS" + staty.Get_Chance_Drop());
+                   // Debug.Log("DODANO ANTYMATERIE SZANS" + staty.Get_Chance_Drop());
                 }
                 Generate_resources();
             }
             Generate_point();
             Destroy(gameObject);
-            Debug.Log("Niszczenie pocisku po uderzeniu");
+            //Debug.Log("Niszczenie pocisku po uderzeniu");
         }
         else if (destroy.gameObject.tag == "Enemy" || destroy.gameObject.tag == "Pocisk_wroga")
         {
             Destroy(gameObject, 0.01f);
             shake.ShakeCamera();
-            Debug.Log("Niszczenie pocisku 666");
+           // Debug.Log("Niszczenie pocisku 666");
         }
     }
     private void OnTriggerEnter2D(Collider2D destroy)
     {
         if (destroy.gameObject.tag == "Niszcz_pocisk"){
             Destroy(gameObject, 0.01f);
-            Debug.Log("Niszczenie pocisku 666");
+           // Debug.Log("Niszczenie pocisku 666");
         }
     }
     private void Bonus()

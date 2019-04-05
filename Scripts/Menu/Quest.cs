@@ -99,8 +99,13 @@ private class List_quest
 		quest.Add(new List_quest(27, "field planet", "purchase 70 fields of the planet", "planet", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 1000, 2000, 150, false));
 		quest.Add(new List_quest(28, "terraformer", "small planet? build terraformer (3)", "planet", 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2000, 4000, 150, false));
 		quest.Add(new List_quest(29, "antymatery", "get antymatery (30) from comets or ads", "antymatery", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30, 500, 250, 250, 25, false));
-		quest.Add(new List_quest(30, "ship", "buy ship", "ship", 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 300, 100, 50, 25, false));	
-	}
+		quest.Add(new List_quest(30, "ship", "buy ship", "ship", 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 300, 100, 50, 25, false));
+        quest.Add(new List_quest(31, "resources", "spent 25.000 resources", "ship", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25000, 0, 1500, 1000, 750, 30, false));
+        quest.Add(new List_quest(32, "laboratory", "build laboratory (5) to buy new technology", "planet", 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 650, 800, 500, 15, false));
+        quest.Add(new List_quest(33, "exploration", "destroy comets (350)", "cosmos", 0, 350, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 350, 350, 350, 15, false));
+        quest.Add(new List_quest(34, "exploration", "explore (20) moons", "cosmos", 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 750, 750, 500, 45, false));
+        quest.Add(new List_quest(35, "exploration", "destroy enemy ships (15)", "cosmos", 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 500, 500, 150, 30, false));
+    }
 
     private void Info_quest(int nr)
     {
@@ -146,11 +151,11 @@ private class List_quest
 
     private void Last_quest()
     {
-        if (staty.Get_Data_From("Quest") > quest.Count())
+        if (staty.Get_Data_From("Quest") >= quest.Count())
         {
             staty.Set_Data("Quest", staty.Get_Data_From("Quest") + 0);
         }
-        else if (staty.Get_Data_From("Quest") <= quest.Count())
+        else if (staty.Get_Data_From("Quest") < quest.Count())
         {
             staty.Set_Data("Quest", staty.Get_Data_From("Quest") + 1);
         }

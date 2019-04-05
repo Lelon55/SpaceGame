@@ -12,7 +12,7 @@ public class GUIOverview : MonoBehaviour
     public GameObject[] antymatery_field_planet;
     public Text[] resources;
 
-    internal int page;
+    [SerializeField] internal int page;
 
     public InputField planet_name;
     public InputField admiral_name;
@@ -53,7 +53,7 @@ public class GUIOverview : MonoBehaviour
     }
     public void BtnFirstName(Canvas Canvases)
     {
-        if (page == 0 && (staty.Get_String_Data_From("Admiral_Name") != "" || staty.Get_String_Data_From("Admiral_Name") != "set admiral name"))
+        if (page == 0 && (staty.Get_String_Data_From("Admiral_Name") != "" && staty.Get_String_Data_From("Admiral_Name") != "set admiral name"))
         {
             Canvases.enabled = false;
             page = 1;
@@ -61,6 +61,7 @@ public class GUIOverview : MonoBehaviour
         else if (page == 0 && (staty.Get_String_Data_From("Admiral_Name") == "" || staty.Get_String_Data_From("Admiral_Name") == "set admiral name"))
         {
             Canvases.enabled = false;
+            page = 0;
         }
     }
     // Update is called once per frame
@@ -197,7 +198,7 @@ public class GUIOverview : MonoBehaviour
         {
             View_CanvasMessage("Please enter the planet name");
         }
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
     }
     public void ChangeNameOfAdmiralCorrect()
     {

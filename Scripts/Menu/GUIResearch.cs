@@ -7,14 +7,8 @@ using System.Linq;
 public class GUIResearch : MonoBehaviour {
     private class List_researches
     {
-        public int id;
-        public string name;
-		public string description;
-        public int metal;
-		public int crystal;
-		public int deuter;
-		public int require_lvl; //wymagany poziom do odblokowania badania
-        public int level;
+        public int id, metal, crystal, deuter, require_lvl, level;
+        public string name, description;
 
         public List_researches(int i, string n, string de, int m, int c, int d, int rl, int l)
         {

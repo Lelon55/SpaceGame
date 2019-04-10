@@ -8,11 +8,11 @@ public class GUIResources : MonoBehaviour {
 	private statystyki stats;
     private Operations operations = new Operations();
 
-    public Text textIncomeMetal, textIncomeCrystal, textIncomeDeuter;
-	public Text textActualMetal, textActualCrystal, textActualDeuter;
+    public Text[] txtIncomeResource;
+    public Text[] txtActuallyResource;
 	public Text textIncomeResources;
-	
-	public Image panelMMetal, panelMCrystal, panelMDeuter;
+
+    public Image[] PanelResource;
 
 	// Use this for initialization
 	private void Start () {
@@ -21,20 +21,20 @@ public class GUIResources : MonoBehaviour {
 
     private void Info_ResourcesPanel ()
     {
-        panelMMetal.rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Data_From("Metal"), stats.Get_Data_From("Capacity_Metal")), 30f);
-        panelMCrystal.rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Data_From("Crystal"), stats.Get_Data_From("Capacity_Crystal")), 30f);
-        panelMDeuter.rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Data_From("Deuter"), stats.Get_Data_From("Capacity_Deuter")), 30f);
+        PanelResource[0].rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Data_From("Metal"), stats.Get_Data_From("Capacity_Metal")), 30f);
+        PanelResource[1].rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Data_From("Crystal"), stats.Get_Data_From("Capacity_Crystal")), 30f);
+        PanelResource[2].rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Data_From("Deuter"), stats.Get_Data_From("Capacity_Deuter")), 30f);
     }
 	
 	private void Print_Resources()
     {
-        textIncomeMetal.text = stats.Get_Income("Income_Metal").ToString("N0") + "/30sec";
-        textIncomeCrystal.text = stats.Get_Income("Income_Crystal").ToString("N0") + "/30sec";
-        textIncomeDeuter.text = stats.Get_Income("Income_Deuter").ToString("N0") + "/30sec";
+        txtIncomeResource[0].text = stats.Get_Income("Income_Metal").ToString("N0") + "/30sec";
+        txtIncomeResource[1].text = stats.Get_Income("Income_Crystal").ToString("N0") + "/30sec";
+        txtIncomeResource[2].text = stats.Get_Income("Income_Deuter").ToString("N0") + "/30sec";
 
-        textActualMetal.text = stats.Get_Data_From("Metal").ToString("N0") + " / " + stats.Get_Data_From("Capacity_Metal");
-        textActualCrystal.text = stats.Get_Data_From("Crystal").ToString("N0") + " / " + stats.Get_Data_From("Capacity_Crystal");
-        textActualDeuter.text = stats.Get_Data_From("Deuter").ToString("N0") + " / " + stats.Get_Data_From("Capacity_Deuter");
+        txtActuallyResource[0].text = stats.Get_Data_From("Metal").ToString("N0") + " / " + stats.Get_Data_From("Capacity_Metal");
+        txtActuallyResource[1].text = stats.Get_Data_From("Crystal").ToString("N0") + " / " + stats.Get_Data_From("Capacity_Crystal");
+        txtActuallyResource[2].text = stats.Get_Data_From("Deuter").ToString("N0") + " / " + stats.Get_Data_From("Capacity_Deuter");
 
         textIncomeResources.text = "INCOME: " + stats.ticks;
     }

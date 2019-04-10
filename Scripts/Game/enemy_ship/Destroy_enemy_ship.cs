@@ -4,11 +4,9 @@ using System.Collections;
 public class Destroy_enemy_ship : MonoBehaviour {
 
 	public int life = 5;
-	public Sprite podniszczone;
-	public Sprite podniszczone_bardziej;
-	public Sprite niezniszczone;
-	public SpriteRenderer statek;
-	public GameObject blokada;
+	public Sprite undamaged, close_to_destruction, destroyed;
+	private SpriteRenderer ship;
+	public GameObject blockade;
 
 	private statystyki staty;
     private bool dropped = false;
@@ -18,8 +16,8 @@ public class Destroy_enemy_ship : MonoBehaviour {
     private void Start(){
 		//blokada = GameObject.Find("blokada");
 		staty = GameObject.Find("spaceship").GetComponent<statystyki>();
-		statek = GetComponent<SpriteRenderer>();
-        niezniszczone = statek.sprite;
+        ship = GetComponent<SpriteRenderer>();
+        undamaged = ship.sprite;
 	}
     private void Generate_explosion()
     {
@@ -29,15 +27,15 @@ public class Destroy_enemy_ship : MonoBehaviour {
     private void LateUpdate(){
         if (life == 5)
         {
-            statek.sprite = niezniszczone;
+            ship.sprite = undamaged;
         }
         else if (life == 2)
         {
-            statek.sprite = podniszczone;
+            ship.sprite = close_to_destruction;
         }
         else if (life == 1)
         {
-            statek.sprite = podniszczone_bardziej;
+            ship.sprite = destroyed;
         }
     }
     private void Destroy_ship()
@@ -46,7 +44,7 @@ public class Destroy_enemy_ship : MonoBehaviour {
         {
             staty.Set_Data("Destroyed_Enemy_Ships", staty.Get_Data_From("Destroyed_Enemy_Ships") + 1);
             Destroy(gameObject);
-            Destroy(blokada);
+            Destroy(blockade);
             Generate_explosion();
             Drop_from_enemy();
         }
@@ -73,7 +71,7 @@ public class Destroy_enemy_ship : MonoBehaviour {
             staty.Add_Dropped_Deuter(10);
             staty.Set_Data("Destroyed_Enemy_Ships", staty.Get_Data_From("Destroyed_Enemy_Ships") + 1);
             dropped = true;
-            Debug.Log("NISZCZENIE STATKU");
+            //Debug.Log("NISZCZENIE STATKU");
         }
 
     }

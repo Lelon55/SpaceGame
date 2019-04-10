@@ -5,10 +5,7 @@ using System.Collections;
 
 public class GUIGame : MonoBehaviour {
     public Canvas[] Canvases;
-
-    public Text WynikOgolny;
-    public Text WynikDystansu;
-    public Text WynikKomet;
+    public Text[] Score;
     private SpriteRenderer laser_life;
 
     internal int page; // 1gra, 2PAUZA, 3Gameover
@@ -53,11 +50,11 @@ public class GUIGame : MonoBehaviour {
     }
 
     // dane z obszaru gry
-    private void Score()
+    private void GameScore()
     {
-        WynikOgolny.text = staty.Get_Score() + "/" + staty.Get_Data_From("Player_Record");
-        WynikKomet.text = staty.Get_Comets() + "/" + staty.Get_Data_From("Comets_Record");
-		WynikDystansu.text = staty.Get_Distance().ToString("N0");
+        Score[0].text = staty.Get_Score() + "/" + staty.Get_Data_From("Player_Record");
+        Score[1].text = staty.Get_Comets() + "/" + staty.Get_Data_From("Comets_Record");
+        Score[2].text = staty.Get_Distance().ToString("N0");
 		txt_dropped_resources[0].text = staty.Get_Dropped_Metal().ToString();
 		txt_dropped_resources[1].text = staty.Get_Dropped_Crystal().ToString();
 		txt_dropped_resources[2].text = staty.Get_Dropped_Deuter().ToString();
@@ -148,7 +145,7 @@ public class GUIGame : MonoBehaviour {
     }
     private void Pages()
     {
-        Score();
+        GameScore();
         Steer_Canvases();
     }
     private void Change_panel()

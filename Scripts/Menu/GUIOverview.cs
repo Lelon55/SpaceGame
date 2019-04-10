@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GUIOverview : MonoBehaviour
 {
     public Canvas CanvasMessage, CanvasNameOfAdmiral, CanvasLevelUpAdmiral;
-
+    [Space]
     public Canvas[] Canvases;
     public GameObject[] antymatery_field_planet;
     public Text[] resources;

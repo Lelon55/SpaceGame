@@ -7,8 +7,7 @@ public class Generate_bullet : MonoBehaviour {
 	public AudioClip[] laser_sound;
 	private int nr;
     private float cooling = 2.5f;
-    public float max_bullets;
-    public float min_bullets = 0.0f; 
+    public float max_bullets, min_bullets; 
 
 	private Vector2 laser_position;
 

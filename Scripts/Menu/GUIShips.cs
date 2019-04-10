@@ -8,17 +8,10 @@ public class GUIShips : MonoBehaviour {
 
     private class List_ships
     {
-        public int id;
-        public string name;
-        public string description;
-        public int life;
+        public int id, life, ch_drop, price, speed_ship, haveornothave;
+        public string name, description;
         public double chance_drop; //szansa dropu anty z komet
-        public int ch_drop; //szansa dropu anty z komet w int aby nie wykonywac obliczen
-        public int price;
-		public float consumption;
-        public int speed_ship;
-        public float max_lasers;
-        public int haveornothave;
+		public float consumption, max_lasers;
 
         public List_ships(int i, string n, string de, int l, double d, int di, int p, float c, int s_s, float m_l, int hoh)
         {

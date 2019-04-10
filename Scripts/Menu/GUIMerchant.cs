@@ -7,10 +7,8 @@ using System.Linq;
 public class GUIMerchant : MonoBehaviour {
     private class List_boxes
     {
-        public int id;
+        public int id, how_much, cost;
         public string resource;
-        public int how_much;
-        public int cost;
 
 
         public List_boxes(int i, string r, int h_w, int c)

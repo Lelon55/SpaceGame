@@ -7,16 +7,9 @@ using System.Linq;
 public class GUIBuildings : MonoBehaviour {
     private class List_buildings
     {
-        public int id;
-        public string name;
-        public string description;
-        public int metal;
-        public int crystal;
-        public int deuter;
-        public int przychod;
-        public int capacity;
+        public int id, metal, crystal, deuter, przychod, capacity, level;
+        public string name, description;
         public float factor;
-        public int level;
 
         public List_buildings(int i, string n, string de, int m, int c, int d, int p, int ca, float fa, int l)
         {

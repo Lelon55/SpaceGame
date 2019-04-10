@@ -8,26 +8,11 @@ public class Quest : MonoBehaviour {
 private class List_quest
     {
         public int id;
-        public string name_quest;
-        public string description;
-		public string category_quest;
-		public int require_explored_moons; //ilosc zekplorowanych ksiezycy
-        public int require_comet; //ilosc komet do zbicia w grze
-        public int require_enemy_ships; //ilosc zniszczonych wrogich statkow
-        public int require_bought_ships; //ilosc kupionych statkow
-		public int require_metal_mine; //poziom kopalni metalu
-		public int require_crystal_mine; //poziom kopalni kryształu
-		public int require_deuter_sintetizer; //poziom kopalni deuteru
-		public int require_laboratory; //poziom laboratorium
-		public int require_hangar; //poziom stoczni
-		public int require_terraformer; //poziom terraformera
-		public int require_field_planet; //ilosc zabudowanego pola planety
-		public int require_spent_resources; //ilosc wydanych surowcow
-		public int require_antymatery; //ilosc zebranej antymaterii
-		public int reward_metal; //nagroda w metalu
-		public int reward_crystal; //nagroda w krysztale
-		public int reward_deuter; //nagroda w deuterze
-		public int reward_exp; //nagroda w exp
+        public string name_quest, description, category_quest;
+		public int require_explored_moons, require_comet, require_enemy_ships, require_bought_ships; 
+		public int require_metal_mine, require_crystal_mine, require_deuter_sintetizer, require_laboratory, require_hangar; 
+		public int require_terraformer, require_field_planet, require_spent_resources, require_antymatery;
+		public int reward_metal, reward_crystal, reward_deuter, reward_exp; 
         public bool done;
 
         public List_quest(int i, string nq, string dc, string cq, int r_explored_moons, int r_comet, int r_enemy, int r_bought, int r_metal_mine, int r_crystal_mine, int r_deuter_sintetizer, int r_laboratory, int r_hangar, int r_terraformer, int r_field, int r_spent_resources, int r_antymatery, int re_metal, int re_crystal, int re_deuter, int re_exp, bool done)

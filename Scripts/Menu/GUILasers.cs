@@ -7,11 +7,8 @@ using System.Linq;
 public class GUILasers : MonoBehaviour {
     private class list_lasers
     {
-        public int id;
+        public int id, price, require_lvl, haveornothave;
         public string name;
-        public int price;
-		public int require_lvl; //wymagany poziom do odblokowania laseru
-        public int haveornothave;
 
         public list_lasers(int i, string n, int p, int rl, int hoh)
         {

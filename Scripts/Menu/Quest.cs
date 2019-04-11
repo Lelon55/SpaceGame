@@ -158,18 +158,12 @@ private class List_quest
             staty.Set_Data("Exp", staty.Get_Data_From("Exp") + quest[nr].reward_exp);
             Last_quest();
             PlayerPrefs.Save();
-            ViewMessage("Quest complete");
+            GUIOverview.View_CanvasMessage("Quest complete");
         }
         else if (staty.Get_Data_From("Destroyed_Comets") < quest[nr].require_comet || staty.Get_Data_From("Destroyed_Enemy_Ships") < quest[nr].require_enemy_ships || staty.Get_Data_From("Bought_Ships") < quest[nr].require_bought_ships || staty.Get_Data_From("Metal_Mine") < quest[nr].require_metal_mine || staty.Get_Data_From("Crystal_Mine") < quest[nr].require_crystal_mine || staty.Get_Data_From("Deuter_Sintetizer") < quest[nr].require_deuter_sintetizer || staty.Get_Data_From("Laboratory") < quest[nr].require_laboratory || staty.Get_Data_From("Hangar") < quest[nr].require_hangar || staty.Get_Data_From("Terraformer") < quest[nr].require_terraformer || staty.Get_Data_From("Bought_Field_Planet") < quest[nr].require_field_planet || staty.Get_Data_From("Spent_Resources") < quest[nr].require_spent_resources || staty.Get_Data_From("Antymatery") < quest[nr].require_antymatery || staty.Get_Data_From("Explored_Moons") < quest[nr].require_explored_moons)
         {
-            ViewMessage("Check require list");
+            GUIOverview.View_CanvasMessage("Check require list");
         }
-    }
-    private void ViewMessage(string text)
-    {
-        GUIOverview.CanvasMessage.enabled = true;
-        GUIOverview.textMessage.text = text;
-        GUIOverview.audiosource_sound_message.PlayOneShot(GUIOverview.sound_message, 0.7F);
     }
 
 	// Update is called once per frame

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GUIOverview : MonoBehaviour
 {
-    public Canvas CanvasMessage, CanvasNameOfAdmiral, CanvasLevelUpAdmiral;
+    public Canvas CanvasMessage, CanvasNameOfAdmiral;
     [Space]
     public Canvas[] Canvases;
     public GameObject[] antymatery_field_planet;
@@ -16,7 +16,7 @@ public class GUIOverview : MonoBehaviour
 
     public InputField planet_name;
     public InputField admiral_name;
-    public Text txt_planet_name, txt_admiral_name, txt_planet_name_Overview, textAntymatery, textMessage;
+    public Text txt_planet_name, txt_admiral_name, txt_planet_name_Overview, textAntymatery, textMessage, textLevelUpAdmiral;
 
     public AudioClip sound_message;
     public AudioSource audiosource_sound_message;
@@ -120,12 +120,18 @@ public class GUIOverview : MonoBehaviour
         resources[3].text = staty.Get_Data_From("Free_Field").ToString("N0");
         resources[4].text = staty.Get_Data_From("Antymatery").ToString("N0");
     }
-    private void View_CanvasMessage(string text)
+    internal void View_CanvasMessage(string text)
     {
         CanvasMessage.enabled = true;
         textMessage.text = text;
         audiosource_sound_message.PlayOneShot(sound_message, 0.7F);
     }
+    internal void View_CanvasLevelUpAdmiral(string text)
+    {
+        View_CanvasMessage(text);
+        GUIoper.RewardLvlUp.SetActive(true);
+    }
+
     public void BtnOpenAlliance()
     {
         if(staty.Get_String_Data_From("Alliance_Name") == "no alliance" && staty.Get_String_Data_From("Alliance_Tag") == "no tag")

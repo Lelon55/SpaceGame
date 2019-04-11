@@ -7,11 +7,11 @@ using System.Linq;
 public class GUIBuildings : MonoBehaviour {
     private class List_buildings
     {
-        public int id, metal, crystal, deuter, przychod, capacity, level;
+        public int id, metal, crystal, deuter, income, capacity, level;
         public string name, description;
         public float factor;
 
-        public List_buildings(int i, string n, string de, int m, int c, int d, int p, int ca, float fa, int l)
+        public List_buildings(int i, string n, string de, int m, int c, int d, int inc, int ca, float fa, int l)
         {
             this.id = i;
             this.name = n;
@@ -19,7 +19,7 @@ public class GUIBuildings : MonoBehaviour {
             this.metal = m;
             this.crystal = c;
             this.deuter = d;
-            this.przychod = p;
+            this.income = inc;
             this.capacity = ca;
             this.factor = fa;
             this.level = l;
@@ -133,17 +133,17 @@ public class GUIBuildings : MonoBehaviour {
             if (nr == 0)
             {
                 staty.Set_Data("Metal_Mine", buildings[nr].level);
-                staty.Set_Data("Income_Metal", buildings[nr].przychod * buildings[nr].level);
+                staty.Set_Data("Income_Metal", buildings[nr].income * buildings[nr].level);
             }
             else if (nr == 1)
             {
                 staty.Set_Data("Crystal_Mine", buildings[nr].level);
-                staty.Set_Data("Income_Crystal", buildings[nr].przychod * buildings[nr].level);
+                staty.Set_Data("Income_Crystal", buildings[nr].income * buildings[nr].level);
             }
             else if (nr == 2)
             {
                 staty.Set_Data("Deuter_Sintetizer", buildings[nr].level);
-                staty.Set_Data("Income_Deuter", buildings[nr].przychod * buildings[nr].level);
+                staty.Set_Data("Income_Deuter", buildings[nr].income * buildings[nr].level);
             }
             else if (nr == 3)
             {

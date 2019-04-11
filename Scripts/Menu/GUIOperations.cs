@@ -6,6 +6,7 @@ using UnityEngine;
 public class GUIOperations : MonoBehaviour {
 
     private GUIOverview GUIOverview;
+    [SerializeField] internal GameObject RewardLvlUp;
 
     private void Start()
     {
@@ -17,6 +18,7 @@ public class GUIOperations : MonoBehaviour {
         if (GUIOverview.page > 0)
         {
             Canvas.enabled = false;
+            RewardLvlUp.SetActive(false);
         }
     }
     public void BtnOpen(Canvas Canvas)//open pop up canvas at planet

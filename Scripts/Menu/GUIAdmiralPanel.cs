@@ -6,7 +6,6 @@ public class GUIAdmiralPanel : MonoBehaviour
 {
     public Image panelAdmiralExp;
     public Text[] textInfo_Admiral;
-    public Text textLevelUpAdmiral;
 
     private statystyki stats;
     private GUIOverview GUIOverview;
@@ -42,10 +41,7 @@ public class GUIAdmiralPanel : MonoBehaviour
             textInfo_Admiral[11].text = (10 * (stats.Get_Data_From("Level") + 1)).ToString("N0");
             textInfo_Admiral[12].text = (10 * (stats.Get_Data_From("Level") + 1)).ToString("N0");
             stats.Set_Data("Level", stats.Get_Data_From("Level") + 1);
-            GUIOverview.CanvasLevelUpAdmiral.enabled = true;
-            textLevelUpAdmiral.text = "Congratulations. \nYou have reached level " + (stats.Get_Data_From("Level") + 1) + ".";
-            GUIOverview.audiosource_sound_message.PlayOneShot(GUIOverview.sound_message, 0.7F);
-            Debug.Log("nowy poziom");
+            GUIOverview.View_CanvasLevelUpAdmiral("Congratulations. \nYou have reached level " + stats.Get_Data_From("Level") + ".");
         }
     }
     private void LateUpdate()

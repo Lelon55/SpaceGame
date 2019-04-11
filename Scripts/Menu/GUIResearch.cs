@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class GUIResearch : MonoBehaviour {
+public class GUIResearch : MonoBehaviour
+{
     private class List_researches
     {
         public int id, metal, crystal, deuter, require_lvl, level;
@@ -14,11 +15,11 @@ public class GUIResearch : MonoBehaviour {
         {
             this.id = i;
             this.name = n;
-			this.description = de;
+            this.description = de;
             this.metal = m;
-			this.crystal = c;
-			this.deuter = d;
-			this.require_lvl = rl;
+            this.crystal = c;
+            this.deuter = d;
+            this.require_lvl = rl;
             this.level = l;
         }
     }
@@ -31,33 +32,34 @@ public class GUIResearch : MonoBehaviour {
     public Button[] buttony;
     public Text[] text_button;
     public Text textDebugResearch;
-	public int spent_resources;
-	public Sprite[] SpriteResearches;
+    public int spent_resources;
+    public Sprite[] SpriteResearches;
     public int activated_bonus = 0;
     public AudioClip sound_buildup;
     public AudioSource audiosource_sound_buildup;
 
     // Use this for initialization
-    private void Start () {
+    private void Start()
+    {
         Ads = GameObject.Find("Scripts").GetComponent<Ads>();
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
 
         research.Add(new List_researches(0, "SHIELD", "Each level of shield gives +1 life. Max lvl causes immortal for first collision with comet or enemy laser.", 100, 0, 0, 1, 1));
         research.Add(new List_researches(1, "COMBUSTION", "Each level of combustion causes -1 consumtpion from ships. Max lvl gives 10% chance for 0 consumption on start exploration of space.", 300, 0, 500, 2, 1));
-		research.Add(new List_researches(2, "LASER TECHNOLOGY", "Each level of laser technology gives more lasers to buy. Max lvl causes more damage from lasers on enemy ship.", 75, 225, 0, 3, 1));
-		research.Add(new List_researches(3, "MINING TECHNLOGY", "Each level of mining technology gives +2 max drop from comets. Max lvl causes +5 extra drop resource from comet.", 200, 350, 175, 4, 1));
-		research.Add(new List_researches(4, "ANTYMATERY TECHNLOGY", "Each level of antymatery technology gives +1 chance drop antymatery from comets. Max lvl causes +1 max drop antymatery for watch ads.", 500, 500, 500, 5, 1));
-        View_Researches(); 
+        research.Add(new List_researches(2, "LASER TECHNOLOGY", "Each level of laser technology gives more lasers to buy. Max lvl causes more damage from lasers on enemy ship.", 75, 225, 0, 3, 1));
+        research.Add(new List_researches(3, "MINING TECHNLOGY", "Each level of mining technology gives +2 max drop from comets. Max lvl causes +5 extra drop resource from comet.", 200, 350, 175, 4, 1));
+        research.Add(new List_researches(4, "ANTYMATERY TECHNLOGY", "Each level of antymatery technology gives +1 chance drop antymatery from comets. Max lvl causes +1 max drop antymatery for watch ads.", 500, 500, 500, 5, 1));
+        View_Researches();
     }
     private void Check_research() //nadpisuje poziomy
     {
-		research[0].level = staty.Get_Data_From("Shield");
-		research[1].level = (int)staty.Get_Float_Data_From("Combustion");
-		research[2].level = staty.Get_Data_From("Laser_Technology");
-		research[3].level = staty.Get_Data_From("Mining_Technology");
-		research[4].level = staty.Get_Data_From("Antymatery_Technology");
-	}
+        research[0].level = staty.Get_Data_From("Shield");
+        research[1].level = (int)staty.Get_Float_Data_From("Combustion");
+        research[2].level = staty.Get_Data_From("Laser_Technology");
+        research[3].level = staty.Get_Data_From("Mining_Technology");
+        research[4].level = staty.Get_Data_From("Antymatery_Technology");
+    }
     private void Check_buttons() // zmienia tylko nazwy w tekscie
     {
         for (int ilosc = 0; ilosc < research.Count(); ilosc++)
@@ -81,7 +83,7 @@ public class GUIResearch : MonoBehaviour {
     {
         for (int ilosc = 0; ilosc < researches.Count(); ilosc++)
         {
-                researches[ilosc].SetActive(GUIPlanetOperations.Check_Levels("Laboratory", ilosc));
+            researches[ilosc].SetActive(GUIPlanetOperations.Check_Levels("Laboratory", ilosc));
         }
     }
 
@@ -142,7 +144,7 @@ public class GUIResearch : MonoBehaviour {
                 Set_Technology(nr);
             }
             else if ((staty.Get_Data_From("Metal") < research[nr].metal * (research[nr].level + 1)) || (staty.Get_Data_From("Crystal") < research[nr].crystal * (research[nr].level + 1)) || (staty.Get_Data_From("Deuter") < research[nr].deuter * (research[nr].level + 1)))
-            { 
+            {
                 Turn_On_Ads(nr);
             }
             else if (research[nr].level == 3 && text_button[nr].text == "MAX LVL")
@@ -151,15 +153,17 @@ public class GUIResearch : MonoBehaviour {
             }
         }
     }
-   
-    // Update is called once per frame
-    private void LateUpdate () {
-        Check_research();
-		Check_buttons();
-        View_Researches();
-	}
 
-	public void Info_researches(int nr){
+    // Update is called once per frame
+    private void LateUpdate()
+    {
+        Check_research();
+        Check_buttons();
+        View_Researches();
+    }
+
+    public void Info_researches(int nr)
+    {
         GUIPlanetOperations.Subject_Information((research[nr].metal * (research[nr].level + 1)),
         (research[nr].crystal * (research[nr].level + 1)),
         (research[nr].deuter * (research[nr].level + 1)), 0,
@@ -167,6 +171,6 @@ public class GUIResearch : MonoBehaviour {
         research[nr].description,
         SpriteResearches[nr]);
     }
-	
-	}
+
+}
 

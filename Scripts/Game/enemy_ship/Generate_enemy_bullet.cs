@@ -59,6 +59,7 @@ public class Generate_enemy_bullet : MonoBehaviour {
         //brak strzalu, ale ma szukac wroga od ściany do ściany
         StopCoroutine("Count");
     }
+    
     private void Movement_enemy()
     {
         movement = new Vector2(speed.x, speed.y);

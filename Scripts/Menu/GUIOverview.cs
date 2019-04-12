@@ -204,7 +204,7 @@ public class GUIOverview : MonoBehaviour
         {
             View_CanvasMessage("Please enter the planet name");
         }
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
     }
     public void ChangeNameOfAdmiralCorrect()
     {

@@ -120,7 +120,6 @@ public class GUIBuildings : MonoBehaviour {
         {
             Ads.Show_to_earn("resources");
             Ads.pokazane = false;
-
         }
         textDebugBuildings.text = "EARN: " + buildings[nr].name + "(" + (buildings[nr].level + 1) + ")";
     }

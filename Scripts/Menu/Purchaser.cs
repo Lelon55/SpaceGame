@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
-using UnityEngine.UI;
 
 public class Purchaser : MonoBehaviour
 {
@@ -14,16 +13,16 @@ public class Purchaser : MonoBehaviour
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIOverview = GameObject.Find("Scripts").GetComponent<GUIOverview>();
     }
+
     private void Set_Options(int value)
     {
-        GUIOverview.CanvasMessage.enabled = true;
-        GUIOverview.textMessage.text = "You've bought " + value + " Antymateries.";
+        GUIOverview.View_CanvasMessage("You've bought " + value + " Antymateries.");
         stats.Change_Antymatery(value);
-        GUIOverview.audiosource_sound_message.PlayOneShot(GUIOverview.sound_message, 0.7F);
     }
+
     public void OnPurchasedCompleted(Product product)
     {
-        if(product != null)
+        if (product != null)
         {
             switch (product.definition.id)
             {
@@ -42,7 +41,6 @@ public class Purchaser : MonoBehaviour
                 default:
                     Debug.Log("test");
                     break;
-
             }
         }
     }

@@ -14,7 +14,6 @@ public class Destroy_enemy_ship : MonoBehaviour {
     public GameObject Explosion;
 
     private void Start(){
-		//blokada = GameObject.Find("blokada");
 		staty = GameObject.Find("spaceship").GetComponent<statystyki>();
         ship = GetComponent<SpriteRenderer>();
         undamaged = ship.sprite;
@@ -42,23 +41,26 @@ public class Destroy_enemy_ship : MonoBehaviour {
     {
         if (life < 1)
         {
-            staty.Set_Data("Destroyed_Enemy_Ships", staty.Get_Data_From("Destroyed_Enemy_Ships") + 1);
             Destroy(gameObject);
             Destroy(blockade);
             Generate_explosion();
             Drop_from_enemy();
         }
     }
+
+    private int Get_Damage()//2 more damage, 1 normal damage
+    {
+        if(staty.more_damage == 1)
+        {
+            return 2;
+        }
+        return 1;
+    }
     private void OnCollisionEnter2D(Collision2D niszczenie)
     {
-        if (niszczenie.gameObject.tag == "Pocisk" && life >= 1 && staty.more_damage == 0)
+        if (niszczenie.gameObject.tag == "Pocisk" && life >= 1)
         {
-            life -= 1;
-            Destroy_ship();
-        }
-        else if (niszczenie.gameObject.tag == "Pocisk" && life >= 1 && staty.more_damage == 1)
-        {
-            life -= 2;
+            life -= Get_Damage();
             Destroy_ship();
         }
     }

@@ -4,12 +4,11 @@ using System.Collections;
 public class Destroy_comet : MonoBehaviour {
 
     public int life = 0;
-    public Sprite podniszczone;
-	public Sprite niezniszczone;
+    public Sprite podniszczone, niezniszczone;
 	private SpriteRenderer Comet;
 
     public GameObject Explosion;
-    private float x;
+    private float rotation_z;
 
     private void Start()
     {
@@ -17,19 +16,21 @@ public class Destroy_comet : MonoBehaviour {
     }
     private void Update()
     {
-        x += Time.deltaTime * 300;
-        transform.rotation = Quaternion.Euler(0, 0, x);
+        rotation_z += Time.deltaTime * 300;
+        transform.rotation = Quaternion.Euler(0, 0, rotation_z);
     }
     private void LateUpdate()
     {
-        if (life == 2)
+        Comet.sprite = Show_Comet();
+    }
+
+    private Sprite Show_Comet()
+    {
+        if (life >= 2)
         {
-            Comet.sprite = niezniszczone;
+            return niezniszczone;
         }
-        else if (life == 1)
-        {
-            Comet.sprite = podniszczone;
-        }
+        return podniszczone;
     }
     private void Generate_explosion()
     {
@@ -41,8 +42,8 @@ public class Destroy_comet : MonoBehaviour {
         if (life < 1)
         {
             Destroy(gameObject);
-            Debug.Log("Niszczenie komety po uderzeniu");
             Generate_explosion();
+            //Debug.Log("Niszczenie komety po uderzeniu");
         }
     }
 

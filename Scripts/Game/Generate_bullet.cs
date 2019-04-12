@@ -10,7 +10,6 @@ public class Generate_bullet : MonoBehaviour {
     public float max_bullets, min_bullets; 
 
 	private Vector2 laser_position;
-
 	private statystyki staty;
 	private Rigidbody2D gravity;
 
@@ -19,6 +18,18 @@ public class Generate_bullet : MonoBehaviour {
         laser_position = new Vector2(0f, 0.5f);
         staty = GameObject.Find("spaceship").GetComponent<statystyki>();
         gravity = GetComponent<Rigidbody2D>();
+    }
+
+    private void Shorten_Reloading()
+    {
+        if (staty.Get_Comets() == 50)
+        {
+            cooling = 2.0f;
+        }
+        else if (staty.Get_Comets() == 150)
+        {
+            cooling = 1.5f;
+        }
     }
 
     private void Update()
@@ -34,28 +45,21 @@ public class Generate_bullet : MonoBehaviour {
         {
             StartCoroutine("Start_Count");
         }
+        Shorten_Reloading();
+    }
 
-        if (staty.Get_Comets() == 50)
-        {//skrocimy czas do 1.5f
-            cooling = 2.0f;
-        }
-        else if (staty.Get_Comets() == 150)
-        {//skrocimy czas do 1.0f
-            cooling = 1.5f;
+    private IEnumerator Start_Count()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(cooling); // czas Tick
+            min_bullets--; //odejmuje wszystko po 2sek
         }
     }
 
-	private IEnumerator Start_Count()
-	{
-		while (true) {
-			yield return new WaitForSeconds (cooling); // czas Tick
-            min_bullets--; //odejmuje wszystko po 2sek
-		}
+    public void Shoot_bullet()
+    {
 
-	}
-
-	public void Shoot_bullet() {
-       
         if (min_bullets >= max_bullets)
         {
             //Debug.Log("daj odpoczac");
@@ -69,6 +73,6 @@ public class Generate_bullet : MonoBehaviour {
             AudioSource.PlayClipAtPoint(laser_sound[nr], staty.transform.position);
             //Debug.Log("wystrzelono: " + nr + "liczba: " + min_bullets);
         }
-	}
+    }
 
 }

@@ -4,7 +4,7 @@ Game for Android systems: from 4.1 to Highest Version
 
 * [Technologies](#technologies)
 * [Plugins](#plugins)
-* [Setup](#setup)
+* [Status](#status)
 
 ## Technologies H5
 Game built on C# at Unity Engine.

@@ -28,4 +28,5 @@ Free space: 30 MB.
 Already single player is done. I'm working on a PVP system.
 
 ## Sources
+If you would like to play or test the SpaceGame, you can download and install on own smartphone or tablet (only Android).
 Google Play: https://play.google.com/store/apps/details?id=com.Lelon55.SpaceGame

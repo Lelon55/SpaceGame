@@ -4,12 +4,12 @@ This project was created for learn C#, Unity and used plugins.
 
 * [Required](#required)
 * [Technologies](#technologies)
+* [Programming rules](#programming rules)
 * [Plugins](#plugins)
 * [Status](#status)
 * [Sources](#sources)
 
 ## Required
-
 Systems: Android (from 4.1 to the highest version);
 Free space: 30 MB.
 
@@ -19,13 +19,19 @@ Free space: 30 MB.
 - Unity Engine 2018.1.6.f1,
 - GIMP 2 (for Graphics).
 
+## Programming rules
+I try to apply programming principles such as:
+-DRY, 
+-KISS.
+
 ## Plugins
 - Unity Ads,
 - Unity Purchaser,
 - SunShine Android Native Share.
 
 ## Status
-Already single player is done. I'm working on a PVP system.
+Currently refactoring and optimizing the code.
+Already single player is done. In the future I would like to add a PVP system.
 
 ## Sources
 If you would like to play or test the SpaceGame, you can download and install on own smartphone or tablet (only Android).

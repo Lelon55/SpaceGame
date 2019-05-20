@@ -14,7 +14,10 @@ Systems: Android (from 4.1 to the highest version);
 Free space: 30 MB.
 
 ## Technologies
-Game built on C# at Unity Engine.
+- C#,
+- Microsoft Visual Studio 2017,
+- Unity Engine 2018.1.6.f1,
+- GIMP 2 (for Graphics).
 
 ## Plugins
 - Unity Ads,

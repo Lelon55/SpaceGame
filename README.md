@@ -4,7 +4,7 @@ This project was created for learn C#, Unity and used plugins.
 
 * [Required](#required)
 * [Technologies](#technologies)
-* [Programming rules](#programming rules)
+* [Programming rules](#programming-rules)
 * [Plugins](#plugins)
 * [Status](#status)
 * [Sources](#sources)

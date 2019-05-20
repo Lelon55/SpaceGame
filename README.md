@@ -6,13 +6,13 @@ Game for Android systems: from 4.1 to Highest Version
 * [Plugins](#plugins)
 * [Status](#status)
 
-## Technologies H5
+## Technologies
 Game built on C# at Unity Engine.
 
-## Plugins H5
+## Plugins
 - Unity Ads,
 - Unity Purchaser,
 - SunShine Android Native Share.
 
-## Status H5
+## Status
 Already single player is done. I'm working on a PVP system.

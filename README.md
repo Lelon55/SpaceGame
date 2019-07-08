@@ -32,7 +32,7 @@ I try to apply programming principles such as:
 - SunShine Android Native Share.
 
 ## Status
-Currently refactoring, optimizing the code. Now, I am preparing alliance for SpaceGame.
+Already refactoring, optimizing the code. Now, I am preparing alliance for the SpaceGame.
 In the future I would like to add a PVP system.
 
 ## Sources

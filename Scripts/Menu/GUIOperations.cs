@@ -41,7 +41,17 @@ public class GUIOperations : MonoBehaviour {
         return nr == page; //if correct return true if not correct return false
     }
 
+    internal void Steer_Canvas(Canvas[] Canvases, int page) //open canvas which is correct with currently page
+    {
+        for (int ilosc = 1; ilosc < Canvases.Length; ilosc++)
+        {
+            Canvases[ilosc].enabled = Open_Canvas(page, ilosc);
+        }
+    }
 
-    
+
+
+
+
 
 }

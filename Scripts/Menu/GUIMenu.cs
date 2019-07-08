@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
 public class GUIMenu : MonoBehaviour {
     private int page = 0; //1menu, 2tworcy, 3politykaprywatnosc
 
@@ -18,14 +17,16 @@ public class GUIMenu : MonoBehaviour {
         mute_sound = bool.Parse(PlayerPrefs.GetString("sound_option"));
         Sound_mute(mute_sound);
     }
+
     public void BtnSound()
     {
         mute_sound = !mute_sound;
         Sound_mute(mute_sound);
     }
-    public void BtnOpenScene(string name_scene)
+
+    public void BtnOpenScene(string scene_name)
     {
-        if (name_scene == "Tutorial")
+        if (scene_name == "Tutorial")
         {
             SceneManager.LoadScene("Tutorial");
         }
@@ -33,13 +34,15 @@ public class GUIMenu : MonoBehaviour {
         {
             PlayerPrefs.SetInt("first_tutorial", 1);
             PlayerPrefs.Save();
-            SceneManager.LoadScene(name_scene);
+            SceneManager.LoadScene(scene_name);
         }
     }
+
     public void OpenUrl(string url)
     {
         Application.OpenURL(url);
     }
+
     public void BtnPages(int number)
     {
         if (number == 3 && PlayerPrefs.GetInt("first_tutorial") == 0)
@@ -55,28 +58,23 @@ public class GUIMenu : MonoBehaviour {
             page = number;
         }
     }
-    private void Steer_Canvases()
-    {
-        for (int ilosc = 0; ilosc < Canvases.Length; ilosc++)
-        {
-            Canvases[ilosc].enabled = GUIOperations.Open_Canvas(page, ilosc);
-        }
-    }
 
     private void LateUpdate()
     {
-        Steer_Canvases();
+        GUIOperations.Steer_Canvas(Canvases, page);
         Application_Quit();
     }
+
     private void Set_Sound_Options(float volume, int nr_img, string option)
     {
         AudioListener.volume = volume;
         BtnSoundOption.sprite = ImgBtnSoundOption[nr_img];
         PlayerPrefs.SetString("sound_option", option);
     }
+
     private void Sound_mute(bool mute)
     {
-        if (mute == true)
+        if (mute)
         {
             Set_Sound_Options(0f, 0, "true");
         }
@@ -86,6 +84,7 @@ public class GUIMenu : MonoBehaviour {
         }
         PlayerPrefs.Save();
     }
+
     private void Application_Quit()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

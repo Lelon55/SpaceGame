@@ -25,11 +25,9 @@ public class GUIResearch : MonoBehaviour
     }
     private List<List_researches> research = new List<List_researches>();
     private statystyki staty;
-    private Ads Ads;
     private GUIPlanetOperations GUIPlanetOperations;
 
     public GameObject[] researches;
-    public Button[] buttony;
     public Text[] text_button;
     public Text textDebugResearch;
     public int spent_resources;
@@ -41,7 +39,6 @@ public class GUIResearch : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        Ads = GameObject.Find("Scripts").GetComponent<Ads>();
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
 
@@ -50,7 +47,7 @@ public class GUIResearch : MonoBehaviour
         research.Add(new List_researches(2, "LASER TECHNOLOGY", "Each level of laser technology gives more lasers to buy. Max lvl causes more damage from lasers on enemy ship.", 75, 225, 0, 3, 1));
         research.Add(new List_researches(3, "MINING TECHNLOGY", "Each level of mining technology gives +2 max drop from comets. Max lvl causes +5 extra drop resource from comet.", 200, 350, 175, 4, 1));
         research.Add(new List_researches(4, "ANTYMATERY TECHNLOGY", "Each level of antymatery technology gives +1 chance drop antymatery from comets. Max lvl causes +1 max drop antymatery for watch ads.", 500, 500, 500, 5, 1));
-        View_Researches();
+        GUIPlanetOperations.View_Subject(researches, "Laboratory");
     }
     private void Check_research() //nadpisuje poziomy
     {
@@ -71,19 +68,11 @@ public class GUIResearch : MonoBehaviour
             else if (research[ilosc].level >= 3)
             {
                 text_button[ilosc].text = "MAX LVL";
-
             }
             else if ((research[ilosc].level < 3) && (staty.Get_Data_From("Metal") < (research[ilosc].metal * (research[ilosc].level + 1))) || (staty.Get_Data_From("Crystal") < (research[ilosc].crystal * (research[ilosc].level + 1))) || (staty.Get_Data_From("Deuter") < (research[ilosc].deuter * (research[ilosc].level + 1))))
             { //zarob po kliknieciu wywola reklame
                 text_button[ilosc].text = "EARN " + "(" + (research[ilosc].level + 1) + ")";
             }
-        }
-    }
-    private void View_Researches()
-    {
-        for (int ilosc = 0; ilosc < researches.Count(); ilosc++)
-        {
-            researches[ilosc].SetActive(GUIPlanetOperations.Check_Levels("Laboratory", ilosc));
         }
     }
 
@@ -96,42 +85,35 @@ public class GUIResearch : MonoBehaviour
         staty.Set_Data("Spent_Resources", staty.Get_Data_From("Spent_Resources") + spent_resources);
         research[nr].level += 1;
     }
+
+    private void Earn_Information(int nr)
+    {
+        textDebugResearch.text = "EARN: " + research[nr].name + "(" + research[nr].level + ")";
+    }
+
     private void Set_Technology(int nr)
     {
-        if (research[nr].name == "SHIELD")
+        switch (research[nr].name)
         {
-            staty.Set_Data("Shield", research[nr].level);
-        }
-        else if (research[nr].name == "COMBUSTION")
-        {
-            staty.Set_Float_Data("Combustion", research[nr].level);
-        }
-        else if (research[nr].name == "LASER TECHNOLOGY")
-        {
-            staty.Set_Data("Laser_Technology", research[nr].level);
-        }
-        else if (research[nr].name == "MINING TECHNLOGY")
-        {
-            staty.Set_Data("Mining_Technology", research[nr].level);
-        }
-        else if (research[nr].name == "ANTYMATERY TECHNLOGY")
-        {
-            staty.Set_Data("Antymatery_Technology", research[nr].level);
+            case "SHIELD":
+                staty.Set_Data("Shield", research[nr].level);
+                break;
+            case "COMBUSTION":
+                staty.Set_Float_Data("Combustion", research[nr].level);
+                break;
+            case "LASER TECHNOLOGY":
+                staty.Set_Data("Laser_Technology", research[nr].level);
+                break;
+            case "MINING TECHNLOGY":
+                staty.Set_Data("Mining_Technology", research[nr].level);
+                break;
+            case "ANTYMATERY TECHNLOGY":
+                staty.Set_Data("Antymatery_Technology", research[nr].level);
+                break;
         }
         PlayerPrefs.Save();
         textDebugResearch.text = "BOUGHT: " + research[nr].name + "(" + research[nr].level + ")";
         audiosource_sound_buildup.PlayOneShot(sound_buildup, 0.7F);
-    }
-
-    private void Turn_On_Ads(int nr)
-    {
-        if (Ads.pokazane == false)
-        {
-            Ads.Show_to_earn("resources");
-            Ads.pokazane = false;
-
-        }
-        textDebugResearch.text = "EARN: " + research[nr].name + "(" + research[nr].level + ")";
     }
 
     public void BuyResearch(int nr)
@@ -145,7 +127,8 @@ public class GUIResearch : MonoBehaviour
             }
             else if ((staty.Get_Data_From("Metal") < research[nr].metal * (research[nr].level + 1)) || (staty.Get_Data_From("Crystal") < research[nr].crystal * (research[nr].level + 1)) || (staty.Get_Data_From("Deuter") < research[nr].deuter * (research[nr].level + 1)))
             {
-                Turn_On_Ads(nr);
+                GUIPlanetOperations.Turn_On_Ads("resources");
+                Earn_Information(nr);
             }
             else if (research[nr].level == 3 && text_button[nr].text == "MAX LVL")
             {
@@ -154,12 +137,11 @@ public class GUIResearch : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     private void LateUpdate()
     {
         Check_research();
         Check_buttons();
-        View_Researches();
+        GUIPlanetOperations.View_Subject(researches, "Laboratory");
     }
 
     public void Info_researches(int nr)

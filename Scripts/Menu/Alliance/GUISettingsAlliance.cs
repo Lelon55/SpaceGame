@@ -7,100 +7,139 @@ public class GUISettingsAlliance : MonoBehaviour {
 
     private statystyki stats;
     private GUIOverview GUIOverview;
-    private GUIAllianceLog GUIAllianceLog;
 
-    public InputField[] AllianceData;
+    public Canvas CanvasDelete;
+    public InputField[] AllianceDataInput;
     public Text[] txtLength;
-    private const int cost = 1;
+    public GameObject[] panels;
+    [SerializeField] private Text[] AllianceData;
+    internal readonly int cost = 1;
 
     // Use this for initialization
     private void Start () {
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIOverview = GameObject.Find("Interface").GetComponent<GUIOverview>();
-        GUIAllianceLog = GameObject.Find("CanvasesAlliance").GetComponent<GUIAllianceLog>();
         Get_Alliance_Data();
     }
 
-    // Update is called once per frame
-    private void Update()
+    private void LateUpdate()
     {
-        Check_Length();
-    }
-    private void Check_Length()
-    {
-        txtLength[0].text = AllianceData[0].text.Length.ToString() + "/" + AllianceData[0].characterLimit;
-        txtLength[1].text = AllianceData[1].text.Length.ToString() + "/" + AllianceData[1].characterLimit;
+        ActivePanels();
+        txtLength[0].text = Return_Length(AllianceDataInput[0]);
+        txtLength[1].text = Return_Length(AllianceDataInput[1]);
+        AllianceData[1].text = ShowCost_SetAllianceData();
     }
 
-    private void Get_Alliance_Data()
+    internal void Get_Alliance_Data()
     {
+        AllianceDataInput[0].text = stats.Get_String_Data_From("Alliance_Name");
+        AllianceDataInput[1].text = stats.Get_String_Data_From("Alliance_Tag");
+        AllianceDataInput[2].text = stats.Get_String_Data_From("Alliance_PhotoUrl");
+
         AllianceData[0].text = stats.Get_String_Data_From("Alliance_Name");
-        AllianceData[1].text = stats.Get_String_Data_From("Alliance_Tag");
-        AllianceData[2].text = stats.Get_String_Data_From("Alliance_Descritpion");
-        AllianceData[3].text = stats.Get_String_Data_From("Alliance_PhotoUrl");
-        AllianceData[4].text = stats.Get_Data_From("Alliance_Threshold_Point").ToString();
     }
     private bool Has_Ally() //jesli true to mam klan, jesli false czyli ze no clan to nie mam klanu
     {
-        return Check_Name() == true && Check_Tag() == true;
+        return Check_Name(AllianceDataInput[0]) == true && Check_Tag(AllianceDataInput[1]) == true;
     }
-    private bool Check_Name()
+
+    internal string ShowCost_CreateAllianceData()
     {
-        return AllianceData[0].text != "no alliance" || AllianceData[0].text != "";
+        return stats.Get_Data_From("Antymatery") + "/" + cost;
     }
-    private bool Check_Tag()
+
+    internal string ShowCost_SetAllianceData()
     {
-        return AllianceData[1].text != "no tag" || AllianceData[1].text != "";
+        return stats.Get_Data_From("Alliance_Antymatery") + "/" + cost;
     }
+
+    internal string Return_Length(InputField TextLength)
+    {
+        return TextLength.text.Length.ToString() + "/" + TextLength.characterLimit;
+    }
+
+    internal bool Check_Name(InputField AllianceName)
+    {
+        return AllianceName.text != "no alliance" || AllianceName.text != "";
+    }
+
+    internal bool Check_Tag(InputField AllianceTag)
+    {
+        return AllianceTag.text != "no tag" || AllianceTag.text != "";
+    }
+
+    internal bool Check_Antymateries(int value_cost)
+    {
+        return stats.Get_Data_From("Antymatery") >= value_cost;
+    }
+
     public void Change_Alliance_Data()
     {
-        if (Has_Ally()==true)
+        if (Has_Ally())
         {
-            stats.Set_String_Data("Alliance_Name", AllianceData[0].text);
-            stats.Set_String_Data("Alliance_Tag", AllianceData[1].text);
+            if (stats.Get_Data_From("Antymatery") >= cost)
+            {
+                stats.Set_Data("Alliance_Antymatery", stats.Get_Data_From("Alliance_Antymatery")-cost);
+                stats.Set_String_Data("Alliance_Name", AllianceDataInput[0].text);
+                stats.Set_String_Data("Alliance_Tag", AllianceDataInput[1].text);
+                Get_Alliance_Data();
+                GUIOverview.page = 15;
+            }
+            else
+            {
+                GUIOverview.View_CanvasMessage("Too small Antymateries!");
+            }
         }
         else
         {
-            Debug.Log("sss");//brak tekstu lub no name, no tag
+            GUIOverview.View_CanvasMessage("You don't have alliance!");
+            GUIOverview.page = 12;
         }
+
     }
 
-    public void Btn_Remove_Alliance()
+    public void BtnLeave()
     {
-        if (Has_Ally() == true)
+        CanvasDelete.enabled = true;
+    }
+
+    public void BtnAnswer(string answer)
+    {
+        if (answer == "Yes")
         {
             stats.Set_String_Data("Alliance_Name", "no alliance");
             stats.Set_String_Data("Alliance_Tag", "no tag");
+            stats.Set_String_Data("Alliance_PhotoUrl", "no url");
+            stats.Set_Data("MemberID", 1);
+            stats.Set_Data("Base", 0);
+            stats.Set_Data("Scout", 0);
+            stats.Set_Data("Alliance_Antymatery", 0);
+            Get_Alliance_Data();
+            CanvasDelete.enabled = false;
             GUIOverview.page = 12;
         }
         else
         {
-            Debug.Log("nic nie robie");
+            CanvasDelete.enabled = false;
         }
     }
 
-    private void Set_Description() // tylko tekst
+    private void ActivePanels()
     {
-        if (Has_Ally() == true)
-        {
-            stats.Set_String_Data("Alliance_Description", AllianceData[2].text);
-        }
+        panels[0].SetActive(SetActivePanels(GUIOverview.page));
+        panels[1].SetActive(SetActivePanels(GUIOverview.page));
     }
 
-    private void Set_Photo()
+    private bool SetActivePanels(int page)
     {
-        if (Has_Ally() == true)
-        {
-            stats.Set_String_Data("Alliance_PhotoUrl", AllianceData[3].text);
-        }
+        return page >= 15 && page <= 20;//if true Show PanelBottom at Alliance
     }
 
-    public void Set_Threshold_Point()//prog pkt
+    public void Set_Photo()
     {
-        if (Has_Ally() == true)
+        if (Has_Ally())
         {
-            stats.Set_Data("Alliance_Threshold_Point", int.Parse(AllianceData[4].text));
-            GUIAllianceLog.Add_New_Entry("Threshold Point change by: " + stats.Get_String_Data_From("Admiral_Name"));
+            stats.Set_String_Data("Alliance_PhotoUrl", AllianceDataInput[2].text);
         }
     }
 }

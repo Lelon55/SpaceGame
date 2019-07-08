@@ -25,23 +25,21 @@ public class GUIBuildings : MonoBehaviour {
             this.level = l;
         }
     }
-    private List<List_buildings> buildings = new List<List_buildings>();
-    private statystyki staty;
-    private GUIPlanetOperations GUIPlanetOperations;
 
-    public Button[] buttony;
-    public Text[] text_button;
-    public Text textDebugBuildings;
-    private Ads Ads;
-    private int spent_resources;
-    public Sprite[] SpriteBuildings;
-    public AudioClip sound_buildup;
-    public AudioSource audiosource_sound_buildup;
+        private List<List_buildings> buildings = new List<List_buildings>();
+        private statystyki staty;
+        private GUIPlanetOperations GUIPlanetOperations;
 
+        public Text[] text_button;
+        public Text textDebugBuildings;
+        private int spent_resources;
+        public Sprite[] SpriteBuildings;
+        public AudioClip sound_buildup;
+        public AudioSource audiosource_sound_buildup;
+    
 
     // Use this for initialization
     private void Start() {
-        Ads = GameObject.Find("Scripts").GetComponent<Ads>();
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
 
@@ -70,7 +68,7 @@ public class GUIBuildings : MonoBehaviour {
     }
     private void Check_buttons() // zmienia tylko nazwy w tekscie
     {
-        for (int ilosc = 0; ilosc < buildings.Count(); ilosc++)
+        for (int ilosc = 0; ilosc < buildings.Count; ilosc++)
         {
             if ((staty.Get_Data_From("Free_Field") >= 1) && (staty.Get_Data_From("Metal") >= Cost(buildings[ilosc].metal, buildings[ilosc].factor, buildings[ilosc].level)) && (staty.Get_Data_From("Crystal") >= Cost(buildings[ilosc].crystal, buildings[ilosc].factor, buildings[ilosc].level)) && (staty.Get_Data_From("Deuter") >= Cost(buildings[ilosc].deuter, buildings[ilosc].factor, buildings[ilosc].level)))
             {//zmien
@@ -104,7 +102,7 @@ public class GUIBuildings : MonoBehaviour {
         staty.Set_Data("Spent_Resources", staty.Get_Data_From("Spent_Resources") + spent_resources);
         staty.Set_Data("Bought_Field_Planet", staty.Get_Data_From("Bought_Field_Planet") + 1);
     }
-    private void Set_Free_Field(int nr, int value){
+    private void Set_Free_Field(int value){
         
         staty.Set_Data("Free_Field", staty.Get_Data_From("Free_Field") + value);
         PlayerPrefs.Save();
@@ -114,13 +112,9 @@ public class GUIBuildings : MonoBehaviour {
         textDebugBuildings.text = "BOUGHT: " + buildings[nr].name + "(" + buildings[nr].level + ")";
         audiosource_sound_buildup.PlayOneShot(sound_buildup, 0.7F);
     }
-    private void Turn_On_Ads(int nr)
+
+    private void Earn_Information(int nr)
     {
-        if (Ads.pokazane == false)
-        {
-            Ads.Show_to_earn("resources");
-            Ads.pokazane = false;
-        }
         textDebugBuildings.text = "EARN: " + buildings[nr].name + "(" + (buildings[nr].level + 1) + ")";
     }
 
@@ -168,13 +162,14 @@ public class GUIBuildings : MonoBehaviour {
                 staty.Set_Data("Capacity_Deuter", staty.Get_Data_From("Capacity_Deuter")+buildings[nr].capacity);
             }
 
-            Set_Free_Field(nr, -1);
+            Set_Free_Field(-1);
             Set_Properties_Down(nr);
 
         }
         else if ((staty.Get_Data_From("Free_Field") >= 1) && (staty.Get_Data_From("Metal") < Cost(buildings[nr].metal, buildings[nr].factor, buildings[nr].level)) || (staty.Get_Data_From("Crystal") < Cost(buildings[nr].crystal, buildings[nr].factor, buildings[nr].level)) || (staty.Get_Data_From("Deuter") < Cost(buildings[nr].deuter, buildings[nr].factor, buildings[nr].level)))
         {
-            Turn_On_Ads(nr);
+            GUIPlanetOperations.Turn_On_Ads("resources");
+            Earn_Information(nr);
         }
     }
 
@@ -184,13 +179,14 @@ public class GUIBuildings : MonoBehaviour {
         {
             Set_Properties_Up(8);
             staty.Set_Data("Terraformer", buildings[8].level);
-            Set_Free_Field(8, 15);
+            Set_Free_Field(15);
             Set_Properties_Down(8);
 
         }
         else if ((staty.Get_Data_From("Metal") < Cost(buildings[8].metal, buildings[8].factor, buildings[8].level)) || (staty.Get_Data_From("Crystal") < Cost(buildings[8].crystal, buildings[8].factor, buildings[8].level)) || (staty.Get_Data_From("Deuter") < Cost(buildings[8].deuter, buildings[8].factor, buildings[8].level)))
         {
-            Turn_On_Ads(8);
+            GUIPlanetOperations.Turn_On_Ads("resources");
+            Earn_Information(8);
         }
     }
     // Update is called once per frame
@@ -207,6 +203,7 @@ public class GUIBuildings : MonoBehaviour {
         buildings[nr].description,
         SpriteBuildings[nr]);
 	}
+
     private float Cost(float cost, float factor, float level)
     {
          return (int)(cost * (Mathf.Exp(Mathf.Log(factor) * level)));

@@ -19,7 +19,12 @@ public class GUIShipPanel : MonoBehaviour
     {
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
     }
-   
+
+    private bool Set_BonusPanel()
+    {
+        return activate_bonus >= 1;
+    }
+
     private void Info_ShipPanel()
     {
         imgShip.sprite = skin_ship[stats.Get_Data_From("Ship_Id")];
@@ -28,16 +33,10 @@ public class GUIShipPanel : MonoBehaviour
         panelLife.rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Life(), 6), 20f);
         panelChanceDrop.rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Chance_Drop(), 18), 20f);
     }
+
     private void Info_BonusPanel()
     {
-        if (activate_bonus >= 1)
-        {
-            Bonus_Panel[0].SetActive(true);
-        }
-        else
-        {
-            Bonus_Panel[0].SetActive(false);
-        }
+        Bonus_Panel[0].SetActive(Set_BonusPanel());
         View_Bonus("Shield", 1);
         View_Bonus("Combustion", 2);
         View_Bonus("Laser_Technology", 3);

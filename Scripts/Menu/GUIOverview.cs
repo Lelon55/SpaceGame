@@ -26,19 +26,19 @@ public class GUIOverview : MonoBehaviour
     private int luck = 0;
     private bool random = false;
     private const int cost = 1;
-    private Ads Ads;
     private statystyki staty;
     private GUIOperations GUIoper;
+    private GUIPlanetOperations GUIPlanetOperations;
+
 
     // Use this for initialization
     private void Start()
     {
-        Ads = GameObject.Find("Scripts").GetComponent<Ads>();
+        GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIoper = GameObject.Find("Interface").GetComponent<GUIOperations>();
 
         txt_planet_name_Overview.text = staty.Get_String_Data_From("Planet_Name");
-        textAntymatery.text = "" + staty.Get_Data_From("Antymatery") + " / " + cost;
         if (staty.Get_String_Data_From("Admiral_Name") == "" || staty.Get_String_Data_From("Admiral_Name") == "set admiral name")
         {
             CanvasNameOfAdmiral.enabled = true;
@@ -49,8 +49,8 @@ public class GUIOverview : MonoBehaviour
             CanvasNameOfAdmiral.enabled = false;
             page = 1;
         }
-
     }
+
     public void BtnFirstName(Canvas Canvases)
     {
         if (page == 0 && (staty.Get_String_Data_From("Admiral_Name") != "" && staty.Get_String_Data_From("Admiral_Name") != "set admiral name"))
@@ -64,28 +64,20 @@ public class GUIOverview : MonoBehaviour
             page = 0;
         }
     }
-    // Update is called once per frame
-    private void Update()
+
+    private void Show_Chars_Limit()
     {
         txt_Length[0].text = planet_name.text.Length.ToString() + "/" + planet_name.characterLimit;
         txt_Length[1].text = admiral_name.text.Length.ToString() + "/" + admiral_name.characterLimit;
-        Steer_Canvases();
+    }
+    // Update is called once per frame
+    private void Update()
+    {
+        Show_Chars_Limit();
+        GUIoper.Steer_Canvas(Canvases, page);
         Steer_Panel_Resources();
     }
-    private void Steer_Canvases()
-    {
-        for (int ilosc = 1; ilosc < Canvases.Length; ilosc++)
-        {
-            if (page == ilosc)
-            {
-                Canvases[ilosc].enabled = true;
-            }
-            else if (page != ilosc)
-            {
-                Canvases[ilosc].enabled = false;
-            }
-        }
-    }
+
     private void Steer_Panel_Resources()
     {
         if (page == 0 || page == 1 || page >= 12)//nothing
@@ -107,6 +99,7 @@ public class GUIOverview : MonoBehaviour
             antymatery_field_planet[2].SetActive(true);
         }
     }
+
     private void Check_capacity()
     {
         //set color after checked which value is greater
@@ -120,12 +113,14 @@ public class GUIOverview : MonoBehaviour
         resources[3].text = staty.Get_Data_From("Free_Field").ToString("N0");
         resources[4].text = staty.Get_Data_From("Antymatery").ToString("N0");
     }
+
     internal void View_CanvasMessage(string text)
     {
         CanvasMessage.enabled = true;
         textMessage.text = text;
         audiosource_sound_message.PlayOneShot(sound_message, 0.7F);
     }
+
     internal void View_CanvasLevelUpAdmiral(string text)
     {
         View_CanvasMessage(text);
@@ -134,36 +129,45 @@ public class GUIOverview : MonoBehaviour
 
     public void BtnOpenAlliance()
     {
-        if(staty.Get_String_Data_From("Alliance_Name") == "no alliance" && staty.Get_String_Data_From("Alliance_Tag") == "no tag")
+        if (staty.Get_String_Data_From("Alliance_Name") == "no alliance" && staty.Get_String_Data_From("Alliance_Tag") == "no tag")
         {
             page = 14;
-        }else
+        }
+        else
         {
             page = 15;
         }
     }
+
     public void BtnResearch()
     {
-        if (staty.Get_Data_From("Laboratory") >= 1)
-        {
-            page = 4;
-        }
-        else
-        {
-            View_CanvasMessage("Build laboratory");
-        }
+        Check_Level("Laboratory", "Build laboratory", 4);
     }
+
     public void BtnShop()
     {
-        if (staty.Get_Data_From("Hangar") >= 1)
+        Check_Level("Hangar", "Build Hangar", 7);
+    }
+
+    public void BtnScout()
+    {
+        Check_Level("Scout", "Build structure Scout", 20);
+    }
+
+
+
+    private void Check_Level(string subject, string message, int nr_page)
+    {
+        if (staty.Get_Data_From(subject) >= 1)
         {
-            page = 7;
+            page = nr_page;
         }
         else
         {
-            View_CanvasMessage("Build Hangar");
+            View_CanvasMessage(message);
         }
     }
+
     public void BtnOpenScene(string name_scene)
     {
         Handheld.Vibrate();
@@ -183,13 +187,10 @@ public class GUIOverview : MonoBehaviour
             View_CanvasMessage("Min. 5 antymatery to fight");
         }
     }
-    private bool CheckChars(string value)
-    {
-        return value.Length >= 1;
-    }
+
     public void ChangeNamePlanetCorrect()
     {
-        if (CheckChars(planet_name.text) == true && staty.Get_Data_From("Antymatery") >= cost)
+        if (GUIPlanetOperations.CheckLength(planet_name) && staty.Get_Data_From("Antymatery") >= cost)
         {
             staty.Set_String_Data("Planet_Name", planet_name.text);
             txt_planet_name_Overview.text = planet_name.text;
@@ -200,7 +201,7 @@ public class GUIOverview : MonoBehaviour
         {
             View_CanvasMessage("Not enough antymatery");
         }
-        else if (CheckChars(planet_name.text) == false)
+        else if (!GUIPlanetOperations.CheckLength(planet_name))
         {
             View_CanvasMessage("Please enter the planet name");
         }
@@ -208,10 +209,11 @@ public class GUIOverview : MonoBehaviour
     }
     public void ChangeNameOfAdmiralCorrect()
     {
-        if (CheckChars(admiral_name.text) == true)
+        if (GUIPlanetOperations.CheckLength(admiral_name))
         {
             staty.Set_String_Data("Admiral_Name", admiral_name.text);
             CanvasNameOfAdmiral.enabled = false;
+
             if (staty.Get_String_Data_From("message_on_start") == "false")
             {
                 View_CanvasMessage("Dear " + admiral_name.text + ".\n On start you received 100 all resources to upgrade your planet.");
@@ -222,7 +224,7 @@ public class GUIOverview : MonoBehaviour
                 View_CanvasMessage("Changed name");
             }
         }
-        else if (CheckChars(admiral_name.text) == false)
+        else if (!GUIPlanetOperations.CheckLength(admiral_name))
         {
             View_CanvasMessage("Please enter the admiral name");
         }
@@ -247,14 +249,12 @@ public class GUIOverview : MonoBehaviour
             View_CanvasMessage("Not enough deuter");
         }
     }
+
     public void EarnAntymatery()
     {
-        if (Ads.pokazane == false)
-        {
-            Ads.Show_to_earn("antymatery");
-            Ads.pokazane = false;
-        }
+        GUIPlanetOperations.Turn_On_Ads("antymatery");
     }
+
     public void Add_antymatery_for_FB()
     {
         if (staty.Get_Data_From("Collected_Antymatery") == 0)
@@ -264,7 +264,7 @@ public class GUIOverview : MonoBehaviour
         }
         else if (staty.Get_Data_From("Collected_Antymatery") >= 1)
         {
-            Debug.Log("juz raz pobrales");
+            View_CanvasMessage("Just 1 time!");
         }
     }
 
@@ -272,6 +272,7 @@ public class GUIOverview : MonoBehaviour
     {
         page = number;
     }
+
     private void LateUpdate()
     {
         Check_capacity();

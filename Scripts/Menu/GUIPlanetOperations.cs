@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GUIPlanetOperations : MonoBehaviour {
     #region UI Variables
-    private GUIOverview GUIOverview;
+    private Ads Ads;
     private GameObject[] on_off_cost = new GameObject[2]; //on or off antymatery or resources
     private Text txtMetalCost, txtCrystalCost, txtDeuterCost, txtAntymateries, txtSubjectName, txtSubjectDescription;
     private Image img;
@@ -13,7 +14,7 @@ public class GUIPlanetOperations : MonoBehaviour {
     // Use this for initialization
     private void Start () {
         #region Start
-        GUIOverview = GameObject.Find("Interface").GetComponent<GUIOverview>();
+        Ads = GameObject.Find("Scripts").GetComponent<Ads>();
         on_off_cost[0] = GameObject.Find("Cost");
         on_off_cost[1] = GameObject.Find("CostAntymatery");
         txtMetalCost = GameObject.Find("txtMetalInformationBuyer").GetComponent<Text>();
@@ -28,12 +29,12 @@ public class GUIPlanetOperations : MonoBehaviour {
 
     internal void Subject_Information(int MetalCost, int CrystalCost, int DeuterCost, int AntymateryCost, string SubjectName, string SubjectDescription, Sprite SubjectPhoto) //tutaj bedziemy otwierac okno z informacjami o przedmiocie => zmniejszy ilosc zmiennych
     {
-        if (GUIOverview.page < 8 || GUIOverview.page >= 10)
+        if (MetalCost > 0 || CrystalCost > 0 || DeuterCost > 0)
         {
             on_off_cost[0].SetActive(true);
             on_off_cost[1].SetActive(false);
         }
-        if (GUIOverview.page == 8)
+        if (AntymateryCost>0)
         {
             on_off_cost[0].SetActive(false);
             on_off_cost[1].SetActive(true);
@@ -49,5 +50,36 @@ public class GUIPlanetOperations : MonoBehaviour {
     internal bool Check_Levels(string name, int level)
     {
         return PlayerPrefs.GetInt(name) >= level;
+    }
+
+
+    #region Buyer
+    internal void View_Subject(GameObject[] gameobject, string subject)
+    {
+        for (int ilosc = 0; ilosc < gameobject.Count(); ilosc++)
+        {
+            gameobject[ilosc].SetActive(Check_Levels(subject, ilosc));
+        }
+    }
+
+    internal void View_Available_Subject(Text[] txtButton, int nr, string text, Color color)
+    {
+        txtButton[nr].text = text;
+        txtButton[nr].color = color;
+    }
+
+    internal void Turn_On_Ads(string earn_type)
+    {
+        if (Ads.pokazane == false)
+        {
+            Ads.Show_to_earn(earn_type);
+            Ads.pokazane = false;
+        }
+    }
+    #endregion
+
+    internal bool CheckLength(InputField value)
+    {
+        return value.text.Length >= 1;
     }
 }

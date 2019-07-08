@@ -8,8 +8,7 @@ public class GUIResources : MonoBehaviour {
 	private statystyki stats;
     private Operations operations = new Operations();
 
-    public Text[] txtIncomeResource;
-    public Text[] txtActuallyResource;
+    public Text[] txtIncomeResource, txtActuallyResource;
 	public Text textIncomeResources;
 
     public Image[] PanelResource;

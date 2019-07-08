@@ -136,17 +136,11 @@ public class GUIGame : MonoBehaviour {
         stopowanie_tla[0].Stop(); //stopuje tlo
         stopowanie_tla[1].Stop(); //stopuje silnik
     }
-    private void Steer_Canvases()
-    {
-        for (int ilosc = 0; ilosc < Canvases.Length; ilosc++)
-        {
-            Canvases[ilosc].enabled = GUIOperations.Open_Canvas(page, ilosc);
-        }
-    }
+   
     private void Pages()
     {
         GameScore();
-        Steer_Canvases();
+        GUIOperations.Steer_Canvas(Canvases, page);
     }
     private void Change_panel()
     {

@@ -5,20 +5,45 @@ using UnityEngine.UI;
 
 public class GUIAllianceBank : MonoBehaviour {
 
-    public InputField value;
-    // Use this for initialization
-    void Start () {
-		
-	}
+    [SerializeField] private InputField Value_Antymatery;
+    [SerializeField] private Text[] AllianceData;
+
+    private GUISettingsAlliance Setting_Alliance;
+    private statystyki stats;
+    private GUIOverview GUIOverview;
+
+    private void Start () {
+        stats = GameObject.Find("Scripts").GetComponent<statystyki>();
+        GUIOverview = GameObject.Find("Interface").GetComponent<GUIOverview>();
+        Setting_Alliance = GameObject.Find("CanvasesAlliance").GetComponent<GUISettingsAlliance>();
+    }
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	private void LateUpdate () {
+        AllianceData[0].text = stats.Get_Data_From("Alliance_Antymatery").ToString(); //Alliance antymatery
+        AllianceData[1].text = stats.Get_Data_From("Antymatery").ToString(); // player antymatery
+    }
 
     public void BtnPay()
     {
         //wplac do banku
-        //stats.Set ("alliance_antymatery", stats.Get("alliance_antymatery")+value.text);
+        int antymatery = int.Parse(Value_Antymatery.text);
+        if (antymatery >= 0)
+        {
+            if (Setting_Alliance.Check_Antymateries(antymatery) == true) //true wykonuje akcje
+            {
+                stats.Change_Antymatery(-antymatery);
+                stats.Set_Data("Alliance_Antymatery", stats.Get_Data_From("Alliance_Antymatery") + antymatery);
+                GUIOverview.View_CanvasMessage("You paid: " + antymatery);
+            }
+            else
+            {
+                GUIOverview.View_CanvasMessage("Too small Antymateries!");
+            }
+        }
+        else
+        {
+            GUIOverview.View_CanvasMessage("Haha. Funny!");
+        }
     }
 }

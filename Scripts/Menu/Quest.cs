@@ -78,7 +78,7 @@ private class List_quest
 		quest.Add(new List_quest(21, "exploration", "destroy comets (150)", "cosmos", 0, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 150, 150, 150, 10, false)); 
 		quest.Add(new List_quest(22, "exploration", "destroy enemy ships (5)", "cosmos", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 250, 250, 50, 35, false)); 
 		quest.Add(new List_quest(23, "exploration", "explore (10) moons", "cosmos", 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 500, 500, 250, 50, false));
-		quest.Add(new List_quest(24, "metal mine", "build metal mine (16)", "planet", 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 500, 380, 0, 50, false)); 
+        quest.Add(new List_quest(24, "metal mine", "build metal mine (16)", "planet", 0, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 500, 380, 0, 50, false)); 
 		quest.Add(new List_quest(25, "crystal mine", "build crystal mine (14)", "planet", 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 500, 400, 0, 50, false)); 
 		quest.Add(new List_quest(26, "deuter sintetizer", "build deuter sintetizer (14)", "planet", 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 700, 450, 0, 50, false)); 	
 		quest.Add(new List_quest(27, "field planet", "purchase 70 fields of the planet", "planet", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 1000, 2000, 150, false));
@@ -104,21 +104,20 @@ private class List_quest
     }
     private void Change_photo_quest(int nr)
     {
-        if (quest[nr].category_quest == "planet")
+        switch (quest[nr].category_quest)
         {
-            imgCategoryQuest.sprite = SpriteCategoryQuest[0];
-        }
-        else if (quest[nr].category_quest == "cosmos")
-        {
-            imgCategoryQuest.sprite = SpriteCategoryQuest[1];
-        }
-        else if (quest[nr].category_quest == "antymatery")
-        {
-            imgCategoryQuest.sprite = SpriteCategoryQuest[2];
-        }
-        else if (quest[nr].category_quest == "ship")
-        {
-            imgCategoryQuest.sprite = SpriteCategoryQuest[3];
+            case "planet":
+                imgCategoryQuest.sprite = SpriteCategoryQuest[0];
+                break;
+            case "cosmos":
+                imgCategoryQuest.sprite = SpriteCategoryQuest[1];
+                break;
+            case "antymatery":
+                imgCategoryQuest.sprite = SpriteCategoryQuest[2];
+                break;
+            case "ship":
+                imgCategoryQuest.sprite = SpriteCategoryQuest[3];
+                break;
         }
     }
 
@@ -145,6 +144,7 @@ private class List_quest
             staty.Set_Data("Quest", staty.Get_Data_From("Quest") + 1);
         }
     }
+
     public void BtnCheck_quest()
     {
         int nr = staty.Get_Data_From("Quest");

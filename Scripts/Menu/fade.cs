@@ -3,22 +3,20 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class fade : MonoBehaviour {
-	public Animation anim;
-	public string name_scene;
+	private Animation anim;
+	[SerializeField] private string name_scene;
 
-	void Start(){
+	private void Start(){
 		Time.timeScale = 1;
 		anim = GetComponent<Animation>();
 		anim.Play();
 		StartCoroutine(Throw());
 	}
 
-	IEnumerator Throw()
+	private IEnumerator Throw()
 	{
-
 		yield return new WaitForSeconds(anim.clip.length);
         SceneManager.LoadScene(name_scene);
-
     }
 
 }

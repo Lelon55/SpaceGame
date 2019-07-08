@@ -5,30 +5,22 @@ using UnityEngine.SceneManagement;
 public class Skins : MonoBehaviour {
 
 	private statystyki staty;
-    public SpriteRenderer aura;
-    public Sprite[] auras;
-	[Tooltip("Ilosc Particli tego nie zmieniamy")]
+    private bool done = false;
+
+    [Tooltip("Ilosc Particli tego nie zmieniamy")]
 	public ParticleSystem[] ps;
-
-	public SpriteRenderer statek;
-	public SpriteRenderer laser;
-	private bool done = false;
-	public Sprite[] skin_laseru;
-
-	public Sprite[] skin_statku;
-    public Sprite[] podniszczony_statek;
-    public Sprite[] podniszczony_bardziej;
-
-	public GameObject czastki_statek1; //particle do statku 1
-	public GameObject czastki_statek2; //particle do statku 2
-	public GameObject czastki_statek3; //particle do statku 3
+    public GameObject[] ParticleShip;
+    public SpriteRenderer aura, ship, laser;
+    public Sprite[] auras, skin_laseru, skin_statku, podniszczony_ship, podniszczony_bardziej;
 
     private void Start()
     {
         staty = GameObject.Find("spaceship").GetComponent<statystyki>();
     }
-    private void LateUpdate() {
-    if (SceneManager.GetActiveScene().name != "Menu")
+
+    private void LateUpdate()
+    {
+        if (SceneManager.GetActiveScene().name != "Menu")
         {
             Check_immortal();
             Check_Sprite_Ship();
@@ -43,47 +35,47 @@ public class Skins : MonoBehaviour {
             {
                 if (staty.Get_Data_From("Ship_Id") == 1 || staty.Get_Data_From("Ship_Id") == 4 || staty.Get_Data_From("Ship_Id") == 5)
                 {
-                    ps = czastki_statek1.GetComponentsInChildren<ParticleSystem>();
-                    czastki_statek1.SetActive(true); // zalaczam i sie rozwija
+                    ps = ParticleShip[0].GetComponentsInChildren<ParticleSystem>();
+                    ParticleShip[0].SetActive(true); 
                 }
                 else if (staty.Get_Data_From("Ship_Id") == 2 || staty.Get_Data_From("Ship_Id") == 6 || staty.Get_Data_From("Ship_Id") == 7)
                 {
-                    ps = czastki_statek2.GetComponentsInChildren<ParticleSystem>();
-                    czastki_statek2.SetActive(true); // zalaczam i sie rozwija
+                    ps = ParticleShip[1].GetComponentsInChildren<ParticleSystem>();
+                    ParticleShip[1].SetActive(true); 
                 }
                 else if (staty.Get_Data_From("Ship_Id") == 3 || staty.Get_Data_From("Ship_Id") == 8 || staty.Get_Data_From("Ship_Id") == 9)
                 {
-                    ps = czastki_statek3.GetComponentsInChildren<ParticleSystem>();
-                    czastki_statek3.SetActive(true); // zalaczam i sie rozwija
+                    ps = ParticleShip[2].GetComponentsInChildren<ParticleSystem>();
+                    ParticleShip[2].SetActive(true); 
                 }
             }
             else if (staty.Get_Distance() < 150)
             {
-                czastki_statek1.SetActive(false);
-                czastki_statek2.SetActive(false);
-                czastki_statek3.SetActive(false);
+                ParticleShip[0].SetActive(false);
+                ParticleShip[1].SetActive(false);
+                ParticleShip[2].SetActive(false);
             }
         }
     }
+
     private void Check_immortal()
     {
         if (staty.immortal == 1)
         {
-            if (staty.Get_String_Data_From("Ship_Name") == "Light Hunter")
+            switch (staty.Get_String_Data_From("Ship_Name"))
             {
-                aura.sprite = auras[1];
-            }
-            else if (staty.Get_String_Data_From("Ship_Name") == "Heavy Hunter")
-            {
-                aura.sprite = auras[2];
-            }
-            else if (staty.Get_String_Data_From("Ship_Name") == "Crusher")
-            {
-                aura.sprite = auras[3];
-            }
-            else if (staty.Get_String_Data_From("Ship_Name") == "Balcon Triple Heavy")
-            {
-                aura.sprite = auras[4];
+                case "Light Hunter":
+                    aura.sprite = auras[1];
+                    break;
+                case "Heavy Hunter":
+                    aura.sprite = auras[2];
+                    break;
+                case "Crusher":
+                    aura.sprite = auras[3];
+                    break;
+                case "Balcon Triple Heavy":
+                    aura.sprite = auras[4];
+                    break;
             }
         }
         else if (staty.immortal == 0)
@@ -93,38 +85,39 @@ public class Skins : MonoBehaviour {
     }
     private void Check_Sprite_Ship()
     {
-        if (done == false)
+        if (!done)
         {
             done = true;
 
             laser.sprite = skin_laseru[staty.Get_Data_From("Laser")];
             Debug.Log("Wczytano laser nr: " + staty.Get_Data_From("Laser"));
 
-            statek.sprite = skin_statku[staty.Get_Data_From("Ship_Id")];
-            Debug.Log("Wczytano statek nr: " + staty.Get_Data_From("Ship_Id"));
+            ship.sprite = skin_statku[staty.Get_Data_From("Ship_Id")];
+            Debug.Log("Wczytano ship nr: " + staty.Get_Data_From("Ship_Id"));
         }
     }
+
+    private Sprite SetCollisionSkin(Sprite[] CollisionSkin, int id)
+    {
+        return CollisionSkin[id];
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Pocisk_wroga")
         {
-            if (staty.Life == 1)
+            switch (staty.Life)
             {
-                statek.sprite = podniszczony_bardziej[staty.Get_Data_From("Ship_Id")];
-                Debug.Log("Wczytano podniszczony bardziej statek nr: " + staty.Get_Data_From("Ship_Id"));
-            }
-            else if (staty.Life == 2)
-            {
-                statek.sprite = podniszczony_statek[staty.Get_Data_From("Ship_Id")];
-                Debug.Log("Wczytano podniszczony statek nr: " + staty.Get_Data_From("Ship_Id"));
-            }
-            else if (staty.Life >= 3)
-            {
-                statek.sprite = skin_statku[staty.Get_Data_From("Ship_Id")];
-                Debug.Log("Wczytano statek nr: " + staty.Get_Data_From("Ship_Id"));
+                case 1:
+                    ship.sprite = SetCollisionSkin(podniszczony_bardziej, staty.Get_Data_From("Ship_Id"));
+                    break;
+                case 2:
+                    ship.sprite = SetCollisionSkin(podniszczony_ship, staty.Get_Data_From("Ship_Id"));
+                    break;
+                case 3:
+                    ship.sprite = SetCollisionSkin(skin_statku, staty.Get_Data_From("Ship_Id"));
+                    break;
             }
         }
     }
 }
-
-

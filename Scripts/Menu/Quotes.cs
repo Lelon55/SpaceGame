@@ -7,17 +7,15 @@ using System.Linq;
 
 public class Quotes : MonoBehaviour {
 	private Animation anim;
-	public string name_scene;
+	[SerializeField] private string name_scene;
 	private int nr_quotes;
 
-    public Text quotes;
-    public Text author;
+    public Text quotes, author;
 
     private class List_Quotes
     {
         public int id;
-        public string quotes;
-        public string author;
+        public string quotes, author;
 
         public List_Quotes(int i, string q, string a)
         {
@@ -44,7 +42,6 @@ public class Quotes : MonoBehaviour {
         nr_quotes = Random.Range(0, 5);
         quotes.text = cytaty[nr_quotes].quotes;
         author.text = cytaty[nr_quotes].author;
-        Debug.Log("" + nr_quotes);
     }
 	
 	private IEnumerator Throw()
@@ -52,5 +49,4 @@ public class Quotes : MonoBehaviour {
 		yield return new WaitForSeconds(anim.clip.length);
         SceneManager.LoadScene(name_scene);
     }
-	
 }

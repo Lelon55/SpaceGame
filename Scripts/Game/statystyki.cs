@@ -87,6 +87,8 @@ public class statystyki : MonoBehaviour {
             PlayerPrefs.SetString("Admiral_Name", "set admiral name");
             PlayerPrefs.SetString("Alliance_Name", "no alliance");
             PlayerPrefs.SetString("Alliance_Tag", "no tag");
+            PlayerPrefs.SetInt("MemberID", 1);
+            PlayerPrefs.SetInt("Alliance_Antymatery", 0);
             PlayerPrefs.SetString("message_on_start", "false");
             PlayerPrefs.SetString("sound_option", "false");
             PlayerPrefs.SetInt("first_tutorial", 0); //jesli 0 tzn, ze nie wlaczono tutorialu
@@ -150,7 +152,7 @@ public class statystyki : MonoBehaviour {
     {
         PlayerPrefs.SetInt("Antymatery", Get_Data_From("Antymatery") + value_antymatery);
     }
-    private void Check_Resources(string name, string capacity, string income)
+    private void Set_Resources(string name, string capacity, string income)
     {
         if (Get_Data_From(name) < Get_Data_From(capacity))
         {
@@ -253,6 +255,7 @@ public class statystyki : MonoBehaviour {
             Properties_ship();
         }
     }
+
     private IEnumerator Add_Resources()
     {
         yield return new WaitForSeconds(1.0f);
@@ -260,14 +263,15 @@ public class statystyki : MonoBehaviour {
 
         if (ticks >= 31)
         {//default 31
-            Check_Resources("Metal", "Capacity_Metal", "Income_Metal");
-            Check_Resources("Crystal", "Capacity_Crystal", "Income_Crystal");
-            Check_Resources("Deuter", "Capacity_Deuter", "Income_Deuter");
+            Set_Resources("Metal", "Capacity_Metal", "Income_Metal");
+            Set_Resources("Crystal", "Capacity_Crystal", "Income_Crystal");
+            Set_Resources("Deuter", "Capacity_Deuter", "Income_Deuter");
             ticks = 1;
         }
         StopCoroutine("Add_Resources");
         StartCoroutine("Add_Resources");
     }
+
     private int Set_Bonus(string name)
     {
         if (Get_Data_From(name) == 3 || Get_Float_Data_From(name) == 3f)
@@ -276,6 +280,7 @@ public class statystyki : MonoBehaviour {
         }
         return 0;
     }
+
     private void Bonus_from_research()
     {
         immortal = Set_Bonus("Shield");

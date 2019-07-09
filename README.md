@@ -23,8 +23,8 @@ Free space: 30 MB.
 
 ## Programming rules
 I try to apply programming principles such as:
--DRY, 
--KISS.
+- DRY, 
+- KISS.
 
 ## Plugins
 - Unity Ads,
@@ -32,8 +32,8 @@ I try to apply programming principles such as:
 - SunShine Android Native Share.
 
 ## Status
-Currently refactoring and optimizing the code.
-Already single player is done. In the future I would like to add a PVP system.
+Already refactoring, optimizing the code. Now, I am preparing alliance for the SpaceGame.
+In the future I would like to add a PVP system.
 
 ## Sources
 If you would like to play or test the SpaceGame, you can download and install on own smartphone or tablet (only Android).

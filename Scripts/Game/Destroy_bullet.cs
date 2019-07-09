@@ -30,9 +30,9 @@ public class Destroy_bullet : MonoBehaviour
         Instantiate(antymatery, antymatery_vector, transform.rotation);
     }
     private void Generate_resources(){
-		drop_metal = Random.Range(0, (5+ ((staty.Get_Data_From("Mining_Technology") * 2)+ max_drop_resources)));
-		drop_crystal = Random.Range(0, (5+ ((staty.Get_Data_From("Mining_Technology") * 2) + max_drop_resources)));
-        drop_deuter = Random.Range(0, (5+ ((staty.Get_Data_From("Mining_Technology") * 2) + max_drop_resources)));
+		drop_metal = Random.Range(0, (5+ ((staty.Get_Data_From("Mining Technology") * 2)+ max_drop_resources)));
+		drop_crystal = Random.Range(0, (5+ ((staty.Get_Data_From("Mining Technology") * 2) + max_drop_resources)));
+        drop_deuter = Random.Range(0, (5+ ((staty.Get_Data_From("Mining Technology") * 2) + max_drop_resources)));
 
         staty.Add_Dropped_Metal(drop_metal);
         staty.Add_Dropped_Crystal(drop_crystal);

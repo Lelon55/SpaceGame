@@ -24,12 +24,14 @@ public class TriggersColliders : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         menu.page = 2;
     }
+
     private void Generate_explored_text()
     {
         Vector2 ExploredMoons_vector = new Vector2(transform.position.x, transform.position.y + 3.5f);
         Instantiate(ExploredMoons, ExploredMoons_vector, transform.rotation);
         AudioSource.PlayClipAtPoint(powerup, menu.staty.transform.position);
     }
+
     private void OnTriggerEnter2D(Collider2D playerek)
     {
         if (SceneManager.GetActiveScene().name != "Menu")
@@ -40,11 +42,12 @@ public class TriggersColliders : MonoBehaviour
             }
             if (playerek.gameObject.tag == "Moon" || playerek.gameObject.tag == "Tesla")
             {
-                Drop_from_moon(Random.Range(2, 6 + (menu.staty.Get_Data_From("Mining_Technology") * 2)), Random.Range(2, 6 + (menu.staty.Get_Data_From("Mining_Technology") * 2)), Random.Range(2, menu.staty.Get_Data_From("Mining_Technology") * 2));
+                Drop_from_moon(Random.Range(2, 6 + (menu.staty.Get_Data_From("Mining Technology") * 2)), Random.Range(2, 6 + (menu.staty.Get_Data_From("Mining Technology") * 2)), Random.Range(2, menu.staty.Get_Data_From("Mining Technology") * 2));
                 Generate_explored_text();
             }
         }
     }
+
     private void OnCollisionEnter2D(Collision2D playerek)
     {
         if ((playerek.gameObject.tag == "Pocisk_wroga"|| playerek.gameObject.tag == "kometa") && menu.staty.immortal == 1)
@@ -84,6 +87,7 @@ public class TriggersColliders : MonoBehaviour
         Debug.Log("Wykryto kolizje");
         PlayerPrefs.Save();
     }
+
     private void Drop_from_moon(int drop_metal, int drop_crystal, int drop_deuter)
     {
         menu.staty.Add_Dropped_Metal(drop_metal);

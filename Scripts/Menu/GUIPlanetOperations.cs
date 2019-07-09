@@ -68,6 +68,22 @@ public class GUIPlanetOperations : MonoBehaviour {
         txtButton[nr].color = color;
     }
 
+    internal void Check_buttons(int have, Text[] txtButton, int ilosc, int antymatery, int price)
+    {
+        if (have == 1)
+        {
+            View_Available_Subject(txtButton, ilosc, "USING", new Color(.105f, .375f, .105f, 255f));
+        }
+        else if (have == 0 && antymatery >= price)
+        {
+            View_Available_Subject(txtButton, ilosc, "CHANGE", new Color(255f, 255f, 255f, 255f));
+        }
+        else if (have == 0 && antymatery < price)
+        {
+            View_Available_Subject(txtButton, ilosc, "EARN", new Color(255f, 255f, 255f, 255f));
+        }
+    }
+
     internal void Turn_On_Ads(string earn_type)
     {
         if (Ads.pokazane == false)
@@ -76,6 +92,18 @@ public class GUIPlanetOperations : MonoBehaviour {
             Ads.pokazane = false;
         }
     }
+
+    internal int Check_HasItem(int id, int subject_id)
+    {
+        if (id == subject_id)
+        {
+            return 1;
+        }
+        return 0;
+    }
+
+
+
     #endregion
 
     internal bool CheckLength(InputField value)

@@ -207,7 +207,7 @@ public class statystyki : MonoBehaviour {
     }
     internal int Get_Chance_Drop()
     {
-        return Get_Data_From("Ch_Drop") + Get_Data_From("Antymatery_Technology");
+        return Get_Data_From("Ch_Drop") + Get_Data_From("Antymatery Technology");
     }
     internal int Get_Life()
     {
@@ -285,8 +285,8 @@ public class statystyki : MonoBehaviour {
     {
         immortal = Set_Bonus("Shield");
         free_exploration = Set_Bonus("Combustion");
-        more_damage = Set_Bonus("Laser_Technology");
-        more_resource = Set_Bonus("Mining_Technology");
-        more_antymateries = Set_Bonus("Antymatery_Technology");
+        more_damage = Set_Bonus("Laser Technology");
+        more_resource = Set_Bonus("Mining Technology");
+        more_antymateries = Set_Bonus("Antymatery Technology");
     }
 }

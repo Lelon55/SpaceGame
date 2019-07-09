@@ -70,7 +70,7 @@ public class GUIOverview : MonoBehaviour
         txt_Length[0].text = planet_name.text.Length.ToString() + "/" + planet_name.characterLimit;
         txt_Length[1].text = admiral_name.text.Length.ToString() + "/" + admiral_name.characterLimit;
     }
-    // Update is called once per frame
+
     private void Update()
     {
         Show_Chars_Limit();
@@ -154,8 +154,6 @@ public class GUIOverview : MonoBehaviour
         Check_Level("Scout", "Build structure Scout", 20);
     }
 
-
-
     private void Check_Level(string subject, string message, int nr_page)
     {
         if (staty.Get_Data_From(subject) >= 1)
@@ -175,6 +173,7 @@ public class GUIOverview : MonoBehaviour
         staty.Set_Data("ticks", staty.ticks);
         PlayerPrefs.Save();
     }
+
     public void BtnMultiWar()
     {
         if (staty.Get_Data_From("Antymatery") >= 5)

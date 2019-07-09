@@ -39,10 +39,11 @@ public class GUIShipPanel : MonoBehaviour
         Bonus_Panel[0].SetActive(Set_BonusPanel());
         View_Bonus("Shield", 1);
         View_Bonus("Combustion", 2);
-        View_Bonus("Laser_Technology", 3);
-        View_Bonus("Mining_Technology", 4);
-        View_Bonus("Antymatery_Technology", 5);
+        View_Bonus("Laser Technology", 3);
+        View_Bonus("Mining Technology", 4);
+        View_Bonus("Antymatery Technology", 5);
     }
+
     private void View_Bonus(string technology, int nr)
     {
         if (stats.Get_Float_Data_From(technology) == 3f || stats.Get_Data_From(technology) == 3)
@@ -55,6 +56,7 @@ public class GUIShipPanel : MonoBehaviour
             Bonus_Panel[nr].SetActive(false);
         }
     }
+
     private void LateUpdate()
     {
         Info_ShipPanel();

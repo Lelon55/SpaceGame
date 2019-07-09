@@ -18,6 +18,7 @@ public class TextScript : MonoBehaviour {
         animator = GetComponent<Animator>();
         txtPowerUP = GameObject.Find("txtPowerUp").GetComponent<Text>();
     }
+
     private void Start_animations()
     {
         animator.SetBool("check", true);
@@ -28,18 +29,19 @@ public class TextScript : MonoBehaviour {
     private void Update()
     {
         check = animator.GetBool("check");
-        if ((stats.Get_Distance() == 150 || stats.Get_Distance() == 500) && check == false)
+        if ((stats.Get_Distance() == 150 || stats.Get_Distance() == 500) && !check)
         {
             Set_Text("speed up");
         }
-        if ((stats.Get_Comets() == 50 || stats.Get_Comets() == 150) && check == false)
+        if ((stats.Get_Comets() == 50 || stats.Get_Comets() == 150) && !check)
         {
             Set_Text("fast reload");
         }
     }
+
     private void Set_Text(string text)
     {
-        txtPowerUP.text = "fast reload";
+        txtPowerUP.text = text;
         Start_animations();
     }
 
@@ -49,5 +51,4 @@ public class TextScript : MonoBehaviour {
         animator.SetBool ("check", false);
         check = animator.GetBool ("check");
 	}
-
 }

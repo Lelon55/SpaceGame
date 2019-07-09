@@ -28,17 +28,15 @@ public class GUIShips : MonoBehaviour {
             this.haveornothave = hoh;
         }
     }
-    private List<List_ships> ships = new List<List_ships>();
 
+    private List<List_ships> ships = new List<List_ships>();
     public Sprite[] SpriteShips;
     public GameObject[] go_ships;
     public Text[] text_button;
     public Text textDebugShips;
-    
     private statystyki staty;
     private GUIPlanetOperations GUIPlanetOperations;
 
-    // Use this for initialization
     private void Start()
     {
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
@@ -53,44 +51,17 @@ public class GUIShips : MonoBehaviour {
         ships.Add(new List_ships(8, "Crusher", "Life: 3 \nChance drop antymatery: 15% \nConsumption: 15 deuter \nSteer: 14 \nMax lasers: 5", 3, 0.15, 15, 30, 15f, 14, 5.0f, 0));
         ships.Add(new List_ships(9, "Crusher", "Life: 3 \nChance drop antymatery: 15% \nConsumption: 15 deuter \nSteer: 14 \nMax lasers: 5", 3, 0.15, 15, 30, 15f, 14, 5.0f, 0));
         ships.Add(new List_ships(10, "Balcon Triple Heavy", "Life: 1 \nChance drop antymatery: 5% \nConsumption: 5 deuter \nSteer: 9 \nMax lasers: 3", 1, 0.05, 5, 10, 5f, 9, 3.0f, 0));
-        Check_ship();
-        GUIPlanetOperations.View_Subject(go_ships, "Hangar");
     }
 
     private void Check_ship()
     {
         for (int ilosc = 0; ilosc < ships.Count(); ilosc++)
         {
-            if (ships[ilosc].id == staty.Get_Data_From("Ship_Id"))
-            {
-                ships[ilosc].haveornothave = 1;
-
-            }
-            else if (ships[ilosc].id != staty.Get_Data_From("Ship_Id"))
-            {
-                ships[ilosc].haveornothave = 0;
-            }
+            ships[ilosc].haveornothave = GUIPlanetOperations.Check_HasItem(ships[ilosc].id, staty.Get_Data_From("Ship_Id"));
+            GUIPlanetOperations.Check_buttons(ships[ilosc].haveornothave, text_button, ilosc, staty.Get_Data_From("Antymatery"), ships[ilosc].price);
         }
     }
 
-    private void Check_buttons()
-    {
-        for (int ilosc = 0; ilosc < ships.Count(); ilosc++)
-        {
-            if (ships[ilosc].haveornothave == 1)
-            {
-                GUIPlanetOperations.View_Available_Subject(text_button, ilosc, "USING", new Color(.105f, .375f, .105f, 255f));
-            }
-            else if (ships[ilosc].haveornothave == 0 && staty.Get_Data_From("Antymatery") >= ships[ilosc].price)
-            {
-                GUIPlanetOperations.View_Available_Subject(text_button, ilosc, "CHANGE", new Color(255f, 255f, 255f, 255f));
-            }
-            else if (ships[ilosc].haveornothave == 0 && staty.Get_Data_From("Antymatery") < ships[ilosc].price)
-            {
-                GUIPlanetOperations.View_Available_Subject(text_button, ilosc, "EARN", new Color(255f, 255f, 255f, 255f));
-            }
-        }
-    }
     public void BuyShips(int nr)
     {
         if (ships[nr].haveornothave == 0)
@@ -112,7 +83,6 @@ public class GUIShips : MonoBehaviour {
             }
             else if (staty.Get_Data_From("Antymatery") < ships[nr].price)
             {
-
                 GUIPlanetOperations.Turn_On_Ads("antymatery");
                 textDebugShips.text = "EARN: " + ships[nr].name;
             }
@@ -120,7 +90,6 @@ public class GUIShips : MonoBehaviour {
     }
 
     private void LateUpdate () {
-        Check_buttons();
         Check_ship();
         GUIPlanetOperations.View_Subject(go_ships, "Hangar");
     }

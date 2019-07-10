@@ -208,6 +208,4 @@ public class GUIBuildings : MonoBehaviour {
     {
          return (int)(cost * (Mathf.Exp(Mathf.Log(factor) * level)));
     }
-
-
 }

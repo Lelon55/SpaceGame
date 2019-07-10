@@ -18,23 +18,25 @@ public class Destroy_enemy_ship : MonoBehaviour {
         ship = GetComponent<SpriteRenderer>();
         undamaged = ship.sprite;
 	}
+
     private void Generate_explosion()
     {
         Vector3 Explosion_vector = new Vector2(transform.position.x, transform.position.y);
         Instantiate(Explosion, Explosion_vector, transform.rotation);
     }
+
     private void LateUpdate(){
-        if (life == 5)
+        switch (life)
         {
-            ship.sprite = undamaged;
-        }
-        else if (life == 2)
-        {
-            ship.sprite = close_to_destruction;
-        }
-        else if (life == 1)
-        {
-            ship.sprite = destroyed;
+            case 5:
+                ship.sprite = undamaged;
+                break;
+            case 2:
+                ship.sprite = close_to_destruction;
+                break;
+            case 1:
+                ship.sprite = destroyed;
+                break;
         }
     }
     private void Destroy_ship()
@@ -56,6 +58,7 @@ public class Destroy_enemy_ship : MonoBehaviour {
         }
         return 1;
     }
+
     private void OnCollisionEnter2D(Collision2D niszczenie)
     {
         if (niszczenie.gameObject.tag == "Pocisk" && life >= 1)
@@ -64,9 +67,10 @@ public class Destroy_enemy_ship : MonoBehaviour {
             Destroy_ship();
         }
     }
+
     private void Drop_from_enemy()
     {
-        if (dropped == false)
+        if (!dropped)
         {
             staty.Add_Dropped_Metal(10);
             staty.Add_Dropped_Crystal(10);

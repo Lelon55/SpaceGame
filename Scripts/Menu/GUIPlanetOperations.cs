@@ -52,7 +52,6 @@ public class GUIPlanetOperations : MonoBehaviour {
         return PlayerPrefs.GetInt(name) >= level;
     }
 
-
     #region Buyer
     internal void View_Subject(GameObject[] gameobject, string subject)
     {
@@ -68,17 +67,17 @@ public class GUIPlanetOperations : MonoBehaviour {
         txtButton[nr].color = color;
     }
 
-    internal void Check_buttons(int have, Text[] txtButton, int ilosc, int antymatery, int price)
+    internal void Check_buttons(bool have, Text[] txtButton, int ilosc, int antymatery, int price)
     {
-        if (have == 1)
+        if (have == true)
         {
             View_Available_Subject(txtButton, ilosc, "USING", new Color(.105f, .375f, .105f, 255f));
         }
-        else if (have == 0 && antymatery >= price)
+        else if (have == false && antymatery >= price)
         {
             View_Available_Subject(txtButton, ilosc, "CHANGE", new Color(255f, 255f, 255f, 255f));
         }
-        else if (have == 0 && antymatery < price)
+        else if (have == false && antymatery < price)
         {
             View_Available_Subject(txtButton, ilosc, "EARN", new Color(255f, 255f, 255f, 255f));
         }
@@ -93,16 +92,10 @@ public class GUIPlanetOperations : MonoBehaviour {
         }
     }
 
-    internal int Check_HasItem(int id, int subject_id)
+    internal bool Check_HasItem(int id, int subject_id)
     {
-        if (id == subject_id)
-        {
-            return 1;
-        }
-        return 0;
+        return id == subject_id;
     }
-
-
 
     #endregion
 

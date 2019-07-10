@@ -140,9 +140,9 @@ public class GUIResearch : MonoBehaviour
 
     public void Info_researches(int nr)
     {
-        GUIPlanetOperations.Subject_Information((research[nr].metal * (research[nr].level + 1)),
-        (research[nr].crystal * (research[nr].level + 1)),
-        (research[nr].deuter * (research[nr].level + 1)), 0,
+        GUIPlanetOperations.Subject_Information(research[nr].metal * (research[nr].level + 1),
+        research[nr].crystal * (research[nr].level + 1),
+        research[nr].deuter * (research[nr].level + 1), 0,
         research[nr].name.ToUpper() + " (" + research[nr].level.ToString() + ")",
         research[nr].description,
         SpriteResearches[nr]);

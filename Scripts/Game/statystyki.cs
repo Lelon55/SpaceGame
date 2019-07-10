@@ -62,7 +62,7 @@ public class statystyki : MonoBehaviour {
     {//nowa gra lub pierwsze odpalenie w zaleznosci jak kto rozumie
         if (Get_Data_From("Ship_Id") <= 0)
         { //przed kupnem bierze 1 statek ze statami ze sklepu //mozna podciagnac to co gracz otrzymuje na starcie gry
-            PlayerPrefs.SetInt("Ship_Id", 1); //statek
+            PlayerPrefs.SetInt("Ship_Id", 0); //statek
             PlayerPrefs.SetString("Ship_Name", "Light Hunter");
             PlayerPrefs.SetInt("Life", 1);
             PlayerPrefs.SetInt("Ch_Drop", 5);
@@ -95,7 +95,7 @@ public class statystyki : MonoBehaviour {
         }
         if (Get_Data_From("Laser") <= 0)
         { //przed kupnem bierze 1 laser
-            PlayerPrefs.SetInt("Laser", 1);
+            PlayerPrefs.SetInt("Laser", 0);
         }
     }
 
@@ -237,7 +237,7 @@ public class statystyki : MonoBehaviour {
             gravity_bullet = -1.0f;
         }
 
-        if (Get_Data_From("Life") == 1 && (Get_Data_From("Ship_Id") >= 2 && Get_Data_From("Ship_Id") <= 9))
+        if (Get_Data_From("Life") == 1 && Get_String_Data_From("Ship_Name") != "Light Hunter")
         {
             ControlShip.speed.x = 7;
         }

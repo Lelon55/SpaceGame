@@ -33,20 +33,21 @@ public class Skins : MonoBehaviour {
         {
             if (staty.Get_Distance() >= 150)
             {
-                if (staty.Get_Data_From("Ship_Id") == 1 || staty.Get_Data_From("Ship_Id") == 4 || staty.Get_Data_From("Ship_Id") == 5)
+                switch (staty.Get_String_Data_From("Ship_Name"))
                 {
-                    ps = ParticleShip[0].GetComponentsInChildren<ParticleSystem>();
-                    ParticleShip[0].SetActive(true); 
-                }
-                else if (staty.Get_Data_From("Ship_Id") == 2 || staty.Get_Data_From("Ship_Id") == 6 || staty.Get_Data_From("Ship_Id") == 7)
-                {
-                    ps = ParticleShip[1].GetComponentsInChildren<ParticleSystem>();
-                    ParticleShip[1].SetActive(true); 
-                }
-                else if (staty.Get_Data_From("Ship_Id") == 3 || staty.Get_Data_From("Ship_Id") == 8 || staty.Get_Data_From("Ship_Id") == 9)
-                {
-                    ps = ParticleShip[2].GetComponentsInChildren<ParticleSystem>();
-                    ParticleShip[2].SetActive(true); 
+                    case "Light Hunter":
+                    case "Balcon Triple Heavy":
+                        ps = ParticleShip[0].GetComponentsInChildren<ParticleSystem>();
+                        ParticleShip[0].SetActive(true);
+                        break;
+                    case "Heavy Hunter":
+                        ps = ParticleShip[1].GetComponentsInChildren<ParticleSystem>();
+                        ParticleShip[1].SetActive(true);
+                        break;
+                    case "Crusher":
+                        ps = ParticleShip[2].GetComponentsInChildren<ParticleSystem>();
+                        ParticleShip[2].SetActive(true);
+                        break;
                 }
             }
             else if (staty.Get_Distance() < 150)
@@ -88,12 +89,8 @@ public class Skins : MonoBehaviour {
         if (!done)
         {
             done = true;
-
             laser.sprite = skin_laseru[staty.Get_Data_From("Laser")];
-            Debug.Log("Wczytano laser nr: " + staty.Get_Data_From("Laser"));
-
             ship.sprite = skin_statku[staty.Get_Data_From("Ship_Id")];
-            Debug.Log("Wczytano ship nr: " + staty.Get_Data_From("Ship_Id"));
         }
     }
 

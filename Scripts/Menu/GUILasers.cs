@@ -7,10 +7,11 @@ using System.Linq;
 public class GUILasers : MonoBehaviour {
     private class List_lasers
     {
-        public int id, price, require_lvl, haveornothave;
+        public int id, price, require_lvl;
+        public bool haveornothave;
         public string name;
 
-        public List_lasers(int i, string n, int p, int rl, int hoh)
+        public List_lasers(int i, string n, int p, int rl, bool hoh)
         {
             this.id = i;
             this.name = n;
@@ -30,13 +31,13 @@ public class GUILasers : MonoBehaviour {
     private void Start () {
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
-        lasers.Add(new List_lasers(1, "RED", 5, 0, 1));
-        lasers.Add(new List_lasers(2, "GREEN", 5, 1, 0));
-        lasers.Add(new List_lasers(3, "BLUE", 5, 1, 0));
-        lasers.Add(new List_lasers(4, "WHITE", 5, 2, 0));
-        lasers.Add(new List_lasers(5, "PURPLE", 5, 2, 0));
-        lasers.Add(new List_lasers(6, "WHITE-RED", 5, 2, 0));
-        lasers.Add(new List_lasers(7, "GREEN-DARK GREEN", 5, 3, 0));
+        lasers.Add(new List_lasers(0, "RED", 5, 0, true));
+        lasers.Add(new List_lasers(1, "GREEN", 5, 1, false));
+        lasers.Add(new List_lasers(2, "BLUE", 5, 1, false));
+        lasers.Add(new List_lasers(3, "WHITE", 5, 2, false));
+        lasers.Add(new List_lasers(4, "PURPLE", 5, 2, false));
+        lasers.Add(new List_lasers(5, "WHITE-RED", 5, 2, false));
+        lasers.Add(new List_lasers(6, "GREEN-DARK GREEN", 5, 3, false));
     }
 
     private void Check_laser()
@@ -50,11 +51,11 @@ public class GUILasers : MonoBehaviour {
 
 	public void BuyLasers(int nr)
     {
-        if (lasers[nr].haveornothave == 0)
+        if (!lasers[nr].haveornothave)
         {
             if (staty.Get_Data_From("Antymatery") >= lasers[nr].price)
             {
-                lasers[nr].haveornothave = 1;
+                lasers[nr].haveornothave = true;
                 staty.Change_Antymatery(-lasers[nr].price);
                 staty.Set_Data("Laser", lasers[nr].id);
                 PlayerPrefs.Save();

@@ -32,7 +32,7 @@ I try to apply programming principles such as:
 - Unity Purchaser,
 - SunShine Android Native Share.
 
-##Version
+## Version
 Rev: 1.01 EXP
 
 ## Status

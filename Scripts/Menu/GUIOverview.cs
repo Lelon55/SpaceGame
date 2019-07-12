@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GUIOverview : MonoBehaviour
 {
     public Canvas CanvasMessage, CanvasNameOfAdmiral;
+    public GameObject Earth;
     [Space]
     public Canvas[] Canvases;
     public GameObject[] antymatery_field_planet;
@@ -29,9 +30,8 @@ public class GUIOverview : MonoBehaviour
     private statystyki staty;
     private GUIOperations GUIoper;
     private GUIPlanetOperations GUIPlanetOperations;
+    private float rotation_y;
 
-
-    // Use this for initialization
     private void Start()
     {
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
@@ -71,8 +71,23 @@ public class GUIOverview : MonoBehaviour
         txt_Length[1].text = admiral_name.text.Length.ToString() + "/" + admiral_name.characterLimit;
     }
 
+    private void MovePlanet()
+    {
+        if (page == 1)
+        {
+            Earth.SetActive(true);
+            rotation_y += Time.deltaTime * 60;
+            Earth.transform.rotation = Quaternion.Euler(0, rotation_y, -30f);
+        }
+        else
+        {
+            Earth.SetActive(false);
+        }
+    }
+
     private void Update()
     {
+        MovePlanet();
         Show_Chars_Limit();
         GUIoper.Steer_Canvas(Canvases, page);
         Steer_Panel_Resources();

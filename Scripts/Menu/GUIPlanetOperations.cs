@@ -5,7 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GUIPlanetOperations : MonoBehaviour {
-    #region UI Variables
+    #region Variables
+    [SerializeField] private AudioClip sound_complete;
+    [SerializeField] private AudioSource audiosource_complete;
+
     private Ads Ads;
     private GameObject[] on_off_cost = new GameObject[2]; //on or off antymatery or resources
     private Text txtMetalCost, txtCrystalCost, txtDeuterCost, txtAntymateries, txtSubjectName, txtSubjectDescription;
@@ -34,7 +37,7 @@ public class GUIPlanetOperations : MonoBehaviour {
             on_off_cost[0].SetActive(true);
             on_off_cost[1].SetActive(false);
         }
-        if (AntymateryCost>0)
+        if (AntymateryCost > 0)
         {
             on_off_cost[0].SetActive(false);
             on_off_cost[1].SetActive(true);
@@ -102,5 +105,10 @@ public class GUIPlanetOperations : MonoBehaviour {
     internal bool CheckLength(InputField value)
     {
         return value.text.Length >= 1;
+    }
+
+    internal void PlaySound_Complete()
+    {
+        audiosource_complete.PlayOneShot(sound_complete, 0.7F);
     }
 }

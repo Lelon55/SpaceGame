@@ -5,8 +5,8 @@ using System.Collections;
 public class GUIShipPanel : MonoBehaviour
 {
     public Text Txtship_name;
-    public Image imgShip;
-    public Sprite[] skin_ship;
+    public Image imgShip, imgLaser;
+    public Sprite[] skin_ship, skin_laser;
     public Image panelConsumption, panelLife, panelChanceDrop;
 
     public GameObject[] Bonus_Panel;
@@ -28,6 +28,7 @@ public class GUIShipPanel : MonoBehaviour
     private void Info_ShipPanel()
     {
         imgShip.sprite = skin_ship[stats.Get_Data_From("Ship_Id")];
+        imgLaser.sprite = skin_laser[stats.Get_Data_From("Laser")];
         Txtship_name.text = stats.Get_String_Data_From("Ship_Name");
         panelConsumption.rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Consumption(), 15), 20f);
         panelLife.rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Life(), 6), 20f);

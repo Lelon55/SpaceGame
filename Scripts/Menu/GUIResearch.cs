@@ -28,15 +28,11 @@ public class GUIResearch : MonoBehaviour
     private GUIPlanetOperations GUIPlanetOperations;
 
     public GameObject[] researches;
-    public Text[] text_button;
-    public Text textDebugResearch;
-    public int spent_resources;
-    public Sprite[] SpriteResearches;
-    public int activated_bonus = 0;
-    public AudioClip sound_buildup;
-    public AudioSource audiosource_sound_buildup;
 
-    // Use this for initialization
+    public Text[] text_button;
+    private int spent_resources;
+    public Sprite[] SpriteResearches;
+
     private void Start()
     {
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
@@ -63,17 +59,20 @@ public class GUIResearch : MonoBehaviour
     {
         for (int ilosc = 0; ilosc < research.Count(); ilosc++)
         {
-            if ((research[ilosc].level < 3) && (staty.Get_Data_From("Metal") >= (research[ilosc].metal * (research[ilosc].level + 1))) && (staty.Get_Data_From("Crystal") >= (research[ilosc].crystal * (research[ilosc].level + 1))) && (staty.Get_Data_From("Deuter") >= (research[ilosc].deuter * (research[ilosc].level + 1))))
-            {//zmien
-                text_button[ilosc].text = "BUY " + "(" + (research[ilosc].level + 1) + ")";
+            if (research[ilosc].level < 3)
+            {
+                if (staty.Get_Data_From("Metal") >= (research[ilosc].metal * (research[ilosc].level + 1)) && staty.Get_Data_From("Crystal") >= (research[ilosc].crystal * (research[ilosc].level + 1)) && staty.Get_Data_From("Deuter") >= (research[ilosc].deuter * (research[ilosc].level + 1)))
+                {
+                    text_button[ilosc].text = "BUY " + "(" + (research[ilosc].level + 1) + ")";
+                }
+                else
+                {
+                    text_button[ilosc].text = "EARN " + "(" + (research[ilosc].level + 1) + ")";
+                }
             }
-            else if (research[ilosc].level >= 3)
+            else
             {
                 text_button[ilosc].text = "MAX LVL";
-            }
-            else if ((research[ilosc].level < 3) && (staty.Get_Data_From("Metal") < (research[ilosc].metal * (research[ilosc].level + 1))) || (staty.Get_Data_From("Crystal") < (research[ilosc].crystal * (research[ilosc].level + 1))) || (staty.Get_Data_From("Deuter") < (research[ilosc].deuter * (research[ilosc].level + 1))))
-            { //zarob po kliknieciu wywola reklame
-                text_button[ilosc].text = "EARN " + "(" + (research[ilosc].level + 1) + ")";
             }
         }
     }
@@ -88,9 +87,13 @@ public class GUIResearch : MonoBehaviour
         research[nr].level += 1;
     }
 
-    private void Earn_Information(int nr)
+    private void Show_Information(int nr, string description)
     {
-        textDebugResearch.text = "EARN: " + research[nr].name.ToUpper() + "(" + research[nr].level + ")";
+      GUIPlanetOperations.Subject_Information(research[nr].metal * (research[nr].level + 1),
+      research[nr].crystal * (research[nr].level + 1),
+      research[nr].deuter * (research[nr].level + 1), 0,
+      research[nr].name.ToUpper() + " (" + research[nr].level.ToString() + ")",
+      description, SpriteResearches[nr]);
     }
 
     private void Set_Technology(int nr)
@@ -104,10 +107,9 @@ public class GUIResearch : MonoBehaviour
                 staty.Set_Data(research[nr].name, research[nr].level);
                 break;
         }
-
         PlayerPrefs.Save();
-        textDebugResearch.text = "BOUGHT: " + research[nr].name.ToUpper() + "(" + research[nr].level + ")";
-        audiosource_sound_buildup.PlayOneShot(sound_buildup, 0.7F);
+        Show_Information(nr, "Bought!");
+        GUIPlanetOperations.PlaySound_Complete();
     }
 
     public void BuyResearch(int nr)
@@ -122,12 +124,12 @@ public class GUIResearch : MonoBehaviour
             else if ((staty.Get_Data_From("Metal") < research[nr].metal * (research[nr].level + 1)) || (staty.Get_Data_From("Crystal") < research[nr].crystal * (research[nr].level + 1)) || (staty.Get_Data_From("Deuter") < research[nr].deuter * (research[nr].level + 1)))
             {
                 GUIPlanetOperations.Turn_On_Ads("resources");
-                Earn_Information(nr);
+                Show_Information(nr, "Earn!");
             }
-            else if (research[nr].level == 3 && text_button[nr].text == "MAX LVL")
-            {
-                textDebugResearch.text = "MAX LVL: " + research[nr].name.ToUpper();
-            }
+        }
+        else if (research[nr].level == 3)
+        {
+            Show_Information(nr, "MAX LVL!");
         }
     }
 
@@ -140,12 +142,7 @@ public class GUIResearch : MonoBehaviour
 
     public void Info_researches(int nr)
     {
-        GUIPlanetOperations.Subject_Information(research[nr].metal * (research[nr].level + 1),
-        research[nr].crystal * (research[nr].level + 1),
-        research[nr].deuter * (research[nr].level + 1), 0,
-        research[nr].name.ToUpper() + " (" + research[nr].level.ToString() + ")",
-        research[nr].description,
-        SpriteResearches[nr]);
+        Show_Information(nr, research[nr].description);
     }
 
 }

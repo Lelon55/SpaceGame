@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class GUIBuildings : MonoBehaviour {
+public class GUIBuildings : MonoBehaviour
+{
     private class List_buildings
     {
         public int id, metal, crystal, deuter, income, capacity, level;
@@ -26,20 +27,16 @@ public class GUIBuildings : MonoBehaviour {
         }
     }
 
-        private List<List_buildings> buildings = new List<List_buildings>();
-        private statystyki staty;
-        private GUIPlanetOperations GUIPlanetOperations;
+    private List<List_buildings> buildings = new List<List_buildings>();
+    private statystyki staty;
+    private GUIPlanetOperations GUIPlanetOperations;
 
-        public Text[] text_button;
-        public Text textDebugBuildings;
-        private int spent_resources;
-        public Sprite[] SpriteBuildings;
-        public AudioClip sound_buildup;
-        public AudioSource audiosource_sound_buildup;
-    
+    public Text[] text_button;
+    private int spent_resources;
+    public Sprite[] SpriteBuildings;
 
-    // Use this for initialization
-    private void Start() {
+    private void Start()
+    {
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
 
@@ -54,6 +51,7 @@ public class GUIBuildings : MonoBehaviour {
         buildings.Add(new List_buildings(8, "TERRAFORMER", "Each level of terraformer gives +15 free space of planet to build new buildings.", 0, 450, 600, 0, 0, 1.2f, 1));
         Check_buttons();
     }
+
     private void Check_buildings() //nadpisuje poziomy
     {
         buildings[0].level = staty.Get_Data_From("Metal_Mine");
@@ -66,6 +64,7 @@ public class GUIBuildings : MonoBehaviour {
         buildings[7].level = staty.Get_Data_From("Deuter_Store");
         buildings[8].level = staty.Get_Data_From("Terraformer");
     }
+
     private void Check_buttons() // zmienia tylko nazwy w tekscie
     {
         for (int ilosc = 0; ilosc < buildings.Count; ilosc++)
@@ -102,20 +101,20 @@ public class GUIBuildings : MonoBehaviour {
         staty.Set_Data("Spent_Resources", staty.Get_Data_From("Spent_Resources") + spent_resources);
         staty.Set_Data("Bought_Field_Planet", staty.Get_Data_From("Bought_Field_Planet") + 1);
     }
-    private void Set_Free_Field(int value){
-        
+
+    private void Set_Free_Field(int value)
+    {
         staty.Set_Data("Free_Field", staty.Get_Data_From("Free_Field") + value);
         PlayerPrefs.Save();
     }
-    private void Set_Properties_Down(int nr)
-    {
-        textDebugBuildings.text = "BOUGHT: " + buildings[nr].name + "(" + buildings[nr].level + ")";
-        audiosource_sound_buildup.PlayOneShot(sound_buildup, 0.7F);
-    }
 
-    private void Earn_Information(int nr)
+    private void Show_Information(int nr, string text_return)
     {
-        textDebugBuildings.text = "EARN: " + buildings[nr].name + "(" + (buildings[nr].level + 1) + ")";
+        GUIPlanetOperations.Subject_Information((int)Cost(buildings[nr].metal, buildings[nr].factor, buildings[nr].level),
+        (int)Cost(buildings[nr].crystal, buildings[nr].factor, buildings[nr].level),
+        (int)Cost(buildings[nr].deuter, buildings[nr].factor, buildings[nr].level), 0,
+        buildings[nr].name + " (" + buildings[nr].level.ToString() + ")",
+        text_return, SpriteBuildings[nr]);
     }
 
     public void Buybuildings0(int nr)
@@ -159,17 +158,18 @@ public class GUIBuildings : MonoBehaviour {
             else if (nr == 7)
             {
                 staty.Set_Data("Deuter_Store", buildings[nr].level);
-                staty.Set_Data("Capacity_Deuter", staty.Get_Data_From("Capacity_Deuter")+buildings[nr].capacity);
+                staty.Set_Data("Capacity_Deuter", staty.Get_Data_From("Capacity_Deuter") + buildings[nr].capacity);
             }
 
             Set_Free_Field(-1);
-            Set_Properties_Down(nr);
+            Show_Information(nr, "Bought!");
+            GUIPlanetOperations.PlaySound_Complete();
 
         }
         else if ((staty.Get_Data_From("Free_Field") >= 1) && (staty.Get_Data_From("Metal") < Cost(buildings[nr].metal, buildings[nr].factor, buildings[nr].level)) || (staty.Get_Data_From("Crystal") < Cost(buildings[nr].crystal, buildings[nr].factor, buildings[nr].level)) || (staty.Get_Data_From("Deuter") < Cost(buildings[nr].deuter, buildings[nr].factor, buildings[nr].level)))
         {
             GUIPlanetOperations.Turn_On_Ads("resources");
-            Earn_Information(nr);
+            Show_Information(nr, "Earn!");
         }
     }
 
@@ -180,32 +180,30 @@ public class GUIBuildings : MonoBehaviour {
             Set_Properties_Up(8);
             staty.Set_Data("Terraformer", buildings[8].level);
             Set_Free_Field(15);
-            Set_Properties_Down(8);
+            Show_Information(8, "Bought!");
+            GUIPlanetOperations.PlaySound_Complete();
 
         }
         else if ((staty.Get_Data_From("Metal") < Cost(buildings[8].metal, buildings[8].factor, buildings[8].level)) || (staty.Get_Data_From("Crystal") < Cost(buildings[8].crystal, buildings[8].factor, buildings[8].level)) || (staty.Get_Data_From("Deuter") < Cost(buildings[8].deuter, buildings[8].factor, buildings[8].level)))
         {
             GUIPlanetOperations.Turn_On_Ads("resources");
-            Earn_Information(8);
+            Show_Information(8, "Earn!");
         }
     }
-    // Update is called once per frame
-    private void LateUpdate () {
-        Check_buildings();
-		Check_buttons();
-	}
 
-	public void Info_buildings(int nr){
-        GUIPlanetOperations.Subject_Information((int)Cost(buildings[nr].metal, buildings[nr].factor, buildings[nr].level),
-        (int)Cost(buildings[nr].crystal, buildings[nr].factor, buildings[nr].level),
-        (int)Cost(buildings[nr].deuter, buildings[nr].factor, buildings[nr].level), 0,
-        buildings[nr].name + " (" + buildings[nr].level.ToString() + ")",
-        buildings[nr].description,
-        SpriteBuildings[nr]);
-	}
+    private void LateUpdate()
+    {
+        Check_buildings();
+        Check_buttons();
+    }
+
+    public void Info_buildings(int nr)
+    {
+        Show_Information(nr, buildings[nr].description);
+    }
 
     private float Cost(float cost, float factor, float level)
     {
-         return (int)(cost * (Mathf.Exp(Mathf.Log(factor) * level)));
+        return (int)(cost * (Mathf.Exp(Mathf.Log(factor) * level)));
     }
 }

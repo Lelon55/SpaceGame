@@ -27,8 +27,6 @@ public class GUIStructures : MonoBehaviour
 
     public Text[] text_button;
     public Text textDebugStructures;
-    public AudioClip sound_buildup;
-    public AudioSource audiosource_sound_buildup;
     public Sprite[] SpriteStructures;
 
     private void Start()
@@ -50,19 +48,21 @@ public class GUIStructures : MonoBehaviour
     {
         for (int ilosc = 0; ilosc < structures.Count; ilosc++)
         {
-            if (structures[ilosc].level < 3 && (stats.Get_Data_From("Alliance_Antymatery") >= (structures[ilosc].antymatery * (structures[ilosc].level + 1))))
+            if (structures[ilosc].level < 3)
             {
-                text_button[ilosc].text = "BUY " + "(" + (structures[ilosc].level + 1) + ")";
+                if (stats.Get_Data_From("Alliance_Antymatery") >= (structures[ilosc].antymatery * (structures[ilosc].level + 1)))
+                {
+                    text_button[ilosc].text = "BUY " + "(" + (structures[ilosc].level + 1) + ")";
+                }
+                else
+                {
+                    text_button[ilosc].text = "EARN " + "(" + (structures[ilosc].level + 1) + ")";
+                }
             }
-            else if (structures[ilosc].level >= 3)
+            else
             {
                 text_button[ilosc].text = "MAX LVL";
             }
-            else if (structures[ilosc].level < 3 && (stats.Get_Data_From("Alliance_Antymatery") < (structures[ilosc].antymatery * (structures[ilosc].level + 1))))
-            {
-                text_button[ilosc].text = "EARN " + "(" + (structures[ilosc].level + 1) + ")";
-            }
-
         }
     }
 
@@ -84,8 +84,8 @@ public class GUIStructures : MonoBehaviour
                 break;
         }
         PlayerPrefs.Save();
-        textDebugStructures.text = "BOUGHT: " + structures[nr].name + "(" + structures[nr].level + ")";
-        audiosource_sound_buildup.PlayOneShot(sound_buildup, 0.7F);
+        Show_Information(nr, "Bought!");
+        GUIPlanetOperations.PlaySound_Complete();
     }
 
     public void BtnBuy(int nr)
@@ -100,12 +100,12 @@ public class GUIStructures : MonoBehaviour
             else if (stats.Get_Data_From("Alliance_Antymatery") < (structures[nr].antymatery * (structures[nr].level + 1)))
             {
                 GUIPlanetOperations.Turn_On_Ads("antymatery");
-                textDebugStructures.text = "EARN: " + structures[nr].name + "(" + structures[nr].level + ")";
+                Show_Information(nr, "Earn!");
             }
-            else if (structures[nr].level == 3 && text_button[nr].text == "MAX LVL")
-            {
-                textDebugStructures.text = "MAX LVL: " + structures[nr].name;
-            }
+        }
+        else if (structures[nr].level == 3)
+        {
+            Show_Information(nr, "MAX LVL!");
         }
     }
 
@@ -114,12 +114,17 @@ public class GUIStructures : MonoBehaviour
         Check_structures();
         Check_buttons();
     }
+
+    private void Show_Information(int nr, string description)
+    {
+        GUIPlanetOperations.Subject_Information(0, 0, 0, Cost(structures[nr].antymatery, structures[nr].level),
+        structures[nr].name + " (" + structures[nr].level.ToString() + ")", description, SpriteStructures[nr]);
+    }
+
     public void Info_structures(int nr)
     {
         GUIPlanetOperations.Subject_Information(0, 0, 0, Cost(structures[nr].antymatery, structures[nr].level),
-        structures[nr].name + " (" + structures[nr].level.ToString() + ")",
-        structures[nr].description,
-        SpriteStructures[nr]);
+        structures[nr].name + " (" + structures[nr].level.ToString() + ")", structures[nr].description, SpriteStructures[nr]);
     }
 
     private int Cost(int cost, int level)

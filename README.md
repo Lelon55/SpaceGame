@@ -8,6 +8,7 @@ This project was created for learn C#, Unity and used plugins.
 * [Technologies](#technologies)
 * [Programming rules](#programming-rules)
 * [Plugins](#plugins)
+* [Version](#version)
 * [Status](#status)
 * [Sources](#sources)
 
@@ -30,6 +31,9 @@ I try to apply programming principles such as:
 - Unity Ads,
 - Unity Purchaser,
 - SunShine Android Native Share.
+
+##Version
+Rev: 1.01 EXP
 
 ## Status
 Already refactoring, optimizing the code. Now, I am preparing alliance for the SpaceGame.

@@ -32,8 +32,8 @@ I try to apply programming principles such as:
 - Unity Purchaser,
 - SunShine Android Native Share.
 
-##Version
-Rev: 1.01 EXP
+## Version
+Rev: 1.01
 
 ## Status
 Already refactoring, optimizing the code. Now, I am preparing alliance for the SpaceGame.

@@ -2,17 +2,18 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class TextScript : MonoBehaviour {
-
-	private statystyki stats;
-	private Animation animations;
-	private Animator animator;
-	private bool check;
+public class TextScript : MonoBehaviour
+{
+    private statystyki stats;
+    private Animation animations;
+    private Animator animator;
+    internal bool check;
     private Text txtPowerUP;
 
     public AudioClip powerup;
 
-	private void Start(){
+    private void Start()
+    {
         stats = GameObject.Find("spaceship").GetComponent<statystyki>();
         animations = GetComponent<Animation>();
         animator = GetComponent<Animator>();
@@ -22,13 +23,13 @@ public class TextScript : MonoBehaviour {
     private void Start_animations()
     {
         animator.SetBool("check", true);
+        check = animator.GetBool("check");
         StartCoroutine(Throw());
         AudioSource.PlayClipAtPoint(powerup, stats.transform.position);
     }
 
     private void Update()
     {
-        check = animator.GetBool("check");
         if ((stats.Get_Distance() == 150 || stats.Get_Distance() == 500) && !check)
         {
             Set_Text("speed up");
@@ -46,9 +47,8 @@ public class TextScript : MonoBehaviour {
     }
 
     private IEnumerator Throw()
-	{
-		yield return new WaitForSeconds(animations.clip.length);
-        animator.SetBool ("check", false);
-        check = animator.GetBool ("check");
-	}
+    {
+        yield return new WaitForSeconds(animations.clip.length);
+        animator.SetBool("check", false);
+    }
 }

@@ -18,6 +18,4 @@ public class Player_life : MonoBehaviour {
 	private void Current_Life(float size){
 		transform.localScale = new Vector3 (size, 0.2f, 0f);
 	}
-
-    
 }

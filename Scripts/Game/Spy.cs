@@ -14,5 +14,4 @@ public class Spy : MonoBehaviour {
     private void Spy_Player(){
         transform.position = new Vector3(spaceship.transform.position.x, Object.transform.position.y + Height, 0f);
     }
-
 }

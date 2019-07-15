@@ -32,10 +32,8 @@ public class Generate_bullet : MonoBehaviour {
         }
     }
 
-    private void Update()
+    private void Check_Bullets()
     {
-        max_bullets = staty.Get_Float_Data_From("Max_Lasers");
-        gravity.gravityScale = staty.gravity_bullet;
         if (min_bullets <= 0f)
         {
             StopCoroutine("Start_Count");
@@ -45,6 +43,13 @@ public class Generate_bullet : MonoBehaviour {
         {
             StartCoroutine("Start_Count");
         }
+    }
+
+    private void Update()
+    {
+        max_bullets = staty.Get_Float_Data_From("Max_Lasers");
+        gravity.gravityScale = staty.gravity_bullet;
+        Check_Bullets();
         Shorten_Reloading();
     }
 
@@ -59,7 +64,6 @@ public class Generate_bullet : MonoBehaviour {
 
     public void Shoot_bullet()
     {
-
         if (min_bullets >= max_bullets)
         {
             //Debug.Log("daj odpoczac");
@@ -74,5 +78,4 @@ public class Generate_bullet : MonoBehaviour {
             //Debug.Log("wystrzelono: " + nr + "liczba: " + min_bullets);
         }
     }
-
 }

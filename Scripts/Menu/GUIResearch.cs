@@ -57,43 +57,40 @@ public class GUIResearch : MonoBehaviour
 
     private void Check_buttons() // zmienia tylko nazwy w tekscie
     {
-        for (int ilosc = 0; ilosc < research.Count(); ilosc++)
+        for (int nr = 0; nr < research.Count(); nr++)
         {
-            if (research[ilosc].level < 3)
+            if (research[nr].level < 3)
             {
-                if (staty.Get_Data_From("Metal") >= (research[ilosc].metal * (research[ilosc].level + 1)) && staty.Get_Data_From("Crystal") >= (research[ilosc].crystal * (research[ilosc].level + 1)) && staty.Get_Data_From("Deuter") >= (research[ilosc].deuter * (research[ilosc].level + 1)))
+                if (staty.Get_Data_From("Metal") >= (research[nr].metal * (research[nr].level + 1)) && staty.Get_Data_From("Crystal") >= (research[nr].crystal * (research[nr].level + 1)) && staty.Get_Data_From("Deuter") >= (research[nr].deuter * (research[nr].level + 1)))
                 {
-                    text_button[ilosc].text = "BUY " + "(" + (research[ilosc].level + 1) + ")";
+                    text_button[nr].text = "BUY " + "(" + (research[nr].level + 1) + ")";
                 }
                 else
                 {
-                    text_button[ilosc].text = "EARN " + "(" + (research[ilosc].level + 1) + ")";
+                    text_button[nr].text = "EARN " + "(" + (research[nr].level + 1) + ")";
                 }
             }
             else
             {
-                text_button[ilosc].text = "MAX LVL";
+                text_button[nr].text = "MAX LVL";
             }
         }
     }
 
     private void Set_Properties_Up(int nr)
     {
-        staty.Set_Data("Metal", staty.Get_Data_From("Metal") - research[nr].metal * (research[nr].level + 1));
-        staty.Set_Data("Crystal", staty.Get_Data_From("Crystal") - research[nr].crystal * (research[nr].level + 1));
-        staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") - research[nr].deuter * (research[nr].level + 1));
-        spent_resources = (research[nr].metal * (research[nr].level + 1)) + (research[nr].crystal * (research[nr].level + 1)) + (research[nr].deuter * (research[nr].level + 1));
+        staty.Set_Data("Metal", staty.Get_Data_From("Metal") - MetalCost(nr));
+        staty.Set_Data("Crystal", staty.Get_Data_From("Crystal") - CrystalCost(nr));
+        staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") - DeuterCost(nr));
+        spent_resources = MetalCost(nr) + CrystalCost(nr) + DeuterCost(nr);
         staty.Set_Data("Spent_Resources", staty.Get_Data_From("Spent_Resources") + spent_resources);
         research[nr].level += 1;
     }
 
     private void Show_Information(int nr, string description)
     {
-      GUIPlanetOperations.Subject_Information(research[nr].metal * (research[nr].level + 1),
-      research[nr].crystal * (research[nr].level + 1),
-      research[nr].deuter * (research[nr].level + 1), 0,
-      research[nr].name.ToUpper() + " (" + research[nr].level.ToString() + ")",
-      description, SpriteResearches[nr]);
+      GUIPlanetOperations.Subject_Information(MetalCost(nr), CrystalCost(nr), DeuterCost(nr), 0, 
+      research[nr].name.ToUpper() + " (" + research[nr].level.ToString() + ")", description, SpriteResearches[nr]);
     }
 
     private void Set_Technology(int nr)
@@ -116,12 +113,12 @@ public class GUIResearch : MonoBehaviour
     {
         if (research[nr].level <= 2)
         {
-            if ((staty.Get_Data_From("Metal") >= research[nr].metal * (research[nr].level + 1)) && (staty.Get_Data_From("Crystal") >= research[nr].crystal * (research[nr].level + 1)) && (staty.Get_Data_From("Deuter") >= research[nr].deuter * (research[nr].level + 1)))
-            {//zmien
+            if (staty.Get_Data_From("Metal") >= MetalCost(nr) && staty.Get_Data_From("Crystal") >= CrystalCost(nr) && staty.Get_Data_From("Deuter") >= DeuterCost(nr))
+            {
                 Set_Properties_Up(nr);
                 Set_Technology(nr);
             }
-            else if ((staty.Get_Data_From("Metal") < research[nr].metal * (research[nr].level + 1)) || (staty.Get_Data_From("Crystal") < research[nr].crystal * (research[nr].level + 1)) || (staty.Get_Data_From("Deuter") < research[nr].deuter * (research[nr].level + 1)))
+            else if (staty.Get_Data_From("Metal") < MetalCost(nr) || staty.Get_Data_From("Crystal") < CrystalCost(nr) || staty.Get_Data_From("Deuter") < DeuterCost(nr))
             {
                 GUIPlanetOperations.Turn_On_Ads("resources");
                 Show_Information(nr, "Earn!");
@@ -143,6 +140,19 @@ public class GUIResearch : MonoBehaviour
     public void Info_researches(int nr)
     {
         Show_Information(nr, research[nr].description);
+    }
+
+    private int MetalCost(int nr)
+    {
+       return research[nr].metal * (research[nr].level + 1);
+    }
+    private int CrystalCost(int nr)
+    {
+        return research[nr].crystal * (research[nr].level + 1);
+    }
+    private int DeuterCost(int nr)
+    {
+        return research[nr].deuter * (research[nr].level + 1);
     }
 
 }

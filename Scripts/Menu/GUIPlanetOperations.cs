@@ -30,7 +30,7 @@ public class GUIPlanetOperations : MonoBehaviour {
         #endregion
     }
 
-    internal void Subject_Information(int MetalCost, int CrystalCost, int DeuterCost, int AntymateryCost, string SubjectName, string SubjectDescription, Sprite SubjectPhoto) //tutaj bedziemy otwierac okno z informacjami o przedmiocie => zmniejszy ilosc zmiennych
+    internal void Subject_Information(int MetalCost, int CrystalCost, int DeuterCost, int AntymateryCost, string SubjectName, string SubjectDescription, Sprite SubjectPhoto) //tutaj bedziemy otwierac okno z informacjami o przedmiocie => zmniejszy nr zmiennych
     {
         if (MetalCost > 0 || CrystalCost > 0 || DeuterCost > 0)
         {
@@ -58,9 +58,9 @@ public class GUIPlanetOperations : MonoBehaviour {
     #region Buyer
     internal void View_Subject(GameObject[] gameobject, string subject)
     {
-        for (int ilosc = 0; ilosc < gameobject.Count(); ilosc++)
+        for (int nr = 0; nr < gameobject.Count(); nr++)
         {
-            gameobject[ilosc].SetActive(Check_Levels(subject, ilosc));
+            gameobject[nr].SetActive(Check_Levels(subject, nr));
         }
     }
 
@@ -70,25 +70,25 @@ public class GUIPlanetOperations : MonoBehaviour {
         txtButton[nr].color = color;
     }
 
-    internal void Check_buttons(bool have, Text[] txtButton, int ilosc, int antymatery, int price)
+    internal void Check_buttons(bool have, Text[] txtButton, int nr, int antymatery, int price)
     {
-        if (have == true)
+        if (have)
         {
-            View_Available_Subject(txtButton, ilosc, "USING", new Color(.105f, .375f, .105f, 255f));
+            View_Available_Subject(txtButton, nr, "USING", new Color(.105f, .375f, .105f, 255f));
         }
-        else if (have == false && antymatery >= price)
+        else if (!have && antymatery >= price)
         {
-            View_Available_Subject(txtButton, ilosc, "CHANGE", new Color(255f, 255f, 255f, 255f));
+            View_Available_Subject(txtButton, nr, "CHANGE", new Color(255f, 255f, 255f, 255f));
         }
-        else if (have == false && antymatery < price)
+        else if (!have && antymatery < price)
         {
-            View_Available_Subject(txtButton, ilosc, "EARN", new Color(255f, 255f, 255f, 255f));
+            View_Available_Subject(txtButton, nr, "EARN", new Color(255f, 255f, 255f, 255f));
         }
     }
 
     internal void Turn_On_Ads(string earn_type)
     {
-        if (Ads.pokazane == false)
+        if (!Ads.pokazane)
         {
             Ads.Show_to_earn(earn_type);
             Ads.pokazane = false;

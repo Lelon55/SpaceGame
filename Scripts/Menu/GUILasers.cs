@@ -42,10 +42,10 @@ public class GUILasers : MonoBehaviour {
 
     private void Check_laser()
     {
-        for (int ilosc = 0; ilosc < lasers.Count(); ilosc++)
+        for (int nr = 0; nr < lasers.Count(); nr++)
         {
-            lasers[ilosc].haveornothave = GUIPlanetOperations.Check_HasItem(lasers[ilosc].id, staty.Get_Data_From("Laser"));
-            GUIPlanetOperations.Check_buttons(lasers[ilosc].haveornothave, text_button, ilosc, staty.Get_Data_From("Antymatery"), lasers[ilosc].price);
+            lasers[nr].haveornothave = GUIPlanetOperations.Check_HasItem(lasers[nr].id, staty.Get_Data_From("Laser"));
+            GUIPlanetOperations.Check_buttons(lasers[nr].haveornothave, text_button, nr, staty.Get_Data_From("Antymatery"), lasers[nr].price);
         }
     }
 

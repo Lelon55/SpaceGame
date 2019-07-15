@@ -41,6 +41,7 @@ private class List_quest
 			this.done = done;
         }
     }
+
     private List<List_quest> quest = new List<List_quest>();
 	public Text text_reward_metal, text_reward_crystal, text_reward_deuter, text_reward_exp, text_name_quest, text_description;
 	public Button btn_reward_quest;
@@ -49,7 +50,7 @@ private class List_quest
 
     private GUIOverview GUIOverview;
     private statystyki staty;
-    // Use this for initialization
+
     private void Start () {
         GUIOverview = GameObject.Find("Interface").GetComponent<GUIOverview>();
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
@@ -100,8 +101,8 @@ private class List_quest
         text_reward_crystal.text = quest[nr].reward_crystal.ToString("N0");
         text_reward_deuter.text = quest[nr].reward_deuter.ToString("N0");
         text_reward_exp.text = quest[nr].reward_exp.ToString("N0");
-
     }
+
     private void Change_photo_quest(int nr)
     {
         switch (quest[nr].category_quest)

@@ -55,10 +55,10 @@ public class GUIShips : MonoBehaviour {
 
     private void Check_ship()
     {
-        for (int ilosc = 0; ilosc < ships.Count(); ilosc++)
+        for (int nr = 0; nr < ships.Count(); nr++)
         {
-            ships[ilosc].haveornothave = GUIPlanetOperations.Check_HasItem(ships[ilosc].id, staty.Get_Data_From("Ship_Id"));
-            GUIPlanetOperations.Check_buttons(ships[ilosc].haveornothave, text_button, ilosc, staty.Get_Data_From("Antymatery"), ships[ilosc].price);
+            ships[nr].haveornothave = GUIPlanetOperations.Check_HasItem(ships[nr].id, staty.Get_Data_From("Ship_Id"));
+            GUIPlanetOperations.Check_buttons(ships[nr].haveornothave, text_button, nr, staty.Get_Data_From("Antymatery"), ships[nr].price);
         }
     }
 

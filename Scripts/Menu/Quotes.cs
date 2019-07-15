@@ -9,7 +9,6 @@ public class Quotes : MonoBehaviour {
 	private Animation anim;
 	[SerializeField] private string name_scene;
 	private int nr_quotes;
-
     public Text quotes, author;
 
     private class List_Quotes
@@ -24,6 +23,7 @@ public class Quotes : MonoBehaviour {
             this.author = a;
         }
     }
+
     private List<List_Quotes> cytaty = new List<List_Quotes>();
 
     private void Start()

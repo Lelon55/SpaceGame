@@ -3,9 +3,10 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class GUIGame : MonoBehaviour {
+public class GUIGame : MonoBehaviour
+{
     public Canvas[] Canvases;
-    public Text[] Score;
+    public Text[] Score, txt_dropped_resources;
     private SpriteRenderer laser_life;
 
     internal int page; // 1gra, 2PAUZA, 3Gameover
@@ -14,22 +15,22 @@ public class GUIGame : MonoBehaviour {
     public Skins skins;
     public AudioSource[] stopowanie_tla; //stopuje dzwiek w tle
 
-	public GUIStyle strzelam;
-	
-	private bool change_stats;
+    public GUIStyle strzelam;
+
+    private bool change_stats;
     private float ticks = 1;
-	public Animator[] anim;
-	public Text[] txt_dropped_resources;
+    public Animator[] anim;
     private GUIOperations GUIOperations;
 
     // Use this for initialization
-    private void Start () {
+    private void Start()
+    {
         staty = GameObject.Find("spaceship").GetComponent<statystyki>();
         generate = GameObject.Find("shot").GetComponent<Generate_bullet>();
         GUIOperations = GameObject.Find("Interface").GetComponent<GUIOperations>();
         laser_life = GameObject.Find("laser_life").GetComponent<SpriteRenderer>();
         page = 0;
-	}
+    }
 
     private void LateUpdate()
     {
@@ -39,9 +40,10 @@ public class GUIGame : MonoBehaviour {
     }
 
     // Update is called once per frame
-    private void Update () {
+    private void Update()
+    {
         Game_stop();
-		Change_panel();
+        Change_panel();
     }
 
     private void Current_Laser()
@@ -55,10 +57,10 @@ public class GUIGame : MonoBehaviour {
         Score[0].text = staty.Get_Score() + "/" + staty.Get_Data_From("Player_Record");
         Score[1].text = staty.Get_Comets() + "/" + staty.Get_Data_From("Comets_Record");
         Score[2].text = staty.Get_Distance().ToString("N0");
-		txt_dropped_resources[0].text = staty.Get_Dropped_Metal().ToString();
-		txt_dropped_resources[1].text = staty.Get_Dropped_Crystal().ToString();
-		txt_dropped_resources[2].text = staty.Get_Dropped_Deuter().ToString();
-		txt_dropped_resources[3].text = staty.Get_Dropped_Antymatery().ToString();
+        txt_dropped_resources[0].text = staty.Get_Dropped_Metal().ToString();
+        txt_dropped_resources[1].text = staty.Get_Dropped_Crystal().ToString();
+        txt_dropped_resources[2].text = staty.Get_Dropped_Deuter().ToString();
+        txt_dropped_resources[3].text = staty.Get_Dropped_Antymatery().ToString();
         txt_dropped_resources[4].text = staty.Get_Dropped_Metal().ToString();
         txt_dropped_resources[5].text = staty.Get_Dropped_Crystal().ToString();
         txt_dropped_resources[6].text = staty.Get_Dropped_Deuter().ToString();
@@ -100,7 +102,6 @@ public class GUIGame : MonoBehaviour {
             {
                 if (GUI.Button(new Rect(0, Screen.height * 0.1f, Screen.width, Screen.height * 0.8f), "", strzelam))
                 {
-                    Debug.Log("strzelam");
                     generate.Shoot_bullet();
                 }
             }
@@ -108,7 +109,6 @@ public class GUIGame : MonoBehaviour {
             {
                 if (GUI.Button(new Rect(0, Screen.height * 0.1f, Screen.width, Screen.height * 0.8f), "", strzelam))
                 {
-                    Debug.Log("strzelam");
                     generate.Shoot_bullet();
                 }
             }
@@ -136,12 +136,13 @@ public class GUIGame : MonoBehaviour {
         stopowanie_tla[0].Stop(); //stopuje tlo
         stopowanie_tla[1].Stop(); //stopuje silnik
     }
-   
+
     private void Pages()
     {
         GameScore();
         GUIOperations.Steer_Canvas(Canvases, page);
     }
+
     private void Change_panel()
     {
         ticks += Time.deltaTime;

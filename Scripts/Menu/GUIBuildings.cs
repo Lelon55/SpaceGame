@@ -67,36 +67,36 @@ public class GUIBuildings : MonoBehaviour
 
     private void Check_buttons() // zmienia tylko nazwy w tekscie
     {
-        for (int ilosc = 0; ilosc < buildings.Count; ilosc++)
+        for (int nr = 0; nr < buildings.Count; nr++)
         {
-            if ((staty.Get_Data_From("Free_Field") >= 1) && (staty.Get_Data_From("Metal") >= Cost(buildings[ilosc].metal, buildings[ilosc].factor, buildings[ilosc].level)) && (staty.Get_Data_From("Crystal") >= Cost(buildings[ilosc].crystal, buildings[ilosc].factor, buildings[ilosc].level)) && (staty.Get_Data_From("Deuter") >= Cost(buildings[ilosc].deuter, buildings[ilosc].factor, buildings[ilosc].level)))
+            if ((staty.Get_Data_From("Free_Field") >= 1) && staty.Get_Data_From("Metal") >= MetalCost(nr) && staty.Get_Data_From("Crystal") >= CrystalCost(nr) && staty.Get_Data_From("Deuter") >= DeuterCost(nr))
             {//zmien
-                text_button[ilosc].text = "BUY " + "(" + (buildings[ilosc].level + 1) + ")";
+                text_button[nr].text = "BUY " + "(" + (buildings[nr].level + 1) + ")";
             }
-            else if ((staty.Get_Data_From("Free_Field") <= 0) && (buildings[ilosc].name != "TERRAFORMER")) //zrobic pozniej aby nie zaliczalo terraformera
+            else if ((staty.Get_Data_From("Free_Field") <= 0) && (buildings[nr].name != "TERRAFORMER")) //zrobic pozniej aby nie zaliczalo terraformera
             {
-                text_button[ilosc].text = "EMPTY FIELD";
+                text_button[nr].text = "EMPTY FIELD";
             }
-            else if ((staty.Get_Data_From("Free_Field") >= 1) && (staty.Get_Data_From("Metal") < Cost(buildings[ilosc].metal, buildings[ilosc].factor, buildings[ilosc].level)) || (staty.Get_Data_From("Crystal") < Cost(buildings[ilosc].crystal, buildings[ilosc].factor, buildings[ilosc].level)) || (staty.Get_Data_From("Deuter") < Cost(buildings[ilosc].deuter, buildings[ilosc].factor, buildings[ilosc].level)))
+            else if ((staty.Get_Data_From("Free_Field") >= 1) && staty.Get_Data_From("Metal") < MetalCost(nr) || staty.Get_Data_From("Crystal") < CrystalCost(nr) || staty.Get_Data_From("Deuter") < DeuterCost(nr))
             {
-                text_button[ilosc].text = "EARN " + "(" + (buildings[ilosc].level + 1) + ")";
+                text_button[nr].text = "EARN " + "(" + (buildings[nr].level + 1) + ")";
             }
-            else if ((staty.Get_Data_From("Free_Field") <= 0) && (buildings[ilosc].name == "TERRAFORMER") && (staty.Get_Data_From("Metal") >= Cost(buildings[ilosc].metal, buildings[ilosc].factor, buildings[ilosc].level)) && (staty.Get_Data_From("Crystal") >= Cost(buildings[ilosc].crystal, buildings[ilosc].factor, buildings[ilosc].level)) && (staty.Get_Data_From("Deuter") >= Cost(buildings[ilosc].deuter, buildings[ilosc].factor, buildings[ilosc].level)))//zrobic pozniej aby nie zaliczalo terraformera
+            else if ((staty.Get_Data_From("Free_Field") <= 0) && (buildings[nr].name == "TERRAFORMER") && staty.Get_Data_From("Metal") >= MetalCost(nr) && staty.Get_Data_From("Crystal") >= CrystalCost(nr) && staty.Get_Data_From("Deuter") >= DeuterCost(nr))//zrobic pozniej aby nie zaliczalo terraformera
             {
-                text_button[ilosc].text = "BUY " + "(" + (buildings[ilosc].level + 1) + ")";
+                text_button[nr].text = "BUY " + "(" + (buildings[nr].level + 1) + ")";
             }
-            else if ((staty.Get_Data_From("Free_Field") <= 0) && (buildings[ilosc].name == "TERRAFORMER") && (staty.Get_Data_From("Metal") < Cost(buildings[ilosc].metal, buildings[ilosc].factor, buildings[ilosc].level)) || (staty.Get_Data_From("Crystal") < Cost(buildings[ilosc].crystal, buildings[ilosc].factor, buildings[ilosc].level)) || (staty.Get_Data_From("Deuter") < Cost(buildings[ilosc].deuter, buildings[ilosc].factor, buildings[ilosc].level)))//zrobic pozniej aby nie zaliczalo terraformera
+           /* else if ((staty.Get_Data_From("Free_Field") <= 0) && (buildings[nr].name == "TERRAFORMER") && staty.Get_Data_From("Metal") < MetalCost(nr) || staty.Get_Data_From("Crystal") < CrystalCost(nr) || staty.Get_Data_From("Deuter") < DeuterCost(nr))//zrobic pozniej aby nie zaliczalo terraformera
             {
-                text_button[ilosc].text = "BUY " + "(" + (buildings[ilosc].level + 1) + ")";
-            }
+                text_button[nr].text = "BUY " + "(" + (buildings[nr].level + 1) + ")";
+            }*/
         }
     }
     private void Set_Properties_Up(int nr)
     {
-        staty.Set_Data("Metal", staty.Get_Data_From("Metal") - (int)Cost(buildings[nr].metal, buildings[nr].factor, buildings[nr].level));
-        staty.Set_Data("Crystal", staty.Get_Data_From("Crystal") - (int)Cost(buildings[nr].crystal, buildings[nr].factor, buildings[nr].level));
-        staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") - (int)Cost(buildings[nr].deuter, buildings[nr].factor, buildings[nr].level));
-        spent_resources = (int)Cost(buildings[nr].metal, buildings[nr].factor, buildings[nr].level) + (int)Cost(buildings[nr].crystal, buildings[nr].factor, buildings[nr].level) + (int)Cost(buildings[nr].deuter, buildings[nr].factor, buildings[nr].level);
+        staty.Set_Data("Metal", staty.Get_Data_From("Metal") - MetalCost(nr));
+        staty.Set_Data("Crystal", staty.Get_Data_From("Crystal") - CrystalCost(nr));
+        staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") - DeuterCost(nr));
+        spent_resources = MetalCost(nr) + CrystalCost(nr) + DeuterCost(nr);
         buildings[nr].level += 1;
         staty.Set_Data("Spent_Resources", staty.Get_Data_From("Spent_Resources") + spent_resources);
         staty.Set_Data("Bought_Field_Planet", staty.Get_Data_From("Bought_Field_Planet") + 1);
@@ -110,16 +110,13 @@ public class GUIBuildings : MonoBehaviour
 
     private void Show_Information(int nr, string text_return)
     {
-        GUIPlanetOperations.Subject_Information((int)Cost(buildings[nr].metal, buildings[nr].factor, buildings[nr].level),
-        (int)Cost(buildings[nr].crystal, buildings[nr].factor, buildings[nr].level),
-        (int)Cost(buildings[nr].deuter, buildings[nr].factor, buildings[nr].level), 0,
-        buildings[nr].name + " (" + buildings[nr].level.ToString() + ")",
-        text_return, SpriteBuildings[nr]);
+        GUIPlanetOperations.Subject_Information(MetalCost(nr), CrystalCost(nr), DeuterCost(nr), 0,
+        buildings[nr].name + " (" + buildings[nr].level.ToString() + ")", text_return, SpriteBuildings[nr]);
     }
 
     public void Buybuildings0(int nr)
     {
-        if ((staty.Get_Data_From("Free_Field") >= 1) && (staty.Get_Data_From("Metal") >= Cost(buildings[nr].metal, buildings[nr].factor, buildings[nr].level)) && (staty.Get_Data_From("Crystal") >= Cost(buildings[nr].crystal, buildings[nr].factor, buildings[nr].level)) && (staty.Get_Data_From("Deuter") >= Cost(buildings[nr].deuter, buildings[nr].factor, buildings[nr].level)))
+        if ((staty.Get_Data_From("Free_Field") >= 1) && staty.Get_Data_From("Metal") >= MetalCost(nr) && staty.Get_Data_From("Crystal") >= CrystalCost(nr) && staty.Get_Data_From("Deuter") >= DeuterCost(nr))
         {
             Set_Properties_Up(nr);
             if (nr == 0)
@@ -166,7 +163,7 @@ public class GUIBuildings : MonoBehaviour
             GUIPlanetOperations.PlaySound_Complete();
 
         }
-        else if ((staty.Get_Data_From("Free_Field") >= 1) && (staty.Get_Data_From("Metal") < Cost(buildings[nr].metal, buildings[nr].factor, buildings[nr].level)) || (staty.Get_Data_From("Crystal") < Cost(buildings[nr].crystal, buildings[nr].factor, buildings[nr].level)) || (staty.Get_Data_From("Deuter") < Cost(buildings[nr].deuter, buildings[nr].factor, buildings[nr].level)))
+        else if ((staty.Get_Data_From("Free_Field") >= 1) && staty.Get_Data_From("Metal") < MetalCost(nr) || staty.Get_Data_From("Crystal") < CrystalCost(nr) || staty.Get_Data_From("Deuter") < DeuterCost(nr))
         {
             GUIPlanetOperations.Turn_On_Ads("resources");
             Show_Information(nr, "Earn!");
@@ -175,7 +172,7 @@ public class GUIBuildings : MonoBehaviour
 
     public void Buybuildings8()
     {
-        if (staty.Get_Data_From("Metal") >= Cost(buildings[8].metal, buildings[8].factor, buildings[8].level) && (staty.Get_Data_From("Crystal") >= Cost(buildings[8].crystal, buildings[8].factor, buildings[8].level)) && (staty.Get_Data_From("Deuter") >= Cost(buildings[8].deuter, buildings[8].factor, buildings[8].level)))
+        if (staty.Get_Data_From("Metal") >= MetalCost(8) && staty.Get_Data_From("Crystal") >= CrystalCost(8) && staty.Get_Data_From("Deuter") >= DeuterCost(8))
         {
             Set_Properties_Up(8);
             staty.Set_Data("Terraformer", buildings[8].level);
@@ -184,7 +181,7 @@ public class GUIBuildings : MonoBehaviour
             GUIPlanetOperations.PlaySound_Complete();
 
         }
-        else if ((staty.Get_Data_From("Metal") < Cost(buildings[8].metal, buildings[8].factor, buildings[8].level)) || (staty.Get_Data_From("Crystal") < Cost(buildings[8].crystal, buildings[8].factor, buildings[8].level)) || (staty.Get_Data_From("Deuter") < Cost(buildings[8].deuter, buildings[8].factor, buildings[8].level)))
+        else if (staty.Get_Data_From("Metal") < MetalCost(8) || staty.Get_Data_From("Crystal") < CrystalCost(8) || staty.Get_Data_From("Deuter") < DeuterCost(8))
         {
             GUIPlanetOperations.Turn_On_Ads("resources");
             Show_Information(8, "Earn!");
@@ -202,8 +199,24 @@ public class GUIBuildings : MonoBehaviour
         Show_Information(nr, buildings[nr].description);
     }
 
+    private int MetalCost(int nr)
+    {
+        return (int)Cost(buildings[nr].metal, buildings[nr].factor, buildings[nr].level);
+    }
+
+    private int CrystalCost(int nr)
+    {
+        return (int)Cost(buildings[nr].crystal, buildings[nr].factor, buildings[nr].level);
+    }
+
+    private int DeuterCost(int nr)
+    {
+        return (int)Cost(buildings[nr].deuter, buildings[nr].factor, buildings[nr].level);
+    }
+
     private float Cost(float cost, float factor, float level)
     {
         return (int)(cost * (Mathf.Exp(Mathf.Log(factor) * level)));
     }
+
 }

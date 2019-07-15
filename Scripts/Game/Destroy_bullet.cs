@@ -9,6 +9,7 @@ public class Destroy_bullet : MonoBehaviour
 
     public AudioClip antymatery_sound;
     public GameObject point, antymatery;
+    public TextScript textScript;
 
     private int max_drop_resources = 0;
 
@@ -57,20 +58,19 @@ public class Destroy_bullet : MonoBehaviour
             }
             Generate_point();
             Destroy(gameObject);
+            textScript.check = false;//po kolizji przywraca false, aby sie nie powtarzala animacja
             //Debug.Log("Niszczenie pocisku po uderzeniu");
         }
         else if (destroy.gameObject.tag == "Enemy" || destroy.gameObject.tag == "Pocisk_wroga")
         {
             Destroy(gameObject, 0.01f);
             shake.ShakeCamera();
-           // Debug.Log("Niszczenie pocisku 666");
         }
     }
     private void OnTriggerEnter2D(Collider2D destroy)
     {
         if (destroy.gameObject.tag == "Niszcz_pocisk"){
             Destroy(gameObject, 0.01f);
-           // Debug.Log("Niszczenie pocisku 666");
         }
     }
     private void Bonus()

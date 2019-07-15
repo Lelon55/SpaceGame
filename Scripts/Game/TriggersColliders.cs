@@ -50,7 +50,7 @@ public class TriggersColliders : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D playerek)
     {
-        if ((playerek.gameObject.tag == "Pocisk_wroga"|| playerek.gameObject.tag == "kometa") && menu.staty.immortal == 1)
+        if ((playerek.gameObject.tag == "Pocisk_wroga" || playerek.gameObject.tag == "kometa") && menu.staty.immortal == 1)
         {
             menu.staty.immortal = 0;
             shake.ShakeCamera();
@@ -78,7 +78,7 @@ public class TriggersColliders : MonoBehaviour
     }
 
     private void GameOver()
-    { 
+    {
         imgShip.enabled = false;
         AudioSource.PlayClipAtPoint(porazka, transform.position);
         StartCoroutine(Count());

@@ -26,7 +26,6 @@ public class GUIStructures : MonoBehaviour
     private GUIPlanetOperations GUIPlanetOperations;
 
     public Text[] text_button;
-    public Text textDebugStructures;
     public Sprite[] SpriteStructures;
 
     private void Start()
@@ -46,22 +45,22 @@ public class GUIStructures : MonoBehaviour
 
     private void Check_buttons()
     {
-        for (int ilosc = 0; ilosc < structures.Count; ilosc++)
+        for (int nr = 0; nr < structures.Count; nr++)
         {
-            if (structures[ilosc].level < 3)
+            if (structures[nr].level < 3)
             {
-                if (stats.Get_Data_From("Alliance_Antymatery") >= (structures[ilosc].antymatery * (structures[ilosc].level + 1)))
+                if (stats.Get_Data_From("Alliance_Antymatery") >= (structures[nr].antymatery * (structures[nr].level + 1)))
                 {
-                    text_button[ilosc].text = "BUY " + "(" + (structures[ilosc].level + 1) + ")";
+                    text_button[nr].text = "BUY " + "(" + (structures[nr].level + 1) + ")";
                 }
                 else
                 {
-                    text_button[ilosc].text = "EARN " + "(" + (structures[ilosc].level + 1) + ")";
+                    text_button[nr].text = "EARN " + "(" + (structures[nr].level + 1) + ")";
                 }
             }
             else
             {
-                text_button[ilosc].text = "MAX LVL";
+                text_button[nr].text = "MAX LVL";
             }
         }
     }
@@ -123,8 +122,7 @@ public class GUIStructures : MonoBehaviour
 
     public void Info_structures(int nr)
     {
-        GUIPlanetOperations.Subject_Information(0, 0, 0, Cost(structures[nr].antymatery, structures[nr].level),
-        structures[nr].name + " (" + structures[nr].level.ToString() + ")", structures[nr].description, SpriteStructures[nr]);
+        Show_Information(nr, structures[nr].description);
     }
 
     private int Cost(int cost, int level)

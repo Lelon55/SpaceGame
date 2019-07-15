@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Destroy_enemy_ship : MonoBehaviour {
+public class Destroy_enemy_ship : MonoBehaviour
+{
 
-	public int life = 5;
-	public Sprite undamaged, close_to_destruction, destroyed;
-	private SpriteRenderer ship;
-	public GameObject blockade;
+    public int life = 5;
+    public Sprite undamaged, close_to_destruction, destroyed;
+    private SpriteRenderer ship;
+    public GameObject blockade;
 
-	private statystyki staty;
+    private statystyki staty;
     private bool dropped = false;
 
     public GameObject Explosion;
 
-    private void Start(){
-		staty = GameObject.Find("spaceship").GetComponent<statystyki>();
+    private void Start()
+    {
+        staty = GameObject.Find("spaceship").GetComponent<statystyki>();
         ship = GetComponent<SpriteRenderer>();
         undamaged = ship.sprite;
-	}
+    }
 
     private void Generate_explosion()
     {
@@ -25,7 +27,8 @@ public class Destroy_enemy_ship : MonoBehaviour {
         Instantiate(Explosion, Explosion_vector, transform.rotation);
     }
 
-    private void LateUpdate(){
+    private void LateUpdate()
+    {
         switch (life)
         {
             case 5:
@@ -39,6 +42,7 @@ public class Destroy_enemy_ship : MonoBehaviour {
                 break;
         }
     }
+
     private void Destroy_ship()
     {
         if (life < 1)
@@ -52,7 +56,7 @@ public class Destroy_enemy_ship : MonoBehaviour {
 
     private int Get_Damage()//2 more damage, 1 normal damage
     {
-        if(staty.more_damage == 1)
+        if (staty.more_damage == 1)
         {
             return 2;
         }
@@ -79,7 +83,5 @@ public class Destroy_enemy_ship : MonoBehaviour {
             dropped = true;
             //Debug.Log("NISZCZENIE STATKU");
         }
-
     }
-
 }

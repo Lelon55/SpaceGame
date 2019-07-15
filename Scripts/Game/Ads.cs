@@ -16,7 +16,7 @@ public class Ads : MonoBehaviour
 	{
 		Advertisement.Initialize (ID, true);
 	}
-		
+
     public void Show_to_earn(string t_reward)
     {
         ShowOptions options = new ShowOptions();
@@ -28,25 +28,26 @@ public class Ads : MonoBehaviour
             pokazane = true;
         }
     }
-	private void Status (ShowResult wynik)
-	{
-		switch(wynik)
-		{
-		case ShowResult.Finished:
+
+    private void Status(ShowResult wynik)
+    {
+        switch (wynik)
+        {
+            case ShowResult.Finished:
                 Earn(type_reward);
                 pokazane = false;
-                Debug.Log ("Ok. Monetyzacja w toku");
+                Debug.Log("Ok. Monetyzacja w toku");
                 break;
-		case ShowResult.Skipped:
+            case ShowResult.Skipped:
                 pokazane = false;
-                Debug.Log ("Pominięto");
+                Debug.Log("Pominięto");
                 break;
-		case ShowResult.Failed:
+            case ShowResult.Failed:
                 pokazane = false;
                 Debug.Log("Nie odtworzono");
                 break;
-		}
-	}
+        }
+    }
 
     private void Earn(string t_reward)
     {
@@ -57,12 +58,10 @@ public class Ads : MonoBehaviour
                 staty.Set_Data("Crystal", staty.Get_Data_From("Crystal") + Random.Range(10, 16 + (staty.Get_Points() * 2)));
                 staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") + Random.Range(10, 16 + (staty.Get_Points() * 2)));
                 PlayerPrefs.Save();
-                Debug.Log("Zarobiłeś surowce");
                 break;
             case "antymatery":
                 staty.Change_Antymatery(Random.Range(5, (10 + staty.more_antymateries)));
                 PlayerPrefs.Save();
-                Debug.Log("Zarobiłeś antymaterie");
                 break;
             case "game_over":
                 Debug.Log("Przegrales");

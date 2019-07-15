@@ -14,7 +14,7 @@ public class Purchaser : MonoBehaviour
         GUIOverview = GameObject.Find("Scripts").GetComponent<GUIOverview>();
     }
 
-    private void Set_Options(int value)
+    private void Collect(int value)
     {
         GUIOverview.View_CanvasMessage("You've bought " + value + " Antymateries.");
         stats.Change_Antymatery(value);
@@ -27,16 +27,16 @@ public class Purchaser : MonoBehaviour
             switch (product.definition.id)
             {
                 case "1":
-                    Set_Options(50);
+                    Collect(50);
                     break;
                 case "2":
-                    Set_Options(250);
+                    Collect(250);
                     break;
                 case "3":
-                    Set_Options(1000);
+                    Collect(1000);
                     break;
                 case "4":
-                    Set_Options(10000);
+                    Collect(10000);
                     break;
                 default:
                     Debug.Log("test");

@@ -9,6 +9,7 @@ This project was created for learn C#, Unity and used plugins.
 * [Programming rules](#programming-rules)
 * [Plugins](#plugins)
 * [Version](#version)
+* [Next](#next)
 * [Status](#status)
 * [Sources](#sources)
 
@@ -34,6 +35,11 @@ I try to apply programming principles such as:
 
 ## Version
 Rev: 1.02
+
+## Next
+- PVP System,
+- Refactoring
+- Optimizing.
 
 ## Status
 Already refactoring, optimizing the code. Now, I am preparing alliance for the SpaceGame.

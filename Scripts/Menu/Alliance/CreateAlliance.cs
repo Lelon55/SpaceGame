@@ -11,17 +11,19 @@ public class CreateAlliance : MonoBehaviour
     private GUISettingsAlliance Setting_Alliance;
     private statystyki stats;
     private GUIOverview GUIOverview;
+    private GUIPlanetOperations GUIPlanetOperations;
 
     private void Start()
     {
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIOverview = GameObject.Find("Interface").GetComponent<GUIOverview>();
         Setting_Alliance = GameObject.Find("CanvasesAlliance").GetComponent<GUISettingsAlliance>();
+        GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
     }
     private void LateUpdate()
     {
-       AllianceData[0].text = Setting_Alliance.Return_Length(AllianceDataInput[0]);
-       AllianceData[1].text = Setting_Alliance.Return_Length(AllianceDataInput[1]);
+       AllianceData[0].text = GUIPlanetOperations.ReturnLength(AllianceDataInput[0]);
+       AllianceData[1].text = GUIPlanetOperations.ReturnLength(AllianceDataInput[1]);
        AllianceData[2].text = Setting_Alliance.ShowCost_CreateAllianceData();
     }
 

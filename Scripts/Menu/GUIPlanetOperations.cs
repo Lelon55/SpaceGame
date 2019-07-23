@@ -10,6 +10,7 @@ public class GUIPlanetOperations : MonoBehaviour {
     [SerializeField] private AudioSource audiosource_complete;
 
     private Ads Ads;
+    private statystyki stats;
     private GameObject[] on_off_cost = new GameObject[2]; //on or off antymatery or resources
     private Text txtMetalCost, txtCrystalCost, txtDeuterCost, txtAntymateries, txtSubjectName, txtSubjectDescription;
     private Image img;
@@ -18,6 +19,7 @@ public class GUIPlanetOperations : MonoBehaviour {
     private void Start () {
         #region Start
         Ads = GameObject.Find("Scripts").GetComponent<Ads>();
+        stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         on_off_cost[0] = GameObject.Find("Cost");
         on_off_cost[1] = GameObject.Find("CostAntymatery");
         txtMetalCost = GameObject.Find("txtMetalInformationBuyer").GetComponent<Text>();
@@ -100,6 +102,57 @@ public class GUIPlanetOperations : MonoBehaviour {
         return id == subject_id;
     }
 
+    internal int CountSpentResources(int metalCost, int crystalCost, int deuterCost)
+    {
+        return metalCost + crystalCost + deuterCost;
+    }
+
+    #endregion
+
+    #region Overview
+
+    internal Vector2 CountVector(string value1, string value2, float height)
+    {
+        return new Vector2(150f * Change_result(stats.Get_Data_From(value1), stats.Get_Data_From(value2)), height);
+    }
+
+    internal float Change_result(float value1, float value2)
+    {
+        float result = Calculate_details(value1, value2);
+        if (result > 1f)
+        {
+            return 1f;
+        }
+        return result;
+    }
+
+    internal float Calculate_details(float value_detail, float max_detail)
+    {
+        return value_detail / max_detail;
+    }
+
+    public void BtnClearInputField(InputField inputText)
+    {
+        inputText.text = "";
+    }
+
+    #endregion
+
+    #region Avatar
+    internal void SetAvatar(string path, string data, RawImage Avatar)
+    {
+        StartCoroutine(SaveAvatar(path, data, Avatar));
+    }
+
+    internal IEnumerator SaveAvatar(string path, string data, RawImage Avatar)
+    {
+        using (WWW www = new WWW(path))
+        {
+            yield return www;
+            stats.Set_String_Data(data, path);
+            Avatar.texture = www.texture;
+        }
+    }
     #endregion
 
     internal bool CheckLength(InputField value)
@@ -107,8 +160,19 @@ public class GUIPlanetOperations : MonoBehaviour {
         return value.text.Length >= 1;
     }
 
+    internal string ReturnLength(InputField TextLength)
+    {
+        return TextLength.text.Length.ToString() + "/" + TextLength.characterLimit;
+    }
+
     internal void PlaySound_Complete()
     {
         audiosource_complete.PlayOneShot(sound_complete, 0.7F);
     }
+
+    internal void Clear()
+    {
+
+    }
+
 }

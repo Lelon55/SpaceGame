@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class GUIOperations : MonoBehaviour {
 
     private GUIOverview GUIOverview;
     [SerializeField] internal GameObject RewardLvlUp;
+    internal bool connection;
+    [SerializeField] private Canvas ConnectionInternet;
 
     private void Start()
     {
@@ -15,12 +17,20 @@ public class GUIOperations : MonoBehaviour {
 
     public void BtnClose(Canvas Canvas)
     {
-        if (GUIOverview.page > 0)
+        if (SceneManager.GetActiveScene().name == "Planet")
+        {
+            if (GUIOverview.page > 0)
+            {
+                Canvas.enabled = false;
+                RewardLvlUp.SetActive(false);
+            }
+        }
+        else
         {
             Canvas.enabled = false;
-            RewardLvlUp.SetActive(false);
         }
     }
+
     public void BtnOpen(Canvas Canvas)//open pop up canvas at planet
     {
         Canvas.enabled = true;
@@ -49,9 +59,16 @@ public class GUIOperations : MonoBehaviour {
         }
     }
 
-
-
-
-
-
+    public void CheckInternetConnection()
+    {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            ConnectionInternet.enabled = true;
+            connection = false;
+        }
+        else
+        {
+            connection = true;
+        }
+    }
 }

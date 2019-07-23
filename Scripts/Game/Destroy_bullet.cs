@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class Destroy_bullet : MonoBehaviour
 {
     private statystyki staty;
-    public int luck, drop_metal, drop_crystal, drop_deuter;
+    private int luck;
 
     public AudioClip antymatery_sound;
     public GameObject point, antymatery;
@@ -20,25 +20,30 @@ public class Destroy_bullet : MonoBehaviour
         shake = GameObject.Find("Main Camera").GetComponent<Shake_Camera>();
         Bonus();
     }
+
     private void Generate_point()
     {
         Vector2 point_vector = new Vector2(transform.position.x, transform.position.y);
         Instantiate(point, point_vector, transform.rotation);
     }
+
     private void Generate_antymatery()
     {
         Vector2 antymatery_vector = new Vector2(transform.position.x+1f, transform.position.y);
         Instantiate(antymatery, antymatery_vector, transform.rotation);
     }
-    private void Generate_resources(){
-		drop_metal = Random.Range(0, (5+ ((staty.Get_Data_From("Mining Technology") * 2)+ max_drop_resources)));
-		drop_crystal = Random.Range(0, (5+ ((staty.Get_Data_From("Mining Technology") * 2) + max_drop_resources)));
-        drop_deuter = Random.Range(0, (5+ ((staty.Get_Data_From("Mining Technology") * 2) + max_drop_resources)));
 
-        staty.Add_Dropped_Metal(drop_metal);
-        staty.Add_Dropped_Crystal(drop_crystal);
-        staty.Add_Dropped_Deuter(drop_deuter);
+    private int GetDrop()
+    {
+        return Random.Range(0, (5 + ((staty.Get_Data_From("Mining Technology") * 2) + max_drop_resources)));
     }
+
+    private void Generate_resources(){
+        staty.Add_Dropped_Metal(GetDrop());
+        staty.Add_Dropped_Crystal(GetDrop());
+        staty.Add_Dropped_Deuter(GetDrop());
+    }
+
     private void OnCollisionEnter2D(Collision2D destroy)
     {
         if (destroy.gameObject.tag == "kometa")
@@ -52,7 +57,6 @@ public class Destroy_bullet : MonoBehaviour
                     AudioSource.PlayClipAtPoint(antymatery_sound, transform.position);
                     staty.Add_Dropped_Antymatery(1);
                     Generate_antymatery();
-                   // Debug.Log("DODANO ANTYMATERIE SZANS" + staty.Get_Chance_Drop());
                 }
                 Generate_resources();
             }
@@ -67,12 +71,14 @@ public class Destroy_bullet : MonoBehaviour
             shake.ShakeCamera();
         }
     }
+
     private void OnTriggerEnter2D(Collider2D destroy)
     {
         if (destroy.gameObject.tag == "Niszcz_pocisk"){
             Destroy(gameObject, 0.01f);
         }
     }
+
     private void Bonus()
     {
         if(staty.more_resource == 1)

@@ -58,11 +58,13 @@ public class statystyki : MonoBehaviour {
             }
         }
     }
+
     private void New_game()
     {//nowa gra lub pierwsze odpalenie w zaleznosci jak kto rozumie
-        if (Get_Data_From("Ship_Id") <= 0)
+        if (Get_Data_From("New_game") <= 0)
         { //przed kupnem bierze 1 statek ze statami ze sklepu //mozna podciagnac to co gracz otrzymuje na starcie gry
             PlayerPrefs.SetInt("Ship_Id", 0); //statek
+            PlayerPrefs.SetInt("Laser", 0);
             PlayerPrefs.SetString("Ship_Name", "Light Hunter");
             PlayerPrefs.SetInt("Life", 1);
             PlayerPrefs.SetInt("Ch_Drop", 5);
@@ -82,6 +84,9 @@ public class statystyki : MonoBehaviour {
             PlayerPrefs.SetInt("Quest", 0);
             PlayerPrefs.SetInt("Exp", 0);
             PlayerPrefs.SetInt("Level", 1);
+            PlayerPrefs.SetInt("Wins", 0);
+            PlayerPrefs.SetInt("Loses", 0);
+            PlayerPrefs.SetString("Admiral_Avatar", "http://www.owiki.de/images/2/28/Flottenadmiral.PNG");
             PlayerPrefs.SetInt("Collected_Antymatery", 0);
             PlayerPrefs.SetString("Planet_Name", "set planet name");
             PlayerPrefs.SetString("Admiral_Name", "set admiral name");
@@ -92,10 +97,8 @@ public class statystyki : MonoBehaviour {
             PlayerPrefs.SetString("message_on_start", "false");
             PlayerPrefs.SetString("sound_option", "false");
             PlayerPrefs.SetInt("first_tutorial", 0); //jesli 0 tzn, ze nie wlaczono tutorialu
-        }
-        if (Get_Data_From("Laser") <= 0)
-        { //przed kupnem bierze 1 laser
-            PlayerPrefs.SetInt("Laser", 0);
+            PlayerPrefs.SetInt("New_game", 1);
+            PlayerPrefs.GetString("Avatar", "file:///");
         }
     }
 

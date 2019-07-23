@@ -5,13 +5,13 @@ using UnityEngine.Advertisements;
 
 public class Ads : MonoBehaviour 
 {
-	const string ID = "2678027";
-	const string ads = "rewardedVideo";
-	internal bool pokazane;
+	private const string ID = "2678027";
+    private const string ads = "rewardedVideo";
+    private string type_reward = "resources";
+    internal bool pokazane;
 
 	public statystyki staty;
-    private string type_reward = "resources";
-	
+
 	private void Start()
 	{
 		Advertisement.Initialize (ID, true);
@@ -54,13 +54,13 @@ public class Ads : MonoBehaviour
         switch (t_reward)
         {
             case "resources":
-                staty.Set_Data("Metal", staty.Get_Data_From("Metal") + Random.Range(10, 16 + (staty.Get_Points() * 2)));
-                staty.Set_Data("Crystal", staty.Get_Data_From("Crystal") + Random.Range(10, 16 + (staty.Get_Points() * 2)));
-                staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") + Random.Range(10, 16 + (staty.Get_Points() * 2)));
+                staty.Set_Data("Metal", staty.Get_Data_From("Metal") + Random.Range(10, 15 + (staty.Get_Points() * 2)));
+                staty.Set_Data("Crystal", staty.Get_Data_From("Crystal") + Random.Range(10, 15 + (staty.Get_Points() * 2)));
+                staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") + Random.Range(10, 15 + (staty.Get_Points() * 2)));
                 PlayerPrefs.Save();
                 break;
             case "antymatery":
-                staty.Change_Antymatery(Random.Range(5, (10 + staty.more_antymateries)));
+                staty.Change_Antymatery(Random.Range(3, 10 + staty.more_antymateries));
                 PlayerPrefs.Save();
                 break;
             case "game_over":

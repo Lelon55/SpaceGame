@@ -7,6 +7,7 @@ public class GUISettingsAlliance : MonoBehaviour {
 
     private statystyki stats;
     private GUIOverview GUIOverview;
+    private GUIPlanetOperations GUIPlanetOperations;
 
     public Canvas CanvasDelete;
     public InputField[] AllianceDataInput;
@@ -19,14 +20,15 @@ public class GUISettingsAlliance : MonoBehaviour {
     private void Start () {
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIOverview = GameObject.Find("Interface").GetComponent<GUIOverview>();
+        GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
         Get_Alliance_Data();
     }
 
     private void LateUpdate()
     {
         ActivePanels();
-        txtLength[0].text = Return_Length(AllianceDataInput[0]);
-        txtLength[1].text = Return_Length(AllianceDataInput[1]);
+        txtLength[0].text = GUIPlanetOperations.ReturnLength(AllianceDataInput[0]);
+        txtLength[1].text = GUIPlanetOperations.ReturnLength(AllianceDataInput[1]);
         AllianceData[1].text = ShowCost_SetAllianceData();
     }
 
@@ -51,11 +53,6 @@ public class GUISettingsAlliance : MonoBehaviour {
     internal string ShowCost_SetAllianceData()
     {
         return stats.Get_Data_From("Alliance_Antymatery") + "/" + cost;
-    }
-
-    internal string Return_Length(InputField TextLength)
-    {
-        return TextLength.text.Length.ToString() + "/" + TextLength.characterLimit;
     }
 
     internal bool Check_Name(InputField AllianceName)

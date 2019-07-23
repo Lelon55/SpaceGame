@@ -43,20 +43,25 @@ public class GUIMenu : MonoBehaviour {
         Application.OpenURL(url);
     }
 
+    public void BtnGame(int number)
+    {
+        GUIOperations.CheckInternetConnection();
+        if (GUIOperations.connection == true)
+        {
+            if (number == 3 && PlayerPrefs.GetInt("first_tutorial") == 0)
+            {
+                page = number;
+            }
+            else if (number == 3 && PlayerPrefs.GetInt("first_tutorial") == 1)
+            {
+                SceneManager.LoadScene("Planet");
+            }
+        }
+    }
+
     public void BtnPages(int number)
     {
-        if (number == 3 && PlayerPrefs.GetInt("first_tutorial") == 0)
-        {
-            page = number;
-        }
-        else if (number == 3 && PlayerPrefs.GetInt("first_tutorial") == 1)
-        {
-            SceneManager.LoadScene("Planet");
-        }
-        else if (number <= 2 && PlayerPrefs.GetInt("first_tutorial") <= 1)
-        {
-            page = number;
-        }
+        page = number;
     }
 
     private void LateUpdate()

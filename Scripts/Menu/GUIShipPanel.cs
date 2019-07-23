@@ -13,11 +13,12 @@ public class GUIShipPanel : MonoBehaviour
     private int activate_bonus;
 
     private statystyki stats;
-    private Operations operations = new Operations();
+    private GUIPlanetOperations GUIPlanetOperations;
 
     private void Start()
     {
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
+        GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
     }
 
     private bool Set_BonusPanel()
@@ -30,9 +31,9 @@ public class GUIShipPanel : MonoBehaviour
         imgShip.sprite = skin_ship[stats.Get_Data_From("Ship_Id")];
         imgLaser.sprite = skin_laser[stats.Get_Data_From("Laser")];
         Txtship_name.text = stats.Get_String_Data_From("Ship_Name");
-        panelConsumption.rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Consumption(), 15), 20f);
-        panelLife.rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Life(), 6), 20f);
-        panelChanceDrop.rectTransform.sizeDelta = new Vector2(150f * operations.Change_result(stats.Get_Chance_Drop(), 18), 20f);
+        panelConsumption.rectTransform.sizeDelta = new Vector2(150f * GUIPlanetOperations.Change_result(stats.Get_Consumption(), 15), 20f);
+        panelLife.rectTransform.sizeDelta = new Vector2(150f * GUIPlanetOperations.Change_result(stats.Get_Life(), 6), 20f);
+        panelChanceDrop.rectTransform.sizeDelta = new Vector2(150f * GUIPlanetOperations.Change_result(stats.Get_Chance_Drop(), 18), 20f);
     }
 
     private void Info_BonusPanel()

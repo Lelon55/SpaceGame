@@ -81,7 +81,6 @@ public class Destroy_enemy_ship : MonoBehaviour
             staty.Add_Dropped_Deuter(10);
             staty.Set_Data("Destroyed_Enemy_Ships", staty.Get_Data_From("Destroyed_Enemy_Ships") + 1);
             dropped = true;
-            //Debug.Log("NISZCZENIE STATKU");
         }
     }
 }

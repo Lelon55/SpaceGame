@@ -8,7 +8,7 @@ public class Quest : MonoBehaviour {
 private class List_quest
     {
         public int id;
-        public string name_quest, description, category_quest;
+        public string quest_name, description, category_quest;
 		public int require_explored_moons, require_comet, require_enemy_ships, require_bought_ships; 
 		public int require_metal_mine, require_crystal_mine, require_deuter_sintetizer, require_laboratory, require_hangar; 
 		public int require_terraformer, require_field_planet, require_spent_resources, require_antymatery;
@@ -18,7 +18,7 @@ private class List_quest
         public List_quest(int i, string nq, string dc, string cq, int r_explored_moons, int r_comet, int r_enemy, int r_bought, int r_metal_mine, int r_crystal_mine, int r_deuter_sintetizer, int r_laboratory, int r_hangar, int r_terraformer, int r_field, int r_spent_resources, int r_antymatery, int re_metal, int re_crystal, int re_deuter, int re_exp, bool done)
         {
             this.id = i;
-            this.name_quest = nq;
+            this.quest_name = nq;
             this.description = dc;
 			this.category_quest = cq;
 			this.require_explored_moons = r_explored_moons;
@@ -43,7 +43,7 @@ private class List_quest
     }
 
     private List<List_quest> quest = new List<List_quest>();
-	public Text text_reward_metal, text_reward_crystal, text_reward_deuter, text_reward_exp, text_name_quest, text_description;
+	public Text text_reward_metal, text_reward_crystal, text_reward_deuter, text_reward_exp, text_quest_name, text_description;
 	public Button btn_reward_quest;
 	public Sprite[] SpriteCategoryQuest;
 	public Image imgCategoryQuest;
@@ -95,7 +95,7 @@ private class List_quest
 
     private void Info_quest(int nr)
     {
-        text_name_quest.text = quest[nr].name_quest;
+        text_quest_name.text = quest[nr].quest_name;
         text_description.text = quest[nr].description;
         text_reward_metal.text = quest[nr].reward_metal.ToString("N0");
         text_reward_crystal.text = quest[nr].reward_crystal.ToString("N0");
@@ -138,9 +138,9 @@ private class List_quest
     {
         if (staty.Get_Data_From("Quest") >= quest.Count())
         {
-            staty.Set_Data("Quest", staty.Get_Data_From("Quest") + 0);
+            staty.Set_Data("Quest", staty.Get_Data_From("Quest"));
         }
-        else if (staty.Get_Data_From("Quest") < quest.Count())
+        else if (staty.Get_Data_From("Quest") < quest.Count()-1)
         {
             staty.Set_Data("Quest", staty.Get_Data_From("Quest") + 1);
         }
@@ -167,7 +167,6 @@ private class List_quest
         }
     }
 
-	// Update is called once per frame
 	private void LateUpdate () {
 		On_off_BtnQuest(staty.Get_Data_From("Quest"));
 		Info_quest(staty.Get_Data_From("Quest"));

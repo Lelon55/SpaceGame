@@ -8,8 +8,7 @@ public class TriggersColliders : MonoBehaviour
     private SpriteRenderer imgShip;
     private Shake_Camera shake;
 
-    public AudioClip porazka;
-    public AudioClip powerup;
+    public AudioClip porazka, powerup;
     public GameObject ExploredMoons;
 
     private void Start()
@@ -32,6 +31,11 @@ public class TriggersColliders : MonoBehaviour
         AudioSource.PlayClipAtPoint(powerup, menu.staty.transform.position);
     }
 
+    private int GetDrop()
+    {
+        return Random.Range(2, 6 + (menu.staty.Get_Data_From("Mining Technology") * 2));
+    }
+
     private void OnTriggerEnter2D(Collider2D playerek)
     {
         if (SceneManager.GetActiveScene().name != "Menu")
@@ -42,7 +46,7 @@ public class TriggersColliders : MonoBehaviour
             }
             if (playerek.gameObject.tag == "Moon" || playerek.gameObject.tag == "Tesla")
             {
-                Drop_from_moon(Random.Range(2, 6 + (menu.staty.Get_Data_From("Mining Technology") * 2)), Random.Range(2, 6 + (menu.staty.Get_Data_From("Mining Technology") * 2)), Random.Range(2, menu.staty.Get_Data_From("Mining Technology") * 2));
+                Drop_from_moon();
                 Generate_explored_text();
             }
         }
@@ -88,13 +92,12 @@ public class TriggersColliders : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    private void Drop_from_moon(int drop_metal, int drop_crystal, int drop_deuter)
+    private void Drop_from_moon()
     {
-        menu.staty.Add_Dropped_Metal(drop_metal);
-        menu.staty.Add_Dropped_Crystal(drop_crystal);
-        menu.staty.Add_Dropped_Deuter(drop_deuter);
+        menu.staty.Add_Dropped_Metal(GetDrop());
+        menu.staty.Add_Dropped_Crystal(GetDrop());
+        menu.staty.Add_Dropped_Deuter(GetDrop());
         menu.staty.Set_Data("Explored_Moons", menu.staty.Get_Data_From("Explored_Moons") + 1);
-        Debug.Log("M " + drop_metal + " C " + drop_crystal + " D " + drop_deuter);
     }
 }
 	

@@ -6,18 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class GUIOverview : MonoBehaviour
 {
-    public Canvas CanvasMessage, CanvasNameOfAdmiral;
+    public Canvas CanvasMessage, CanvasAdmiralName;
     public GameObject Earth;
     [Space]
     public Canvas[] Canvases;
     public GameObject[] antymatery_field_planet;
-    public Text[] resources;
+    public Text[] resources, Antymatery;
 
     [SerializeField] internal int page;
 
     public InputField planet_name;
     public InputField admiral_name;
-    public Text txt_planet_name, txt_admiral_name, txt_planet_name_Overview, textAntymatery, textMessage, textLevelUpAdmiral;
+    public Text txt_planet_name, txt_admiral_name, txt_planet_name_Overview, textMessage;
 
     public AudioClip sound_message;
     public AudioSource audiosource_sound_message;
@@ -25,7 +25,6 @@ public class GUIOverview : MonoBehaviour
     public Text[] txt_Length; //0 admiral, 1 planet
 
     private int luck = 0;
-    private bool random = false;
     private const int cost = 1;
     private statystyki staty;
     private GUIOperations GUIoper;
@@ -39,26 +38,26 @@ public class GUIOverview : MonoBehaviour
         GUIoper = GameObject.Find("Interface").GetComponent<GUIOperations>();
 
         txt_planet_name_Overview.text = staty.Get_String_Data_From("Planet_Name");
-        if (staty.Get_String_Data_From("Admiral_Name") == "" || staty.Get_String_Data_From("Admiral_Name") == "set admiral name")
+        if (staty.Get_String_Data_From("Admiral_Name") == "set admiral name")
         {
-            CanvasNameOfAdmiral.enabled = true;
+            CanvasAdmiralName.enabled = true;
             page = 0;
         }
-        else if (staty.Get_String_Data_From("Admiral_Name") != "" && staty.Get_String_Data_From("Admiral_Name") != "set admiral name")
+        else if (staty.Get_String_Data_From("Admiral_Name") != "set admiral name")
         {
-            CanvasNameOfAdmiral.enabled = false;
+            CanvasAdmiralName.enabled = false;
             page = 1;
         }
     }
 
     public void BtnFirstName(Canvas Canvases)
     {
-        if (page == 0 && (staty.Get_String_Data_From("Admiral_Name") != "" && staty.Get_String_Data_From("Admiral_Name") != "set admiral name"))
+        if (page == 0 && staty.Get_String_Data_From("Admiral_Name") != "set admiral name")
         {
             Canvases.enabled = false;
             page = 1;
         }
-        else if (page == 0 && (staty.Get_String_Data_From("Admiral_Name") == "" || staty.Get_String_Data_From("Admiral_Name") == "set admiral name"))
+        else if (page == 0 &&  staty.Get_String_Data_From("Admiral_Name") == "set admiral name")
         {
             Canvases.enabled = false;
             page = 0;
@@ -67,8 +66,8 @@ public class GUIOverview : MonoBehaviour
 
     private void Show_Chars_Limit()
     {
-        txt_Length[0].text = planet_name.text.Length.ToString() + "/" + planet_name.characterLimit;
-        txt_Length[1].text = admiral_name.text.Length.ToString() + "/" + admiral_name.characterLimit;
+        txt_Length[0].text = GUIPlanetOperations.ReturnLength(planet_name);
+        txt_Length[1].text = GUIPlanetOperations.ReturnLength(admiral_name);
     }
 
     private void MovePlanet()
@@ -189,12 +188,12 @@ public class GUIOverview : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public void BtnMultiWar()
+    public void BtnPVP()
     {
         if (staty.Get_Data_From("Antymatery") >= 5)
         {
             staty.Change_Antymatery(-5);
-            BtnOpenScene("Game");
+            BtnOpenScene("PVP");
         }
         else if (staty.Get_Data_From("Antymatery") < 5)
         {
@@ -202,7 +201,7 @@ public class GUIOverview : MonoBehaviour
         }
     }
 
-    public void ChangeNamePlanetCorrect()
+    public void ChangePlanetName()
     {
         if (GUIPlanetOperations.CheckLength(planet_name) && staty.Get_Data_From("Antymatery") >= cost)
         {
@@ -221,13 +220,13 @@ public class GUIOverview : MonoBehaviour
         }
         //PlayerPrefs.DeleteAll();
     }
-    public void ChangeNameOfAdmiralCorrect()
+
+    public void ChangeAdmiralName()
     {
         if (GUIPlanetOperations.CheckLength(admiral_name))
         {
             staty.Set_String_Data("Admiral_Name", admiral_name.text);
-            CanvasNameOfAdmiral.enabled = false;
-
+            CanvasAdmiralName.enabled = false;
             if (staty.Get_String_Data_From("message_on_start") == "false")
             {
                 View_CanvasMessage("Dear " + admiral_name.text + ".\n On start you received 100 all resources to upgrade your planet.");
@@ -244,18 +243,20 @@ public class GUIOverview : MonoBehaviour
         }
     }
 
+    private int LuckyConsumption()
+    {
+        if (luck < 90)
+        {
+            return (int)staty.Get_Consumption();
+        }
+        return 0;
+    }
+
     public void BtnExploration()
     {
         if (staty.Get_Data_From("Deuter") >= (int)staty.Get_Consumption())
         {
-            if (luck < 90)
-            {
-                staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") - (int)staty.Get_Consumption());
-            }
-            else if (luck >= 90)
-            {
-                staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") - 0);
-            }
+            staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") - LuckyConsumption());
             BtnOpenScene("Game");
         }
         else
@@ -287,15 +288,23 @@ public class GUIOverview : MonoBehaviour
         page = number;
     }
 
+    public void LoadAntymatery()//after clicked on Button PVP or Change Planet Name
+    {
+        Antymatery[0].text = staty.Get_Data_From("Antymatery") + " / " + cost;
+        Antymatery[1].text = staty.Get_Data_From("Antymatery") + " / " + 5;
+    }
+
+    public void LoadCostExploration()
+    {
+        if (staty.free_exploration == 1)
+        {
+            luck = Random.Range(1, 100);
+            Debug.Log("" + luck);
+        }
+    }
+
     private void LateUpdate()
     {
         Check_capacity();
-        textAntymatery.text = staty.Get_Data_From("Antymatery") + " / " + cost;
-        if (staty.free_exploration == 1 && random == false)
-        {
-            luck = Random.Range(1, 100);
-            random = true;
-            Debug.Log("" + luck);
-        }
     }
 }

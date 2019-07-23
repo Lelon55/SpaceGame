@@ -5,7 +5,7 @@ using UnityEngine.Advertisements;
 
 public class Ads : MonoBehaviour 
 {
-	private const string ID = "2678027";
+    private const string ID = "2678027";
     private const string ads = "rewardedVideo";
     private string type_reward = "resources";
     internal bool pokazane;

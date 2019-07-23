@@ -46,13 +46,13 @@ public class GUIMenu : MonoBehaviour {
     public void BtnGame(int number)
     {
         GUIOperations.CheckInternetConnection();
-        if (GUIOperations.connection == true)
+        if (GUIOperations.connection == true && number == 3)
         {
-            if (number == 3 && PlayerPrefs.GetInt("first_tutorial") == 0)
+            if (PlayerPrefs.GetInt("first_tutorial") == 0)
             {
                 page = number;
             }
-            else if (number == 3 && PlayerPrefs.GetInt("first_tutorial") == 1)
+            else if (PlayerPrefs.GetInt("first_tutorial") == 1)
             {
                 SceneManager.LoadScene("Planet");
             }
@@ -75,6 +75,7 @@ public class GUIMenu : MonoBehaviour {
         AudioListener.volume = volume;
         BtnSoundOption.sprite = ImgBtnSoundOption[nr_img];
         PlayerPrefs.SetString("sound_option", option);
+        PlayerPrefs.Save();
     }
 
     private void Sound_mute(bool mute)
@@ -87,7 +88,6 @@ public class GUIMenu : MonoBehaviour {
         {
             Set_Sound_Options(1f, 1, "false");
         }
-        PlayerPrefs.Save();
     }
 
     private void Application_Quit()

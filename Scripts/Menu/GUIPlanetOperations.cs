@@ -170,9 +170,4 @@ public class GUIPlanetOperations : MonoBehaviour {
         audiosource_complete.PlayOneShot(sound_complete, 0.7F);
     }
 
-    internal void Clear()
-    {
-
-    }
-
 }

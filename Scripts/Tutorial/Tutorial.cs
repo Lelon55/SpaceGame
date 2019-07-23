@@ -49,6 +49,15 @@ public class Tutorial : MonoBehaviour {
         StartCoroutine(Turn_Text());
     }
 
+    private string ReturnText()
+    {
+        if (nr_mission >= 6)
+        {
+            return "tutorial complete";
+        }
+        return "mission complete";
+    }
+
     private void Check_Mission(int _nr_mission, float _value_bullets, int _value_comets, bool _wall)
     {
         if (nr_mission == _nr_mission && _done == false && Generate_bullet.min_bullets >= _value_bullets && staty.Get_Comets() >= _value_comets && _wall == wall)
@@ -59,14 +68,7 @@ public class Tutorial : MonoBehaviour {
 
     private void Success()
     {
-        if (nr_mission < 6)
-        {
-            Show_text("mission complete");
-        }
-        else if (nr_mission == 6)
-        {
-            Show_text("tutorial complete");
-        }
+        Show_text(ReturnText());
         _done = true;
         StartCoroutine(Skip_Tutorial());
         AudioSource.PlayClipAtPoint(powerup, staty.transform.position);

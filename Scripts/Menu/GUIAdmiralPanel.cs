@@ -74,7 +74,10 @@ public class GUIAdmiralPanel : MonoBehaviour
 
     public void ChangeAvatar()
     {
-        GUIPlanetOperations.SetAvatar(path.text, "Admiral_Avatar", Avatar);
+        if (path.text != "")
+        {
+            GUIPlanetOperations.SetAvatar(path.text, "Admiral_Avatar", Avatar);
+        }
     }
 }
 

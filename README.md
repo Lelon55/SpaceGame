@@ -13,7 +13,7 @@ This project was created for learn C#, Unity and used plugins.
 * [Sources](#sources)
 
 ## Required
-Systems: Android (from 4.1 to the highest version);
+Systems: Android (from 4.3 to the highest version);
 Free space: 30 MB.
 
 ## Technologies
@@ -33,7 +33,7 @@ I try to apply programming principles such as:
 - SunShine Android Native Share.
 
 ## Version
-Rev: 1.01
+Rev: 1.02
 
 ## Status
 Already refactoring, optimizing the code. Now, I am preparing alliance for the SpaceGame.

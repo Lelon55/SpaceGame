@@ -23,7 +23,8 @@ public class Tutorial : MonoBehaviour {
     private Generate_bullet Generate_bullet;
     private statystyki staty;
 
-    private void Start () {
+    private void Start()
+    {
         staty = GameObject.Find("spaceship").GetComponent<statystyki>();
         Generate_bullet = GameObject.Find("shot").GetComponent<Generate_bullet>();
         staty.Set_Data("on_off_shot", 0);
@@ -33,16 +34,17 @@ public class Tutorial : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Player")
         {
-            Show_text(txtMission);
+            ShowText(txtMission);
             staty.mission += 1;
         }
     }
 
-    private void FixedUpdate () {
+    private void FixedUpdate()
+    {
         Check_Mission(staty.mission, value_bullets, value_comets, value_wall);
-	}
+    }
 
-    private void Show_text(string _txtMission)
+    private void ShowText(string _txtMission)
     {
         TxtMission.text = _txtMission;
         anim.SetBool("check", true);
@@ -60,15 +62,15 @@ public class Tutorial : MonoBehaviour {
 
     private void Check_Mission(int _nr_mission, float _value_bullets, int _value_comets, bool _wall)
     {
-        if (nr_mission == _nr_mission && _done == false && Generate_bullet.min_bullets >= _value_bullets && staty.Get_Comets() >= _value_comets && _wall == wall)
+        if (nr_mission == _nr_mission && _done == false && Generate_bullet.MinBullets >= _value_bullets && staty.Get_Comets() >= _value_comets && _wall == wall)
         {
-           Success();
+            Success();
         }
     }
 
     private void Success()
     {
-        Show_text(ReturnText());
+        ShowText(ReturnText());
         _done = true;
         StartCoroutine(Skip_Tutorial());
         AudioSource.PlayClipAtPoint(powerup, staty.transform.position);

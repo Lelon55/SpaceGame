@@ -28,7 +28,6 @@ public class GUIResearch : MonoBehaviour
     private GUIPlanetOperations GUIPlanetOperations;
 
     public GameObject[] researches;
-
     public Text[] text_button;
     public Sprite[] SpriteResearches;
 
@@ -45,7 +44,7 @@ public class GUIResearch : MonoBehaviour
         GUIPlanetOperations.View_Subject(researches, "Laboratory");
     }
 
-    private void Check_research() //nadpisuje poziomy
+    private void CheckResearch()
     {
         research[0].level = stats.Get_Data_From("Shield");
         research[1].level = (int)stats.Get_Float_Data_From("Combustion");
@@ -54,13 +53,13 @@ public class GUIResearch : MonoBehaviour
         research[4].level = stats.Get_Data_From("Antymatery Technology");
     }
 
-    private void Check_buttons() // zmienia tylko nazwy w tekscie
+    private void CheckButtons() // zmienia tylko nazwy w tekscie
     {
         for (int nr = 0; nr < research.Count(); nr++)
         {
             if (research[nr].level < 3)
             {
-                if (stats.Get_Data_From("Metal") >= (research[nr].metal * (research[nr].level + 1)) && stats.Get_Data_From("Crystal") >= (research[nr].crystal * (research[nr].level + 1)) && stats.Get_Data_From("Deuter") >= (research[nr].deuter * (research[nr].level + 1)))
+                if (stats.Get_Data_From("Metal") >= MetalCost(nr) && stats.Get_Data_From("Crystal") >= CrystalCost(nr) && stats.Get_Data_From("Deuter") >= DeuterCost(nr))
                 {
                     text_button[nr].text = "BUY " + "(" + (research[nr].level + 1) + ")";
                 }
@@ -87,8 +86,8 @@ public class GUIResearch : MonoBehaviour
 
     private void Show_Information(int nr, string description)
     {
-      GUIPlanetOperations.Subject_Information(MetalCost(nr), CrystalCost(nr), DeuterCost(nr), 0, 
-      research[nr].name.ToUpper() + " (" + research[nr].level.ToString() + ")", description, SpriteResearches[nr]);
+        GUIPlanetOperations.Subject_Information(MetalCost(nr), CrystalCost(nr), DeuterCost(nr), 0,
+        research[nr].name.ToUpper() + " (" + research[nr].level.ToString() + ")", description, SpriteResearches[nr]);
     }
 
     private void Set_Technology(int nr)
@@ -130,8 +129,8 @@ public class GUIResearch : MonoBehaviour
 
     private void LateUpdate()
     {
-        Check_research();
-        Check_buttons();
+        CheckResearch();
+        CheckButtons();
         GUIPlanetOperations.View_Subject(researches, "Laboratory");
     }
 

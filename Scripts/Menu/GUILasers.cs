@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 
-public class GUILasers : MonoBehaviour {
+public class GUILasers : MonoBehaviour
+{
     private class List_lasers
     {
         public int id, price, require_lvl;
@@ -16,7 +17,7 @@ public class GUILasers : MonoBehaviour {
             this.id = i;
             this.name = n;
             this.price = p;
-			this.require_lvl = rl;
+            this.require_lvl = rl;
             this.haveornothave = hoh;
         }
     }
@@ -24,11 +25,12 @@ public class GUILasers : MonoBehaviour {
     private List<List_lasers> lasers = new List<List_lasers>();
     private statystyki staty;
     public Text[] text_button;
-	public GameObject[] laserss;
-    public Text textDebugLasers;
+    public GameObject[] laserss;
+    public Sprite[] SpriteLasers;
     private GUIPlanetOperations GUIPlanetOperations;
 
-    private void Start () {
+    private void Start()
+    {
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
         lasers.Add(new List_lasers(0, "RED", 5, 0, true));
@@ -49,7 +51,7 @@ public class GUILasers : MonoBehaviour {
         }
     }
 
-	public void BuyLasers(int nr)
+    public void BuyLasers(int nr)
     {
         if (!lasers[nr].haveornothave)
         {
@@ -59,18 +61,19 @@ public class GUILasers : MonoBehaviour {
                 staty.Change_Antymatery(-lasers[nr].price);
                 staty.Set_Data("Laser", lasers[nr].id);
                 PlayerPrefs.Save();
-                textDebugLasers.text = "BOUGHT: " + lasers[nr].name;
+                GUIPlanetOperations.Subject_Information(0, 0, 0, lasers[nr].price, lasers[nr].name, "Bought!", SpriteLasers[nr]);
 
             }
             else if (staty.Get_Data_From("Antymatery") < lasers[nr].price)
             {
                 GUIPlanetOperations.Turn_On_Ads("antymatery");
-                textDebugLasers.text = "EARN: " + lasers[nr].name;
+                GUIPlanetOperations.Subject_Information(0, 0, 0, lasers[nr].price, lasers[nr].name, "Too Small Antymatery!", SpriteLasers[nr]);
             }
-        } 
+        }
     }
 
-    private void LateUpdate () {
+    private void LateUpdate()
+    {
         Check_laser();
         GUIPlanetOperations.View_Subject(laserss, "Laser Technology");
     }

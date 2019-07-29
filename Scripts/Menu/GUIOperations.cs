@@ -36,16 +36,6 @@ public class GUIOperations : MonoBehaviour {
         Canvas.enabled = true;
     }
 
-    internal Color Set_Color(float value1, float value2)
-    {
-        //checking which number is greater
-        if (value1 >= value2)
-        {
-            return new Color(255f, 0f, 0f, 255f);
-        }
-        return new Color(255f, 255f, 255f, 255f);
-    }
-
     internal bool Open_Canvas(int page, int nr) //open canvas which is correct with currently page
     {
         return page == nr; //if correct return true if not correct return false

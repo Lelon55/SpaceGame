@@ -23,7 +23,6 @@ public class GUIMerchant : MonoBehaviour {
     private statystyki staty;
     private GUIOverview GUIOverview;
 
-    // Use this for initialization
     private void Start()
     {
         GUIOverview = GameObject.Find("Interface").GetComponent<GUIOverview>();

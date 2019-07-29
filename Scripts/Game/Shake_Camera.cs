@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shake_Camera : MonoBehaviour {
-
+public class Shake_Camera : MonoBehaviour
+{
     private Animator shake_animator;
 
     private void Start()
@@ -15,5 +15,4 @@ public class Shake_Camera : MonoBehaviour {
     {
         shake_animator.SetTrigger("shake");
     }
-
 }

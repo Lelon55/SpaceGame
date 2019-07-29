@@ -42,7 +42,7 @@ public class TriggersColliders : MonoBehaviour
         {
             if (playerek.gameObject.tag == "Scena" || playerek.gameObject.tag == "Magnetic_storm")
             {
-                menu.staty.ilosc_wczytanych_scen += 1;
+                menu.staty.LoadedScene += 1;
             }
             if (playerek.gameObject.tag == "Moon" || playerek.gameObject.tag == "Tesla")
             {

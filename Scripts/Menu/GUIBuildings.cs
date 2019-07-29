@@ -48,10 +48,10 @@ public class GUIBuildings : MonoBehaviour
         buildings.Add(new List_buildings(6, "CRYSTAL STORE", "Each level of crystal store gives +1000 free space of magazine.", 75, 50, 0, 0, 1000, 1.5f, 1));
         buildings.Add(new List_buildings(7, "DEUTER STORE", "Each level of deuter store gives +1000 free space of magazine.", 75, 50, 50, 0, 1000, 1.5f, 1));
         buildings.Add(new List_buildings(8, "TERRAFORMER", "Each level of terraformer gives +15 free space of planet to build new buildings.", 0, 450, 600, 0, 0, 1.2f, 1));
-        Check_buttons();
+        CheckButtons();
     }
 
-    private void Check_buildings() //nadpisuje poziomy
+    private void CheckBuildings() //nadpisuje poziomy
     {
         buildings[0].level = stats.Get_Data_From("Metal_Mine");
         buildings[1].level = stats.Get_Data_From("Crystal_Mine");
@@ -64,7 +64,7 @@ public class GUIBuildings : MonoBehaviour
         buildings[8].level = stats.Get_Data_From("Terraformer");
     }
 
-    private void Check_buttons() // zmienia tylko nazwy w tekscie
+    private void CheckButtons()
     {
         for (int nr = 0; nr < buildings.Count; nr++)
         {
@@ -84,10 +84,6 @@ public class GUIBuildings : MonoBehaviour
             {
                 text_button[nr].text = "BUY " + "(" + (buildings[nr].level + 1) + ")";
             }
-           /* else if ((stats.Get_Data_From("Free_Field") <= 0) && (buildings[nr].name == "TERRAFORMER") && stats.Get_Data_From("Metal") < MetalCost(nr) || stats.Get_Data_From("Crystal") < CrystalCost(nr) || stats.Get_Data_From("Deuter") < DeuterCost(nr))//zrobic pozniej aby nie zaliczalo terraformera
-            {
-                text_button[nr].text = "BUY " + "(" + (buildings[nr].level + 1) + ")";
-            }*/
         }
     }
     private void Set_Properties_Up(int nr)
@@ -114,7 +110,7 @@ public class GUIBuildings : MonoBehaviour
 
     public void BuyBuilding(int nr)
     {
-        if (stats.Get_Data_From("Free_Field") >= 1 && (stats.Get_Data_From("Metal") >= MetalCost(nr) && stats.Get_Data_From("Crystal") >= CrystalCost(nr) && stats.Get_Data_From("Deuter") >= DeuterCost(nr)))
+        if (stats.Get_Data_From("Free_Field") >= 1 && stats.Get_Data_From("Metal") >= MetalCost(nr) && stats.Get_Data_From("Crystal") >= CrystalCost(nr) && stats.Get_Data_From("Deuter") >= DeuterCost(nr))
         {
             Set_Properties_Up(nr);
             switch (nr)
@@ -122,46 +118,35 @@ public class GUIBuildings : MonoBehaviour
                 case 0:
                     stats.Set_Data("Metal_Mine", buildings[nr].level);
                     stats.Set_Data("Income_Metal", buildings[nr].income * buildings[nr].level);
-                    Set_Free_Field(-1);
                     break;
                 case 1:
                     stats.Set_Data("Crystal_Mine", buildings[nr].level);
                     stats.Set_Data("Income_Crystal", buildings[nr].income * buildings[nr].level);
-                    Set_Free_Field(-1);
                     break;
                 case 2:
                     stats.Set_Data("Deuter_Sintetizer", buildings[nr].level);
                     stats.Set_Data("Income_Deuter", buildings[nr].income * buildings[nr].level);
-                    Set_Free_Field(-1);
                     break;
                 case 3:
                     stats.Set_Data("Laboratory", buildings[nr].level);
-                    Set_Free_Field(-1);
                     break;
                 case 4:
                     stats.Set_Data("Hangar", buildings[nr].level);
-                    Set_Free_Field(-1);
                     break;
                 case 5:
                     stats.Set_Data("Metal_Store", buildings[nr].level);
                     stats.Set_Data("Capacity_Metal", stats.Get_Data_From("Capacity_Metal") + buildings[nr].capacity);
-                    Set_Free_Field(-1);
                     break;
                 case 6:
                     stats.Set_Data("Crystal_Store", buildings[nr].level);
                     stats.Set_Data("Capacity_Crystal", stats.Get_Data_From("Capacity_Crystal") + buildings[nr].capacity);
-                    Set_Free_Field(-1);
                     break;
                 case 7:
                     stats.Set_Data("Deuter_Store", buildings[nr].level);
                     stats.Set_Data("Capacity_Deuter", stats.Get_Data_From("Capacity_Deuter") + buildings[nr].capacity);
-                    Set_Free_Field(-1);
-                    break;
-                case 8:
-                    stats.Set_Data("Terraformer", buildings[nr].level);
-                    Set_Free_Field(15);
                     break;
             }
+            Set_Free_Field(-1);
             Show_Information(nr, "Bought!");
             GUIPlanetOperations.PlaySound_Complete();
         }
@@ -172,10 +157,27 @@ public class GUIBuildings : MonoBehaviour
         }
     }
 
+    public void BuyTerraformer(int nr)
+    {
+        if (stats.Get_Data_From("Free_Field") >= 0 && stats.Get_Data_From("Metal") >= MetalCost(nr) && stats.Get_Data_From("Crystal") >= CrystalCost(nr) && stats.Get_Data_From("Deuter") >= DeuterCost(nr))
+        {
+            Set_Properties_Up(nr);
+            stats.Set_Data("Terraformer", buildings[nr].level);
+            Set_Free_Field(15);
+            Show_Information(nr, "Bought!");
+            GUIPlanetOperations.PlaySound_Complete();
+        }
+        else if (stats.Get_Data_From("Free_Field") >= 0 && (stats.Get_Data_From("Metal") < MetalCost(nr) || stats.Get_Data_From("Crystal") < CrystalCost(nr) || stats.Get_Data_From("Deuter") < DeuterCost(nr)))
+        {
+            GUIPlanetOperations.Turn_On_Ads("resources");
+            Show_Information(nr, "Earn!");
+        }
+    }
+
     private void LateUpdate()
     {
-        Check_buildings();
-        Check_buttons();
+        CheckBuildings();
+        CheckButtons();
     }
 
     public void Info_buildings(int nr)
@@ -200,6 +202,6 @@ public class GUIBuildings : MonoBehaviour
 
     private float Cost(float cost, float factor, float level)
     {
-        return (int)(cost * (Mathf.Exp(Mathf.Log(factor) * level)));
+        return (int)(cost * Mathf.Exp(Mathf.Log(factor) * level));
     }
 }

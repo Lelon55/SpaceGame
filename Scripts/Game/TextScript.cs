@@ -32,15 +32,15 @@ public class TextScript : MonoBehaviour
     {
         if ((stats.Get_Distance() == 150 || stats.Get_Distance() == 500) && !check)
         {
-            Set_Text("speed up");
+            SetText("speed up");
         }
         if ((stats.Get_Comets() == 50 || stats.Get_Comets() == 150) && !check)
         {
-            Set_Text("fast reload");
+            SetText("fast reload");
         }
     }
 
-    private void Set_Text(string text)
+    private void SetText(string text)
     {
         txtPowerUP.text = text;
         Start_animations();

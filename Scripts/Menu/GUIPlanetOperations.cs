@@ -4,7 +4,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GUIPlanetOperations : MonoBehaviour {
+public class GUIPlanetOperations : MonoBehaviour
+{
     #region Variables
     [SerializeField] private AudioClip sound_complete;
     [SerializeField] private AudioSource audiosource_complete;
@@ -13,10 +14,11 @@ public class GUIPlanetOperations : MonoBehaviour {
     private statystyki stats;
     private GameObject[] on_off_cost = new GameObject[2]; //on or off antymatery or resources
     private Text txtMetalCost, txtCrystalCost, txtDeuterCost, txtAntymateries, txtSubjectName, txtSubjectDescription;
-    private Image img;
+    private Image Image;
     #endregion
-    // Use this for initialization
-    private void Start () {
+
+    private void Start()
+    {
         #region Start
         Ads = GameObject.Find("Scripts").GetComponent<Ads>();
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
@@ -28,7 +30,7 @@ public class GUIPlanetOperations : MonoBehaviour {
         txtAntymateries = GameObject.Find("txtAntymaterylInformationBuyer").GetComponent<Text>();
         txtSubjectName = GameObject.Find("txtSubjectNameInformationBuyer").GetComponent<Text>();
         txtSubjectDescription = GameObject.Find("txtDescriptionInformationBuyer").GetComponent<Text>();
-        img = GameObject.Find("imgInformationBuyer").GetComponent<Image>();
+        Image = GameObject.Find("imgInformationBuyer").GetComponent<Image>();
         #endregion
     }
 
@@ -50,7 +52,7 @@ public class GUIPlanetOperations : MonoBehaviour {
         txtAntymateries.text = AntymateryCost.ToString();
         txtSubjectName.text = SubjectName;
         txtSubjectDescription.text = SubjectDescription;
-        img.sprite = SubjectPhoto;
+        Image.sprite = SubjectPhoto;
     }
     internal bool Check_Levels(string name, int level)
     {
@@ -116,6 +118,11 @@ public class GUIPlanetOperations : MonoBehaviour {
         return new Vector2(150f * Change_result(stats.Get_Data_From(value1), stats.Get_Data_From(value2)), height);
     }
 
+    internal Vector2 CountVector(string value1, float value2, float height)
+    {
+        return new Vector2(150f * Change_result(stats.Get_Data_From(value1), value2), height);
+    }
+
     internal float Change_result(float value1, float value2)
     {
         float result = Calculate_details(value1, value2);
@@ -134,6 +141,15 @@ public class GUIPlanetOperations : MonoBehaviour {
     public void BtnClearInputField(InputField inputText)
     {
         inputText.text = "";
+    }
+
+    internal Color Set_Color(float value1, float value2)
+    {
+        if (value1 >= value2)
+        {
+            return new Color(255f, 0f, 0f, 255f);
+        }
+        return new Color(255f, 255f, 255f, 255f);
     }
 
     #endregion
@@ -169,5 +185,4 @@ public class GUIPlanetOperations : MonoBehaviour {
     {
         audiosource_complete.PlayOneShot(sound_complete, 0.7F);
     }
-
 }

@@ -25,7 +25,7 @@ public class GUIAdmiralPanel : MonoBehaviour
 
     private void Exp_AdmiralPanel()
     {
-        panelAdmiralExp.rectTransform.sizeDelta = GUIPlanetOperations.CountVector("Exp", stats.Count_Exp_To_Next_Level().ToString(),30f);
+        panelAdmiralExp.rectTransform.sizeDelta = GUIPlanetOperations.CountVector("Exp", stats.Count_Exp_To_Next_Level(), 30f);
     }
 
     private int RewardLevel()

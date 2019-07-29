@@ -10,12 +10,7 @@ public class statystyki : MonoBehaviour {
     internal int Life;
     internal int ticks;
     internal int mission;
-
-    internal float gravity_bullet = -1.0f;
-    public int ilosc_wczytanych_scen = 0;
-
-    private Rigidbody2D gravity_ship;
-    internal ControlShip ControlShip;
+    public int LoadedScene = 0;
 
     #region Gameplay Variables
     private int Dropped_Metal;
@@ -41,29 +36,13 @@ public class statystyki : MonoBehaviour {
         ticks = Get_Data_From("ticks");
         Life = Get_Life();
         New_game();
-
-        if (SceneManager.GetActiveScene().name != "Planet")
-        {
-            gravity_ship = GetComponent<Rigidbody2D>();
-            ControlShip = GetComponent<ControlShip>();
-            ControlShip.speed.x = Get_Data_From("Speed_Ship");
-            //zmiana rozmiaru koliderow
-            if (Get_String_Data_From("Ship_Name") != "Balcon Triple Heavy")
-            {
-                GetComponent<BoxCollider2D>().size = new Vector2(3f, 2.3f);
-            }
-            else
-            {
-                GetComponent<BoxCollider2D>().size = new Vector2(1.5f, 2f);
-            }
-        }
     }
 
     private void New_game()
-    {//nowa gra lub pierwsze odpalenie w zaleznosci jak kto rozumie
+    {
         if (Get_Data_From("New_game") <= 0)
-        { //przed kupnem bierze 1 statek ze statami ze sklepu //mozna podciagnac to co gracz otrzymuje na starcie gry
-            PlayerPrefs.SetInt("Ship_Id", 0); //statek
+        {
+            PlayerPrefs.SetInt("Ship_Id", 0);
             PlayerPrefs.SetInt("Laser", 0);
             PlayerPrefs.SetString("Ship_Name", "Light Hunter");
             PlayerPrefs.SetInt("Life", 1);
@@ -222,40 +201,12 @@ public class statystyki : MonoBehaviour {
     }
     #endregion
 
-    private void Properties_ship()
-    {
-        if (Get_Distance() >= 150)
-        {
-            gravity_ship.gravityScale = -15f;
-            gravity_bullet = -2f;
-        }
-        else if (Get_Distance() >= 500)
-        {
-            gravity_ship.gravityScale = -20f;
-            gravity_bullet = -2.5f;
-        }
-        else if (Get_Distance() < 150)
-        {
-            gravity_ship.gravityScale = -10f;
-            gravity_bullet = -1.0f;
-        }
-
-        if (Get_Data_From("Life") == 1 && Get_String_Data_From("Ship_Name") != "Light Hunter")
-        {
-            ControlShip.speed.x = 7;
-        }
-    }
-
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name != "Planet")
+        if (SceneManager.GetActiveScene().name == "Game")
         {
-            if (SceneManager.GetActiveScene().name == "Game")
-            {
-                Check_Records(Get_Score(), "Player_Record");
-                Check_Records(Get_Comets(), "Comets_Record");
-            }
-            Properties_ship();
+            Check_Records(Get_Score(), "Player_Record");
+            Check_Records(Get_Comets(), "Comets_Record");
         }
     }
 

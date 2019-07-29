@@ -22,8 +22,8 @@ public class Skins : MonoBehaviour {
     {
         if (SceneManager.GetActiveScene().name != "Menu")
         {
-            Check_immortal();
-            Check_Sprite_Ship();
+            CheckImmortal();
+            CheckSpriteShip();
         }
     }
 
@@ -59,7 +59,7 @@ public class Skins : MonoBehaviour {
         }
     }
 
-    private void Check_immortal()
+    private void CheckImmortal()
     {
         if (staty.immortal == 1)
         {
@@ -84,7 +84,8 @@ public class Skins : MonoBehaviour {
             aura.sprite = auras[0];
         }
     }
-    private void Check_Sprite_Ship()
+
+    private void CheckSpriteShip()
     {
         if (!done)
         {

@@ -67,7 +67,7 @@ public class GUIShips : MonoBehaviour {
         if (!ships[nr].haveornothave)
         {
             if (staty.Get_Data_From("Antymatery") >= ships[nr].price)
-            {//zmien
+            {
                 ships[nr].haveornothave = true;
                 staty.Change_Antymatery(-ships[nr].price);
                 staty.Set_Data("Ship_Id", ships[nr].id);
@@ -84,7 +84,7 @@ public class GUIShips : MonoBehaviour {
             else if (staty.Get_Data_From("Antymatery") < ships[nr].price)
             {
                 GUIPlanetOperations.Turn_On_Ads("antymatery");
-                GUIPlanetOperations.Subject_Information(0, 0, 0, ships[nr].price, ships[nr].name, "Not Enough Antymatery!", SpriteShips[nr]);
+                GUIPlanetOperations.Subject_Information(0, 0, 0, ships[nr].price, ships[nr].name, "Too Small Antymatery", SpriteShips[nr]);
             }
         }
     }

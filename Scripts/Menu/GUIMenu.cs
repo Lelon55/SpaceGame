@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GUIMenu : MonoBehaviour {
+public class GUIMenu : MonoBehaviour
+{
     private int page = 0; //1menu, 2tworcy, 3politykaprywatnosc
 
     public Canvas[] Canvases;
@@ -12,7 +13,8 @@ public class GUIMenu : MonoBehaviour {
     public Sprite[] ImgBtnSoundOption;
     private GUIOperations GUIOperations;
 
-    private void Start() {
+    private void Start()
+    {
         GUIOperations = GameObject.Find("Interface").GetComponent<GUIOperations>();
         mute_sound = bool.Parse(PlayerPrefs.GetString("sound_option"));
         Sound_mute(mute_sound);
@@ -95,8 +97,6 @@ public class GUIMenu : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
-        } 
+        }
     }
 }
-
-

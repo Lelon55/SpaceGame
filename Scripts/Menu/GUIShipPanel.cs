@@ -4,7 +4,7 @@ using System.Collections;
 
 public class GUIShipPanel : MonoBehaviour
 {
-    public Text Txtship_name;
+    public Text ShipName;
     public Image imgShip, imgLaser;
     public Sprite[] skin_ship, skin_laser;
     public Image panelConsumption, panelLife, panelChanceDrop;
@@ -30,7 +30,7 @@ public class GUIShipPanel : MonoBehaviour
     {
         imgShip.sprite = skin_ship[stats.Get_Data_From("Ship_Id")];
         imgLaser.sprite = skin_laser[stats.Get_Data_From("Laser")];
-        Txtship_name.text = stats.Get_String_Data_From("Ship_Name");
+        ShipName.text = stats.Get_String_Data_From("Ship_Name");
         panelConsumption.rectTransform.sizeDelta = new Vector2(150f * GUIPlanetOperations.Change_result(stats.Get_Consumption(), 15), 20f);
         panelLife.rectTransform.sizeDelta = new Vector2(150f * GUIPlanetOperations.Change_result(stats.Get_Life(), 6), 20f);
         panelChanceDrop.rectTransform.sizeDelta = new Vector2(150f * GUIPlanetOperations.Change_result(stats.Get_Chance_Drop(), 18), 20f);

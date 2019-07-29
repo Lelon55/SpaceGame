@@ -7,17 +7,16 @@ using UnityEngine.SceneManagement;
 public class GUIOverview : MonoBehaviour
 {
     public Canvas CanvasMessage, CanvasAdmiralName;
-    public GameObject Earth;
     [Space]
     public Canvas[] Canvases;
     public GameObject[] antymatery_field_planet;
-    public Text[] resources, Antymatery;
+    public Text[] Antymatery;
 
     [SerializeField] internal int page;
 
     public InputField planet_name;
     public InputField admiral_name;
-    public Text txt_planet_name, txt_admiral_name, txt_planet_name_Overview, textMessage;
+    public Text PlanetName, textMessage;
 
     public AudioClip sound_message;
     public AudioSource audiosource_sound_message;
@@ -25,11 +24,10 @@ public class GUIOverview : MonoBehaviour
     public Text[] txt_Length; //0 admiral, 1 planet
 
     private int luck = 0;
-    private const int cost = 1;
+    internal const int cost = 1;
     private statystyki staty;
     private GUIOperations GUIoper;
     private GUIPlanetOperations GUIPlanetOperations;
-    private float rotation_y;
 
     private void Start()
     {
@@ -37,7 +35,7 @@ public class GUIOverview : MonoBehaviour
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIoper = GameObject.Find("Interface").GetComponent<GUIOperations>();
 
-        txt_planet_name_Overview.text = staty.Get_String_Data_From("Planet_Name");
+        PlanetName.text = staty.Get_String_Data_From("Planet_Name");
         if (staty.Get_String_Data_From("Admiral_Name") == "set admiral name")
         {
             CanvasAdmiralName.enabled = true;
@@ -57,37 +55,22 @@ public class GUIOverview : MonoBehaviour
             Canvases.enabled = false;
             page = 1;
         }
-        else if (page == 0 &&  staty.Get_String_Data_From("Admiral_Name") == "set admiral name")
+        else if (page == 0 && staty.Get_String_Data_From("Admiral_Name") == "set admiral name")
         {
             Canvases.enabled = false;
             page = 0;
         }
     }
 
-    private void Show_Chars_Limit()
+    private void ShowCharsLimit()
     {
         txt_Length[0].text = GUIPlanetOperations.ReturnLength(planet_name);
         txt_Length[1].text = GUIPlanetOperations.ReturnLength(admiral_name);
     }
 
-    private void MovePlanet()
-    {
-        if (page == 1)
-        {
-            Earth.SetActive(true);
-            rotation_y += Time.deltaTime * 60;
-            Earth.transform.rotation = Quaternion.Euler(0, rotation_y, -30f);
-        }
-        else
-        {
-            Earth.SetActive(false);
-        }
-    }
-
     private void Update()
     {
-        MovePlanet();
-        Show_Chars_Limit();
+        ShowCharsLimit();
         GUIoper.Steer_Canvas(Canvases, page);
         Steer_Panel_Resources();
     }
@@ -112,20 +95,6 @@ public class GUIOverview : MonoBehaviour
             antymatery_field_planet[1].SetActive(false);
             antymatery_field_planet[2].SetActive(true);
         }
-    }
-
-    private void Check_capacity()
-    {
-        //set color after checked which value is greater
-        resources[0].color = GUIoper.Set_Color(staty.Get_Data_From("Metal"), staty.Get_Data_From("Capacity_Metal"));
-        resources[1].color = GUIoper.Set_Color(staty.Get_Data_From("Crystal"), staty.Get_Data_From("Capacity_Crystal"));
-        resources[2].color = GUIoper.Set_Color(staty.Get_Data_From("Deuter"), staty.Get_Data_From("Capacity_Deuter"));
-
-        resources[0].text = staty.Get_Data_From("Metal").ToString("N0");
-        resources[1].text = staty.Get_Data_From("Crystal").ToString("N0");
-        resources[2].text = staty.Get_Data_From("Deuter").ToString("N0");
-        resources[3].text = staty.Get_Data_From("Free_Field").ToString("N0");
-        resources[4].text = staty.Get_Data_From("Antymatery").ToString("N0");
     }
 
     internal void View_CanvasMessage(string text)
@@ -206,7 +175,7 @@ public class GUIOverview : MonoBehaviour
         if (GUIPlanetOperations.CheckLength(planet_name) && staty.Get_Data_From("Antymatery") >= cost)
         {
             staty.Set_String_Data("Planet_Name", planet_name.text);
-            txt_planet_name_Overview.text = planet_name.text;
+            PlanetName.text = planet_name.text;
             staty.Change_Antymatery(-cost);
             View_CanvasMessage("Changed name");
         }
@@ -301,10 +270,5 @@ public class GUIOverview : MonoBehaviour
             luck = Random.Range(1, 100);
             Debug.Log("" + luck);
         }
-    }
-
-    private void LateUpdate()
-    {
-        Check_capacity();
     }
 }

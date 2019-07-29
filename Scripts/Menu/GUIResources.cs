@@ -4,17 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class GUIResources : MonoBehaviour {
-	private statystyki stats;
+public class GUIResources : MonoBehaviour
+{
+    private statystyki stats;
     private GUIPlanetOperations GUIPlanetOperations;
 
-    public Text[] txtIncomeResource, txtActuallyResource;
-	public Text textIncomeResources;
-
+    public Text[] IncomeResource, ActuallyResource, ResourcesAtPanel;
     public Image[] PanelResource;
 
-	// Use this for initialization
-	private void Start () {
+    private void Start()
+    {
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
     }
@@ -29,28 +28,50 @@ public class GUIResources : MonoBehaviour {
         return stats.Get_Data_From(resource).ToString("N0") + " / " + stats.Get_Data_From(capacity);
     }
 
-    private void Info_ResourcesPanel ()
+    private void SetColourCapacity()
+    {
+        ResourcesAtPanel[0].color = GUIPlanetOperations.Set_Color(stats.Get_Data_From("Metal"), stats.Get_Data_From("Capacity_Metal"));
+        ResourcesAtPanel[1].color = GUIPlanetOperations.Set_Color(stats.Get_Data_From("Crystal"), stats.Get_Data_From("Capacity_Crystal"));
+        ResourcesAtPanel[2].color = GUIPlanetOperations.Set_Color(stats.Get_Data_From("Deuter"), stats.Get_Data_From("Capacity_Deuter"));
+    }
+
+    private void CheckCapacity()
+    {
+        ResourcesAtPanel[0].text = stats.Get_Data_From("Metal").ToString("N0");
+        ResourcesAtPanel[1].text = stats.Get_Data_From("Crystal").ToString("N0");
+        ResourcesAtPanel[2].text = stats.Get_Data_From("Deuter").ToString("N0");
+        ResourcesAtPanel[3].text = stats.Get_Data_From("Free_Field").ToString("N0");
+        ResourcesAtPanel[4].text = stats.Get_Data_From("Antymatery").ToString("N0");
+    }
+
+    private void InfoResourcesPanel()
     {
         PanelResource[0].rectTransform.sizeDelta = GUIPlanetOperations.CountVector("Metal", "Capacity_Metal", 30f);
         PanelResource[1].rectTransform.sizeDelta = GUIPlanetOperations.CountVector("Crystal", "Capacity_Crystal", 30f);
         PanelResource[2].rectTransform.sizeDelta = GUIPlanetOperations.CountVector("Deuter", "Capacity_Deuter", 30f);
     }
-	
-	private void Print_Resources()
+
+    private void ShowIncome()
     {
-        txtIncomeResource[0].text = ShowIncome("Income_Metal");
-        txtIncomeResource[1].text = ShowIncome("Income_Crystal");
-        txtIncomeResource[2].text = ShowIncome("Income_Deuter");
-
-        txtActuallyResource[0].text = ShowFillingOfCapacities("Metal", "Capacity_Metal");
-        txtActuallyResource[1].text = ShowFillingOfCapacities("Crystal", "Capacity_Crystal");
-        txtActuallyResource[2].text = ShowFillingOfCapacities("Deuter", "Capacity_Deuter");
-
-        textIncomeResources.text = "INCOME: " + stats.ticks;
+        IncomeResource[0].text = ShowIncome("Income_Metal");
+        IncomeResource[1].text = ShowIncome("Income_Crystal");
+        IncomeResource[2].text = ShowIncome("Income_Deuter");
+        IncomeResource[3].text = "INCOME: " + stats.ticks;
     }
 
-	private void LateUpdate () {
-        Info_ResourcesPanel();
-        Print_Resources();
+    private void FillingOfCapacities()
+    {
+        ActuallyResource[0].text = ShowFillingOfCapacities("Metal", "Capacity_Metal");
+        ActuallyResource[1].text = ShowFillingOfCapacities("Crystal", "Capacity_Crystal");
+        ActuallyResource[2].text = ShowFillingOfCapacities("Deuter", "Capacity_Deuter");
+    }
+
+    private void LateUpdate()
+    {
+        SetColourCapacity();
+        CheckCapacity();
+        InfoResourcesPanel();
+        FillingOfCapacities();
+        ShowIncome();
     }
 }

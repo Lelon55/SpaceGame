@@ -34,7 +34,7 @@ I try to apply programming principles such as:
 - SunShine Android Native Share.
 
 ## Version
-Rev: 1.02
+Rev: 1.03 EXP
 
 ## Next
 - PVP System,

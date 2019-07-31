@@ -243,4 +243,22 @@ public class statystyki : MonoBehaviour {
         more_resource = Set_Bonus("Mining Technology");
         more_antymateries = Set_Bonus("Antymatery Technology");
     }
+
+    internal int LoadLuckyForConsumption()
+    {
+        if (free_exploration == 1)
+        {
+            return Random.Range(1, 100);
+        }
+        return 0;
+    }
+
+    internal int LuckyConsumption()
+    {
+        if (LoadLuckyForConsumption() < 90)
+        {
+            return (int)Get_Consumption();
+        }
+        return 0;
+    }
 }

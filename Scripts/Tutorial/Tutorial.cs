@@ -49,6 +49,7 @@ public class Tutorial : MonoBehaviour {
         TxtMission.text = _txtMission;
         anim.SetBool("check", true);
         StartCoroutine(Turn_Text());
+        AudioSource.PlayClipAtPoint(powerup, staty.transform.position);
     }
 
     private string ReturnText()

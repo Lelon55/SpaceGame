@@ -20,7 +20,7 @@ public class TextScript : MonoBehaviour
         txtPowerUP = GameObject.Find("txtPowerUp").GetComponent<Text>();
     }
 
-    private void Start_animations()
+    private void StartAnimations()
     {
         animator.SetBool("check", true);
         check = animator.GetBool("check");
@@ -43,7 +43,7 @@ public class TextScript : MonoBehaviour
     private void SetText(string text)
     {
         txtPowerUP.text = text;
-        Start_animations();
+        StartAnimations();
     }
 
     private IEnumerator Throw()

@@ -5,44 +5,36 @@ using UnityEngine.SceneManagement;
 public class Destroy_bullet : MonoBehaviour
 {
     private statystyki staty;
-    private int luck;
 
     public AudioClip antymatery_sound;
     public GameObject point, antymatery;
     public TextScript textScript;
 
-    private int max_drop_resources = 0;
-
     private Shake_Camera shake;
+    private GUIOperations GUIOperations;
+
     private void Start()
     {
         staty = GameObject.Find("spaceship").GetComponent<statystyki>();
         shake = GameObject.Find("Main Camera").GetComponent<Shake_Camera>();
-        Bonus();
-    }
-
-    private void Generate_point()
-    {
-        Vector2 point_vector = new Vector2(transform.position.x, transform.position.y);
-        Instantiate(point, point_vector, transform.rotation);
-    }
-
-    private void Generate_antymatery()
-    {
-        Vector2 antymatery_vector = new Vector2(transform.position.x + 1f, transform.position.y);
-        Instantiate(antymatery, antymatery_vector, transform.rotation);
+        GUIOperations = GameObject.Find("spaceship").GetComponent<GUIOperations>();
     }
 
     private int GetDrop()
     {
-        return Random.Range(0, 5 + ((staty.Get_Data_From("Mining Technology") * 2) + max_drop_resources));
+        return Random.Range(0, 5 + (staty.Get_Data_From("Mining Technology") * 2) + ReturnMaxDropResources());
     }
 
-    private void Generate_resources()
+    private void GenerateResources()
     {
         staty.Add_Dropped_Metal(GetDrop());
         staty.Add_Dropped_Crystal(GetDrop());
         staty.Add_Dropped_Deuter(GetDrop());
+    }
+
+    private int LuckyAntymatery()
+    {
+        return Random.Range(1, 100);
     }
 
     private void OnCollisionEnter2D(Collision2D destroy)
@@ -52,16 +44,15 @@ public class Destroy_bullet : MonoBehaviour
             staty.Add_Comets(1);
             if (SceneManager.GetActiveScene().name == "Game")
             {
-                luck = Random.Range(1, 100);
-                if (luck < staty.Get_Chance_Drop())
+                if (LuckyAntymatery() < staty.Get_Chance_Drop())
                 {//np 5% szansy na drop z antymaterii
                     AudioSource.PlayClipAtPoint(antymatery_sound, transform.position);
                     staty.Add_Dropped_Antymatery(1);
-                    Generate_antymatery();
+                    GUIOperations.Generate(transform.position.x + 1f, transform.position.y, transform.rotation, antymatery);
                 }
-                Generate_resources();
+                GenerateResources();
             }
-            Generate_point();
+            GUIOperations.Generate(transform.position.x + 0f, transform.position.y, transform.rotation, point);
             Destroy(gameObject);
             textScript.check = false;//po kolizji przywraca false, aby sie nie powtarzala animacja
         }
@@ -80,11 +71,12 @@ public class Destroy_bullet : MonoBehaviour
         }
     }
 
-    private void Bonus()
+    private int ReturnMaxDropResources()
     {
         if (staty.more_resource == 1)
         {
-            max_drop_resources = 5;
+            return 5;
         }
+        return 0;
     }
 }

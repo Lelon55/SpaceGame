@@ -16,14 +16,13 @@ public class GUIOverview : MonoBehaviour
 
     public InputField planet_name;
     public InputField admiral_name;
-    public Text PlanetName, textMessage;
+    public Text PlanetName, TextMessage;
 
     public AudioClip sound_message;
     public AudioSource audiosource_sound_message;
 
     public Text[] txt_Length; //0 admiral, 1 planet
 
-    private int luck = 0;
     internal const int cost = 1;
     private statystyki staty;
     private GUIOperations GUIoper;
@@ -36,6 +35,11 @@ public class GUIOverview : MonoBehaviour
         GUIoper = GameObject.Find("Interface").GetComponent<GUIOperations>();
 
         PlanetName.text = staty.Get_String_Data_From("Planet_Name");
+        SetAdmiralName();
+    }
+
+    private void SetAdmiralName()
+    {
         if (staty.Get_String_Data_From("Admiral_Name") == "set admiral name")
         {
             CanvasAdmiralName.enabled = true;
@@ -100,7 +104,7 @@ public class GUIOverview : MonoBehaviour
     internal void View_CanvasMessage(string text)
     {
         CanvasMessage.enabled = true;
-        textMessage.text = text;
+        TextMessage.text = text;
         audiosource_sound_message.PlayOneShot(sound_message, 0.7F);
     }
 
@@ -212,20 +216,11 @@ public class GUIOverview : MonoBehaviour
         }
     }
 
-    private int LuckyConsumption()
-    {
-        if (luck < 90)
-        {
-            return (int)staty.Get_Consumption();
-        }
-        return 0;
-    }
-
     public void BtnExploration()
     {
-        if (staty.Get_Data_From("Deuter") >= (int)staty.Get_Consumption())
+        if (staty.Get_Data_From("Deuter") >= staty.LuckyConsumption()) //albo 0 jak ma szczescie, albo zwraca wartosc GetConsumption
         {
-            staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") - LuckyConsumption());
+            staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") - staty.LuckyConsumption());
             BtnOpenScene("Game");
         }
         else
@@ -265,10 +260,6 @@ public class GUIOverview : MonoBehaviour
 
     public void LoadCostExploration()
     {
-        if (staty.free_exploration == 1)
-        {
-            luck = Random.Range(1, 100);
-            Debug.Log("" + luck);
-        }
+        staty.LoadLuckyForConsumption();
     }
 }

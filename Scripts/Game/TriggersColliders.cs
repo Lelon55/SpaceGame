@@ -8,27 +8,22 @@ public class TriggersColliders : MonoBehaviour
     private SpriteRenderer imgShip;
     private Shake_Camera shake;
 
-    public AudioClip porazka, powerup;
+    public AudioClip Defeat, PowerUp;
     public GameObject ExploredMoons;
+    private GUIOperations GUIOperations;
 
     private void Start()
     {
         imgShip = GetComponent<SpriteRenderer>();
         menu = GameObject.Find("Main Camera").GetComponent<GUIGame>();
         shake = GameObject.Find("Main Camera").GetComponent<Shake_Camera>();
+        GUIOperations = GameObject.Find("spaceship").GetComponent<GUIOperations>();
     }
 
     private IEnumerator Count()
     {
         yield return new WaitForSeconds(0.1f);
         menu.page = 2;
-    }
-
-    private void Generate_explored_text()
-    {
-        Vector2 ExploredMoons_vector = new Vector2(transform.position.x, transform.position.y + 3.5f);
-        Instantiate(ExploredMoons, ExploredMoons_vector, transform.rotation);
-        AudioSource.PlayClipAtPoint(powerup, menu.staty.transform.position);
     }
 
     private int GetDrop()
@@ -46,8 +41,8 @@ public class TriggersColliders : MonoBehaviour
             }
             if (playerek.gameObject.tag == "Moon" || playerek.gameObject.tag == "Tesla")
             {
-                Drop_from_moon();
-                Generate_explored_text();
+                DropFromMoon();
+                GUIOperations.Generate(transform.position.x, transform.position.y + 3.5f, transform.rotation, ExploredMoons);
             }
         }
     }
@@ -84,7 +79,7 @@ public class TriggersColliders : MonoBehaviour
     private void GameOver()
     {
         imgShip.enabled = false;
-        AudioSource.PlayClipAtPoint(porazka, transform.position);
+        AudioSource.PlayClipAtPoint(Defeat, transform.position);
         StartCoroutine(Count());
         StopCoroutine(Count());
         Handheld.Vibrate();
@@ -92,7 +87,7 @@ public class TriggersColliders : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    private void Drop_from_moon()
+    private void DropFromMoon()
     {
         menu.staty.Add_Dropped_Metal(GetDrop());
         menu.staty.Add_Dropped_Crystal(GetDrop());

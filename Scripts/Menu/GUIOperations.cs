@@ -14,7 +14,7 @@ public class GUIOperations : MonoBehaviour {
     {
         GUIOverview = GameObject.Find("Interface").GetComponent<GUIOverview>();
     }
-
+    #region Canvas
     public void BtnClose(Canvas Canvas)
     {
         if (SceneManager.GetActiveScene().name == "Planet")
@@ -48,7 +48,9 @@ public class GUIOperations : MonoBehaviour {
             Canvases[ilosc].enabled = Open_Canvas(page, ilosc);
         }
     }
+    #endregion
 
+    #region InternetConnection
     public void CheckInternetConnection()
     {
         if (Application.internetReachability == NetworkReachability.NotReachable)
@@ -61,4 +63,13 @@ public class GUIOperations : MonoBehaviour {
             connection = true;
         }
     }
+    #endregion
+
+    #region Game
+    internal void Generate(float pos_x, float pos_y, Quaternion rotation, GameObject gameobject)
+    {
+        Vector2 vector = new Vector2(pos_x, pos_y);
+        Instantiate(gameobject, vector, rotation);
+    }
+    #endregion
 }

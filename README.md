@@ -37,7 +37,7 @@ I try to apply programming principles such as:
 Rev: 1.03 EXP
 
 ## Next
-- PVM from alliance,
+- PVM for alliance,
 - PVP System,
 - Refactoring
 - Optimizing.

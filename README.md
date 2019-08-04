@@ -1,4 +1,4 @@
-# SpaceGame
+# Space Game
 ![Logo SpaceGame](./for_readme/baner.png)
 
 SpaceGame is my first project which available on Google Play.
@@ -37,6 +37,7 @@ I try to apply programming principles such as:
 Rev: 1.03 EXP
 
 ## Next
+- PVM for alliance,
 - PVP System,
 - Refactoring
 - Optimizing.

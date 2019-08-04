@@ -74,7 +74,7 @@ private class List_quest
 		quest.Add(new List_quest(16, "terraformer", "small planet? build terraformer (1)", "planet", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 150, 300, 50, false));
 		quest.Add(new List_quest(17, "resources", "spent 10.000 resources", "planet", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10000, 0, 500, 250, 125, 25, false));
 		quest.Add(new List_quest(18, "hangar", "build hangar (3)", "planet", 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 250, 150, 100, 30, false));
-		quest.Add(new List_quest(19, "antymatery", "get antymatery (20) from comets or ads", "antymatery", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 500, 250, 250, 25, false));
+		quest.Add(new List_quest(19, "antymatery", "get antymatery (25) from comets or ads", "antymatery", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 500, 250, 250, 25, false));
 		quest.Add(new List_quest(20, "ship", "buy ship", "ship", 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 50, 75, 10, false));
 		quest.Add(new List_quest(21, "exploration", "destroy comets (150)", "cosmos", 0, 150, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 150, 150, 150, 10, false)); 
 		quest.Add(new List_quest(22, "exploration", "destroy enemy ships (5)", "cosmos", 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 250, 250, 50, 35, false)); 

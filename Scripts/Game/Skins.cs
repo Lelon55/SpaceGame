@@ -27,6 +27,12 @@ public class Skins : MonoBehaviour {
         }
     }
 
+    private void SetParcticle(int number)
+    {
+        ps = ParticleShip[number].GetComponentsInChildren<ParticleSystem>();
+        ParticleShip[number].SetActive(true);
+    }
+
     private void Update()
     {
         if (SceneManager.GetActiveScene().name != "Menu")
@@ -37,16 +43,13 @@ public class Skins : MonoBehaviour {
                 {
                     case "Light Hunter":
                     case "Balcon Triple Heavy":
-                        ps = ParticleShip[0].GetComponentsInChildren<ParticleSystem>();
-                        ParticleShip[0].SetActive(true);
+                        SetParcticle(0);
                         break;
                     case "Heavy Hunter":
-                        ps = ParticleShip[1].GetComponentsInChildren<ParticleSystem>();
-                        ParticleShip[1].SetActive(true);
+                        SetParcticle(1);
                         break;
                     case "Crusher":
-                        ps = ParticleShip[2].GetComponentsInChildren<ParticleSystem>();
-                        ParticleShip[2].SetActive(true);
+                        SetParcticle(2);
                         break;
                 }
             }

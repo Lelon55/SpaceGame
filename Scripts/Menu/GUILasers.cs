@@ -42,7 +42,7 @@ public class GUILasers : MonoBehaviour
         lasers.Add(new List_lasers(6, "GREEN-DARK GREEN", 5, 3, false));
     }
 
-    private void Check_laser()
+    private void CheckLaser()
     {
         for (int nr = 0; nr < lasers.Count(); nr++)
         {
@@ -74,7 +74,7 @@ public class GUILasers : MonoBehaviour
 
     private void LateUpdate()
     {
-        Check_laser();
+        CheckLaser();
         GUIPlanetOperations.View_Subject(laserss, "Laser Technology");
     }
 }

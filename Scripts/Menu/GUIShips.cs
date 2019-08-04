@@ -6,7 +6,7 @@ using System.Linq;
 
 public class GUIShips : MonoBehaviour {
 
-    private class List_ships
+    internal class List_ships
     {
         public int id, life, ch_drop, price, speed_ship;
         public bool haveornothave;
@@ -30,7 +30,7 @@ public class GUIShips : MonoBehaviour {
         }
     }
 
-    private List<List_ships> ships = new List<List_ships>();
+    internal List<List_ships> ships = new List<List_ships>();
     public Sprite[] SpriteShips;
     public GameObject[] go_ships;
     public Text[] text_button;
@@ -44,13 +44,13 @@ public class GUIShips : MonoBehaviour {
         ships.Add(new List_ships(0, "Light Hunter", "Life: 1 \nChance drop antymatery: 5% \nConsumption: 5 deuter \nSteer: 9 \nMax lasers: 3", 1, 0.05, 5, 10, 5.0f, 9, 3.0f, true)); // (id, nazwa, opis, zycie, sznasadropu w double, szansadropu w int, koszt, posiadanie)
         ships.Add(new List_ships(1, "Light Hunter", "Life: 1 \nChance drop antymatery: 5% \nConsumption: 5 deuter \nSteer: 9 \nMax lasers: 3", 1, 0.05, 5, 10, 5.0f, 9, 3.0f, false));
         ships.Add(new List_ships(2, "Light Hunter", "Life: 1 \nChance drop antymatery: 5% \nConsumption: 5 deuter \nSteer: 9 \nMax lasers: 3", 1, 0.05, 5, 10, 5.0f, 9, 3.0f, false));
-        ships.Add(new List_ships(3, "Heavy Hunter", "Life: 2 \nChance drop antymatery: 10% \nConsumption: 10 deuter \nSteer: 11 \nMax lasers: 4", 2, 0.10, 10, 20, 10f, 11, 4.0f, false));
-        ships.Add(new List_ships(4, "Heavy Hunter", "Life: 2 \nChance drop antymatery: 10% \nConsumption: 10 deuter \nSteer: 11 \nMax lasers: 4", 2, 0.10, 10, 20, 10f, 11, 4.0f, false));
-        ships.Add(new List_ships(5, "Heavy Hunter", "Life: 2 \nChance drop antymatery: 10% \nConsumption: 10 deuter \nSteer: 11 \nMax lasers: 4", 2, 0.10, 10, 20, 10f, 11, 4.0f, false));
-        ships.Add(new List_ships(6, "Crusher", "Life: 3 \nChance drop antymatery: 15% \nConsumption: 15 deuter \nSteer: 14 \nMax lasers: 5", 3, 0.15, 15, 30, 15f, 14, 5.0f, false));
-        ships.Add(new List_ships(7, "Crusher", "Life: 3 \nChance drop antymatery: 15% \nConsumption: 15 deuter \nSteer: 14 \nMax lasers: 5", 3, 0.15, 15, 30, 15f, 14, 5.0f, false));
-        ships.Add(new List_ships(8, "Crusher", "Life: 3 \nChance drop antymatery: 15% \nConsumption: 15 deuter \nSteer: 14 \nMax lasers: 5", 3, 0.15, 15, 30, 15f, 14, 5.0f, false));
-        ships.Add(new List_ships(9, "Balcon Triple Heavy", "Life: 1 \nChance drop antymatery: 5% \nConsumption: 5 deuter \nSteer: 10 \nMax lasers: 3", 1, 0.05, 5, 10, 5f, 10, 3.0f, false));
+        ships.Add(new List_ships(3, "Heavy Hunter", "Life: 2 \nChance drop antymatery: 10% \nConsumption: 10 deuter \nSteer: 11 \nMax lasers: 4", 2, 0.10, 10, 25, 10f, 11, 4.0f, false));
+        ships.Add(new List_ships(4, "Heavy Hunter", "Life: 2 \nChance drop antymatery: 10% \nConsumption: 10 deuter \nSteer: 11 \nMax lasers: 4", 2, 0.10, 10, 25, 10f, 11, 4.0f, false));
+        ships.Add(new List_ships(5, "Heavy Hunter", "Life: 2 \nChance drop antymatery: 10% \nConsumption: 10 deuter \nSteer: 11 \nMax lasers: 4", 2, 0.10, 10, 25, 10f, 11, 4.0f, false));
+        ships.Add(new List_ships(6, "Crusher", "Life: 3 \nChance drop antymatery: 15% \nConsumption: 15 deuter \nSteer: 14 \nMax lasers: 5", 3, 0.15, 15, 50, 15f, 14, 5.0f, false));
+        ships.Add(new List_ships(7, "Crusher", "Life: 3 \nChance drop antymatery: 15% \nConsumption: 15 deuter \nSteer: 14 \nMax lasers: 5", 3, 0.15, 15, 50, 15f, 14, 5.0f, false));
+        ships.Add(new List_ships(8, "Crusher", "Life: 3 \nChance drop antymatery: 15% \nConsumption: 15 deuter \nSteer: 14 \nMax lasers: 5", 3, 0.15, 15, 50, 15f, 14, 5.0f, false));
+        ships.Add(new List_ships(9, "Balcon Triple Heavy", "Life: 1 \nChance drop antymatery: 5% \nConsumption: 5 deuter \nSteer: 10 \nMax lasers: 3", 1, 0.05, 5, 15, 5f, 10, 3.0f, false));
     }
 
     private void Check_ship()

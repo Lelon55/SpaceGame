@@ -52,7 +52,7 @@ public class GUIAdmiralPanel : MonoBehaviour
     private void Info_AdmiralPanel()
     {
         textInfo_Admiral[0].text = "Level: " + stats.Get_Data_From("Level").ToString("N0");
-        textInfo_Admiral[1].text = stats.Get_String_Data_From("Alliance_Name");
+        textInfo_Admiral[1].text = "Alliance: " + stats.Get_String_Data_From("Alliance_Name");
         textInfo_Admiral[2].text = stats.Get_Data_From("Destroyed_Comets").ToString("N0");
         textInfo_Admiral[3].text = stats.Get_Data_From("Spent_Resources").ToString("N0");
         textInfo_Admiral[4].text = stats.Get_Data_From("Bought_Ships").ToString("N0");

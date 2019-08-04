@@ -48,9 +48,9 @@ public class ControlShip : MonoBehaviour
         SetSteer();
     }
 
-    private void SetDirection(float left, float right)
+    private void SetDirection(float input, float left, float right)
     {
-        movement = new Vector2(Steer.x * Input.acceleration.x, 0);
+        movement = new Vector2(Steer.x * input, 0);
 
         if (Input.GetKey("left"))
         {
@@ -66,11 +66,11 @@ public class ControlShip : MonoBehaviour
     {
         if (playerek.gameObject.tag == "Scena")
         {
-            SetDirection(-0.2f, 0.2f);
+            SetDirection(Input.acceleration.x, -0.2f, 0.2f);
         }
         else if (playerek.gameObject.tag == "Magnetic_storm")
         {
-            SetDirection(0.2f, -0.2f);
+            SetDirection(-Input.acceleration.x, 0.2f, -0.2f);
         }
     }
 

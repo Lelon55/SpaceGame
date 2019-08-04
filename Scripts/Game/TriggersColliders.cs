@@ -11,6 +11,7 @@ public class TriggersColliders : MonoBehaviour
     public AudioClip Defeat, PowerUp;
     public GameObject ExploredMoons;
     private GUIOperations GUIOperations;
+    private Skins Skins;
 
     private void Start()
     {
@@ -18,6 +19,7 @@ public class TriggersColliders : MonoBehaviour
         menu = GameObject.Find("Main Camera").GetComponent<GUIGame>();
         shake = GameObject.Find("Main Camera").GetComponent<Shake_Camera>();
         GUIOperations = GameObject.Find("spaceship").GetComponent<GUIOperations>();
+        Skins = GameObject.Find("spaceship").GetComponent<Skins>();
     }
 
     private IEnumerator Count()
@@ -79,6 +81,9 @@ public class TriggersColliders : MonoBehaviour
     private void GameOver()
     {
         imgShip.enabled = false;
+        Skins.ParticleShip[0].SetActive(false);
+        Skins.ParticleShip[1].SetActive(false);
+        Skins.ParticleShip[2].SetActive(false);
         AudioSource.PlayClipAtPoint(Defeat, transform.position);
         StartCoroutine(Count());
         StopCoroutine(Count());

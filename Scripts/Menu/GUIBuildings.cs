@@ -47,7 +47,7 @@ public class GUIBuildings : MonoBehaviour
         buildings.Add(new List_buildings(5, "METAL STORE", "Each level of metal store gives +1000 free space of magazine.", 100, 0, 0, 0, 1000, 1.5f, 1));
         buildings.Add(new List_buildings(6, "CRYSTAL STORE", "Each level of crystal store gives +1000 free space of magazine.", 75, 50, 0, 0, 1000, 1.5f, 1));
         buildings.Add(new List_buildings(7, "DEUTER STORE", "Each level of deuter store gives +1000 free space of magazine.", 75, 50, 50, 0, 1000, 1.5f, 1));
-        buildings.Add(new List_buildings(8, "TERRAFORMER", "Each level of terraformer gives +15 free space of planet to build new buildings.", 0, 450, 600, 0, 0, 1.2f, 1));
+        buildings.Add(new List_buildings(8, "TERRAFORMER", "Each level of terraformer gives +15 free space of planet to build new buildings.", 0, 450, 600, 0, 0, 1.5f, 1));
         CheckButtons();
     }
 

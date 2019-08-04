@@ -32,22 +32,22 @@ public class GUIStructures : MonoBehaviour
     {
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
-        structures.Add(new List_Structures(1, "Base", 10, 0, 1, "Base gives more place +1 for max recruited admirals."));
+        structures.Add(new List_Structures(1, "Space Base", 10, 0, 1, "Space Base gives more place +1 for max recruited admirals."));
         structures.Add(new List_Structures(2, "Scout", 100, 0, 1, "Ten budynek umozliwia wyszukiwanie nowych admiralow. Kazdy poziom zwieksza +1 listy proponowanych admiralow."));
-        Check_buttons();
+        CheckButtons();
     }
 
-    private void Check_structures() //nadpisuje poziomy
+    private void CheckStructures() //narazie max 1lvl
     {
-        structures[0].level = stats.Get_Data_From("Base");
+        structures[0].level = stats.Get_Data_From("Space Base");
         structures[1].level = stats.Get_Data_From("Scout");
     }
 
-    private void Check_buttons()
+    private void CheckButtons()
     {
         for (int nr = 0; nr < structures.Count; nr++)
         {
-            if (structures[nr].level < 3)
+            if (structures[nr].level < 1)
             {
                 if (stats.Get_Data_From("Alliance_Antymatery") >= (structures[nr].antymatery * (structures[nr].level + 1)))
                 {
@@ -65,56 +65,56 @@ public class GUIStructures : MonoBehaviour
         }
     }
 
-    private void Set_Properties_Up(int nr)
+    private void SetPropertiesUp(int nr)
     {
         stats.Set_Data("Alliance_Antymatery", stats.Get_Data_From("Alliance_Antymatery") - structures[nr].antymatery * (structures[nr].level + 1));
         structures[nr].level += 1;
     }
 
-    private void Set_Structures(int nr)
+    private void SetStructures(int nr)
     {
         switch (structures[nr].name)
         {
-            case "Base":
-                stats.Set_Data("Base", structures[nr].level);
+            case "Space Base":
+                stats.Set_Data("Space Base", structures[nr].level);
                 break;
             case "Scout":
                 stats.Set_Data("Scout", structures[nr].level);
                 break;
         }
         PlayerPrefs.Save();
-        Show_Information(nr, "Bought!");
+        ShowInformation(nr, "Bought!");
         GUIPlanetOperations.PlaySound_Complete();
     }
 
     public void BtnBuy(int nr)
     {
-        if (structures[nr].level <= 2)
+        if (structures[nr].level < 1)
         {
             if (stats.Get_Data_From("Alliance_Antymatery") >= (structures[nr].antymatery * (structures[nr].level + 1)))
             {
-                Set_Properties_Up(nr);
-                Set_Structures(nr);
+                SetPropertiesUp(nr);
+                SetStructures(nr);
             }
             else if (stats.Get_Data_From("Alliance_Antymatery") < (structures[nr].antymatery * (structures[nr].level + 1)))
             {
                 GUIPlanetOperations.Turn_On_Ads("antymatery");
-                Show_Information(nr, "Earn!");
+                ShowInformation(nr, "Earn!");
             }
         }
-        else if (structures[nr].level == 3)
+        else if (structures[nr].level >= 2)
         {
-            Show_Information(nr, "MAX LVL!");
+            ShowInformation(nr, "MAX LVL!");
         }
     }
 
     private void LateUpdate()
     {
-        Check_structures();
-        Check_buttons();
+        CheckStructures();
+        CheckButtons();
     }
 
-    private void Show_Information(int nr, string description)
+    private void ShowInformation(int nr, string description)
     {
         GUIPlanetOperations.Subject_Information(0, 0, 0, Cost(structures[nr].antymatery, structures[nr].level),
         structures[nr].name + " (" + structures[nr].level.ToString() + ")", description, SpriteStructures[nr]);
@@ -122,12 +122,12 @@ public class GUIStructures : MonoBehaviour
 
     public void Info_structures(int nr)
     {
-        Show_Information(nr, structures[nr].description);
+        ShowInformation(nr, structures[nr].description);
     }
 
     private int Cost(int cost, int level)
     {
-        return cost*(level+1);
+        return cost * (level + 1);
     }
 }
 

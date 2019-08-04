@@ -6,6 +6,7 @@ public class Destroy_comet : MonoBehaviour {
     public int life = 0;
     public Sprite podniszczone, niezniszczone;
 	private SpriteRenderer Comet;
+    private GUIOperations GUIOperations;
 
     public GameObject Explosion;
     private float rotation_z;
@@ -13,6 +14,7 @@ public class Destroy_comet : MonoBehaviour {
     private void Start()
     {
         Comet = GetComponent<SpriteRenderer>();
+        GUIOperations = GameObject.Find("spaceship").GetComponent<GUIOperations>();
     }
 
     private void Update()
@@ -35,18 +37,12 @@ public class Destroy_comet : MonoBehaviour {
         return podniszczone;
     }
 
-    private void Generate_explosion()
-    {
-        Vector2 Explosion_vector = new Vector2(transform.position.x, transform.position.y);
-        Instantiate(Explosion, Explosion_vector, transform.rotation);
-    }
-
     private void Destroy_comets()
     {
         if (life < 1)
         {
             Destroy(gameObject);
-            Generate_explosion();
+            GUIOperations.Generate(transform.position.x, transform.position.y, transform.rotation, Explosion);
         }
     }
 

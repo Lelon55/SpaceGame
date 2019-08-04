@@ -39,7 +39,7 @@ public class Destroy_bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D destroy)
     {
-        if (destroy.gameObject.tag == "kometa" && SceneManager.GetActiveScene().name == "Game")
+        if (destroy.gameObject.tag == "kometa")
         {
             staty.Add_Comets(1);
             if (SceneManager.GetActiveScene().name == "Game")
@@ -51,10 +51,10 @@ public class Destroy_bullet : MonoBehaviour
                     GUIOperations.Generate(transform.position.x + 1f, transform.position.y, transform.rotation, antymatery);
                 }
                 GenerateResources();
+                textScript.check = false;//po kolizji przywraca false, aby sie nie powtarzala animacja
             }
             GUIOperations.Generate(transform.position.x + 0f, transform.position.y, transform.rotation, point);
-            Destroy(gameObject);
-            textScript.check = false;//po kolizji przywraca false, aby sie nie powtarzala animacja
+            Destroy(gameObject); 
         }
         else if (destroy.gameObject.tag == "Enemy" || destroy.gameObject.tag == "Pocisk_wroga")
         {

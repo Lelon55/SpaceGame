@@ -46,6 +46,11 @@ public class GUIPlanetOperations : MonoBehaviour
             on_off_cost[0].SetActive(false);
             on_off_cost[1].SetActive(true);
         }
+        if (MetalCost <= 0 || CrystalCost <= 0 || DeuterCost <= 0 || AntymateryCost <= 0)
+        {
+            on_off_cost[0].SetActive(false);
+            on_off_cost[1].SetActive(false);
+        }
         txtMetalCost.text = MetalCost.ToString();
         txtCrystalCost.text = CrystalCost.ToString();
         txtDeuterCost.text = DeuterCost.ToString();
@@ -54,6 +59,7 @@ public class GUIPlanetOperations : MonoBehaviour
         txtSubjectDescription.text = SubjectDescription;
         Image.sprite = SubjectPhoto;
     }
+
     internal bool Check_Levels(string name, int level)
     {
         return PlayerPrefs.GetInt(name) >= level;

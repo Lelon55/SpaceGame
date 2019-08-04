@@ -15,12 +15,14 @@ public class GUISettingsAlliance : MonoBehaviour {
     public GameObject[] panels;
     [SerializeField] private Text[] AllianceData;
     internal readonly int cost = 1;
+    public RawImage Avatar;
 
-    // Use this for initialization
     private void Start () {
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIOverview = GameObject.Find("Interface").GetComponent<GUIOverview>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
+        AllianceDataInput[2].text = stats.Get_String_Data_From("Alliance_Avatar");
+        GUIPlanetOperations.SetAvatar(AllianceDataInput[2].text, "Alliance_Avatar", Avatar);
         Get_Alliance_Data();
     }
 
@@ -36,7 +38,7 @@ public class GUISettingsAlliance : MonoBehaviour {
     {
         AllianceDataInput[0].text = stats.Get_String_Data_From("Alliance_Name");
         AllianceDataInput[1].text = stats.Get_String_Data_From("Alliance_Tag");
-        AllianceDataInput[2].text = stats.Get_String_Data_From("Alliance_PhotoUrl");
+        AllianceDataInput[2].text = stats.Get_String_Data_From("Alliance_Avatar");
 
         AllianceData[0].text = stats.Get_String_Data_From("Alliance_Name");
     }
@@ -106,9 +108,9 @@ public class GUISettingsAlliance : MonoBehaviour {
         {
             stats.Set_String_Data("Alliance_Name", "no alliance");
             stats.Set_String_Data("Alliance_Tag", "no tag");
-            stats.Set_String_Data("Alliance_PhotoUrl", "no url");
+            stats.Set_String_Data("Alliance_Avatar", "http://www.owiki.de/images/2/28/Flottenadmiral.PNG");
             stats.Set_Data("MemberID", 1);
-            stats.Set_Data("Base", 0);
+            stats.Set_Data("Space Base", 0);
             stats.Set_Data("Scout", 0);
             stats.Set_Data("Alliance_Antymatery", 0);
             Get_Alliance_Data();
@@ -132,14 +134,11 @@ public class GUISettingsAlliance : MonoBehaviour {
         return page >= 15 && page <= 20;//if true Show PanelBottom at Alliance
     }
 
-    public void Set_Photo()
+    public void SetAllianceAvatar()
     {
-        if (Has_Ally())
+        if (Has_Ally() && AllianceDataInput[2].text != "")
         {
-            stats.Set_String_Data("Alliance_PhotoUrl", AllianceDataInput[2].text);
+            GUIPlanetOperations.SetAvatar(AllianceDataInput[2].text, "Alliance_Avatar", Avatar);
         }
     }
 }
-
-
-

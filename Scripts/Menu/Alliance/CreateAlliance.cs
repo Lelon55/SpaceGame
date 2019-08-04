@@ -20,6 +20,7 @@ public class CreateAlliance : MonoBehaviour
         Setting_Alliance = GameObject.Find("CanvasesAlliance").GetComponent<GUISettingsAlliance>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
     }
+
     private void LateUpdate()
     {
        AllianceData[0].text = GUIPlanetOperations.ReturnLength(AllianceDataInput[0]);
@@ -36,8 +37,8 @@ public class CreateAlliance : MonoBehaviour
                 stats.Change_Antymatery(-Setting_Alliance.cost);
                 stats.Set_String_Data("Alliance_Name", AllianceDataInput[0].text);
                 stats.Set_String_Data("Alliance_Tag", AllianceDataInput[1].text);
-                stats.Set_String_Data("Alliance_PhotoUrl", "no url");
-                stats.Set_Data("Base", 0);
+                stats.Set_String_Data("Alliance_Avatar", "http://www.owiki.de/images/2/28/Flottenadmiral.PNG");
+                stats.Set_Data("Space Base", 0);
                 stats.Set_Data("Scout", 0);
                 stats.Set_Data("Aliiance_Antymatery", 0);
                 Setting_Alliance.Get_Alliance_Data();

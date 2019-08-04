@@ -66,6 +66,7 @@ public class statystyki : MonoBehaviour {
             PlayerPrefs.SetInt("Wins", 0);
             PlayerPrefs.SetInt("Loses", 0);
             PlayerPrefs.SetString("Admiral_Avatar", "http://www.owiki.de/images/2/28/Flottenadmiral.PNG");
+            PlayerPrefs.SetString("GUID", System.Guid.NewGuid().ToString());
             PlayerPrefs.SetInt("Collected_Antymatery", 0);
             PlayerPrefs.SetString("Planet_Name", "set planet name");
             PlayerPrefs.SetString("Admiral_Name", "set admiral name");
@@ -77,7 +78,7 @@ public class statystyki : MonoBehaviour {
             PlayerPrefs.SetString("sound_option", "false");
             PlayerPrefs.SetInt("first_tutorial", 0); //jesli 0 tzn, ze nie wlaczono tutorialu
             PlayerPrefs.SetInt("New_game", 1);
-            PlayerPrefs.GetString("Avatar", "file:///");
+            PlayerPrefs.GetString("Alliance_Avatar", "http://www.owiki.de/images/2/28/Flottenadmiral.PNG");
         }
     }
 

@@ -48,6 +48,11 @@ public class GUIOperations : MonoBehaviour {
             Canvases[ilosc].enabled = Open_Canvas(page, ilosc);
         }
     }
+
+    public void RefreshScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
     #endregion
 
     #region InternetConnection

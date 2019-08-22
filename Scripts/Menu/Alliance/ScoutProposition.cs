@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoutProposition : MonoBehaviour {
-
+public class ScoutProposition : MonoBehaviour
+{
     private statystyki stats;
     private GUIShips GUIShips;
 
     private int point;
-    [SerializeField] private Sprite[] Sprite_Ships;
+    [SerializeField] private Sprite[] spriteShips;
 
     private void Start()
     {
@@ -28,7 +28,7 @@ public class ScoutProposition : MonoBehaviour {
 
     internal string GetDescription(int id)
     {
-        return "Point: " + GetPoint() + "\nLife: " + GetLife(id) + "\nSteer: " + GetSpeedShip(id) + "\nMax lasers: " + GetMaxLasers(id);
+        return "Point: " + GetPoint() + "\nLife: " + GetLife(id) + "\nSteer: " + GetSteer(id) + "\nMax lasers: " + GetMaxLasers(id);
     }
 
     internal void SetPoint()
@@ -57,17 +57,7 @@ public class ScoutProposition : MonoBehaviour {
         return GUIShips.ships[id].life;
     }
 
-    /*public double GetChanceDrop(int id)
-    {
-        return GUIShips.ships[id].chance_drop;
-    }
-
-    public int GetChDrop(int id)
-    {
-        return GUIShips.ships[id].ch_drop;
-    }*/
-
-    internal int GetSpeedShip(int id)
+    internal int GetSteer(int id)
     {
         return GUIShips.ships[id].speed_ship;
     }
@@ -79,7 +69,7 @@ public class ScoutProposition : MonoBehaviour {
 
     internal Sprite GetSpriteShip(int id)
     {
-        return Sprite_Ships[id];
+        return spriteShips[id];
     }
 
     internal int GetShipsMaxRange()

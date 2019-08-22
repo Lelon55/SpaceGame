@@ -8,6 +8,7 @@ public class GUISettingsAlliance : MonoBehaviour {
     private statystyki stats;
     private GUIOverview GUIOverview;
     private GUIPlanetOperations GUIPlanetOperations;
+    [SerializeField] private XmlOperations xmlOperations;
 
     public Canvas CanvasDelete;
     public InputField[] AllianceDataInput;
@@ -109,10 +110,11 @@ public class GUISettingsAlliance : MonoBehaviour {
             stats.Set_String_Data("Alliance_Name", "no alliance");
             stats.Set_String_Data("Alliance_Tag", "no tag");
             stats.Set_String_Data("Alliance_Avatar", "http://www.owiki.de/images/2/28/Flottenadmiral.PNG");
-            stats.Set_Data("MemberID", 1);
+            stats.Set_Data("MemberID", 0);
             stats.Set_Data("Space Base", 0);
             stats.Set_Data("Scout", 0);
             stats.Set_Data("Alliance_Antymatery", 0);
+            xmlOperations.ClearFile("Allies.xml");
             Get_Alliance_Data();
             CanvasDelete.enabled = false;
             GUIOverview.page = 12;

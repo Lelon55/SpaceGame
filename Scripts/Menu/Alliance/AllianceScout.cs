@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AllianceScout : MonoBehaviour {
-
+public class AllianceScout : MonoBehaviour
+{
     private statystyki stats;
     private GUIPlanetOperations GUIPlanetOperations;
     private GUIOperations GUIoper;
+    [SerializeField] private XmlOperations xmlOperations;
     private ScoutProposition ScoutProposition;
+    private MembersList MembersList;
 
     private int ID;
 
@@ -16,7 +18,7 @@ public class AllianceScout : MonoBehaviour {
     [SerializeField] private GUIOverview GUIOverview;
 
     [SerializeField] private GameObject PropositionsList;
-    [SerializeField] private Image Sprite_MemberShip;
+    [SerializeField] internal Image Sprite_MemberShip;
     [SerializeField] private Text TxtDescription;
     [SerializeField] private GameObject[] Buttons;
     [SerializeField] private int page;
@@ -27,6 +29,7 @@ public class AllianceScout : MonoBehaviour {
         page = 0;
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         ScoutProposition = GetComponent<ScoutProposition>();
+        MembersList = GetComponent<MembersList>();
         GUIoper = GameObject.Find("Interface").GetComponent<GUIOperations>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
         Work();
@@ -51,8 +54,7 @@ public class AllianceScout : MonoBehaviour {
             {
                 page = 1;
                 //Cost();
-                //SetMemberID(); //tylko przy dodawaniu do listy
-                FoundThem();
+                FindMember();
             }
             else
             {
@@ -78,21 +80,16 @@ public class AllianceScout : MonoBehaviour {
 
     public void AddMember()
     {
-        if (stats.Get_String_Data_From("GUID") != "")
+        if (AllianceStats.CompareMemberToLength())
         {
-            if (AllianceStats.CompareMemberToLength())//if true do it 
-            {
-                //dodaje czlonka do bazy z zapisem guid gracza
-            }
-            else
-            {
-                GUIOverview.View_CanvasMessage("Not enough space for new member!");
-            }
+            SetMembers(ID);
+            stats.Set_Data("MemberID", GetIDToAddMember());
+            BtnLeaveIt();
+            MembersList.ReloadScene();
         }
         else
         {
-            stats.Set_String_Data("GUID", System.Guid.NewGuid().ToString());
-            GUIOverview.View_CanvasMessage("Registered account. Try again!");
+            GUIOverview.View_CanvasMessage("Not enough space for new member!");
         }
     }
 
@@ -103,14 +100,9 @@ public class AllianceScout : MonoBehaviour {
         return stats.Get_String_Data_From("Admiral_Name");
     }
 
-    private void SetMemberID()
+    private int GetIDToAddMember()
     {
-        stats.Set_Data("MemberID", stats.Get_Data_From("MemberID") + 1);
-    }
-
-    private int GetMemberID()
-    {
-        return stats.Get_Data_From("MemberID");
+        return stats.Get_Data_From("MemberID") + 1;
     }
 
     private void GetSprite_MemberShip(int id)
@@ -118,7 +110,7 @@ public class AllianceScout : MonoBehaviour {
         Sprite_MemberShip.sprite = ScoutProposition.GetSpriteShip(id);
     }
 
-    private void FoundThem()
+    private void FindMember()
     {
         RandomID(ScoutProposition.GetShipsMaxRange());
         FindShip(ID);
@@ -130,9 +122,21 @@ public class AllianceScout : MonoBehaviour {
         ScoutProposition.SetPoint();
         ScoutProposition.GetPoint();
         ScoutProposition.GetLife(id);
-        ScoutProposition.GetSpeedShip(id);
+        ScoutProposition.GetSteer(id);
         ScoutProposition.GetMaxLasers(id);
         GetSprite_MemberShip(id);
+    }
+
+    private void SetMembers(int id)
+    {
+        if (stats.Get_Data_From("MemberID") < 1)
+        {
+            xmlOperations.CreateXMLFile("Allies.xml", GetIDToAddMember(), id, ScoutProposition.GetName(id), ScoutProposition.GetPoint(), ScoutProposition.GetLife(id), ScoutProposition.GetSteer(id), ScoutProposition.GetMaxLasers(id));
+        }
+        else
+        {
+            xmlOperations.AddAlly("Allies.xml", GetIDToAddMember(), id, ScoutProposition.GetName(id), ScoutProposition.GetPoint(), ScoutProposition.GetLife(id), ScoutProposition.GetSteer(id), ScoutProposition.GetMaxLasers(id));
+        }
     }
 
     private void Work()
@@ -154,8 +158,9 @@ public class AllianceScout : MonoBehaviour {
             PropositionsList.SetActive(true);
         }
     }
-	
-	private void LateUpdate () {
+
+    private void LateUpdate()
+    {
         Work();
-	}
+    }
 }

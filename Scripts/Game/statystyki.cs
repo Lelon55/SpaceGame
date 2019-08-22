@@ -66,13 +66,12 @@ public class statystyki : MonoBehaviour {
             PlayerPrefs.SetInt("Wins", 0);
             PlayerPrefs.SetInt("Loses", 0);
             PlayerPrefs.SetString("Admiral_Avatar", "http://www.owiki.de/images/2/28/Flottenadmiral.PNG");
-            PlayerPrefs.SetString("GUID", System.Guid.NewGuid().ToString());
             PlayerPrefs.SetInt("Collected_Antymatery", 0);
             PlayerPrefs.SetString("Planet_Name", "set planet name");
             PlayerPrefs.SetString("Admiral_Name", "set admiral name");
             PlayerPrefs.SetString("Alliance_Name", "no alliance");
             PlayerPrefs.SetString("Alliance_Tag", "no tag");
-            PlayerPrefs.SetInt("MemberID", 1);
+            PlayerPrefs.SetInt("MemberID", 0);
             PlayerPrefs.SetInt("Alliance_Antymatery", 0);
             PlayerPrefs.SetString("message_on_start", "false");
             PlayerPrefs.SetString("sound_option", "false");

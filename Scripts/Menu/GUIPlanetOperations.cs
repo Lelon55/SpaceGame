@@ -9,17 +9,20 @@ public class GUIPlanetOperations : MonoBehaviour
     #region Variables
     [SerializeField] private AudioClip sound_complete;
     [SerializeField] private AudioSource audiosource_complete;
+    internal GUIOperations GUIoper;
 
     private Ads Ads;
     private statystyki stats;
     private GameObject[] on_off_cost = new GameObject[2]; //on or off antymatery or resources
     private Text txtMetalCost, txtCrystalCost, txtDeuterCost, txtAntymateries, txtSubjectName, txtSubjectDescription;
     private Image Image;
+    [SerializeField] private Canvas InformationBuyer;
     #endregion
 
     private void Start()
     {
         #region Start
+        GUIoper = GameObject.Find("Interface").GetComponent<GUIOperations>();
         Ads = GameObject.Find("Scripts").GetComponent<Ads>();
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         on_off_cost[0] = GameObject.Find("Cost");
@@ -46,7 +49,7 @@ public class GUIPlanetOperations : MonoBehaviour
             on_off_cost[0].SetActive(false);
             on_off_cost[1].SetActive(true);
         }
-        if (MetalCost <= 0 || CrystalCost <= 0 || DeuterCost <= 0 || AntymateryCost <= 0)
+        if (MetalCost <= 0 && CrystalCost <= 0 && DeuterCost <= 0 && AntymateryCost <= 0)
         {
             on_off_cost[0].SetActive(false);
             on_off_cost[1].SetActive(false);
@@ -58,6 +61,8 @@ public class GUIPlanetOperations : MonoBehaviour
         txtSubjectName.text = SubjectName;
         txtSubjectDescription.text = SubjectDescription;
         Image.sprite = SubjectPhoto;
+
+        GUIoper.BtnOpen(InformationBuyer);
     }
 
     internal bool Check_Levels(string name, int level)

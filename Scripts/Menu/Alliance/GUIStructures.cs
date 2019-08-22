@@ -7,16 +7,15 @@ public class GUIStructures : MonoBehaviour
 {
     private class List_Structures
     {
-        public int id, antymatery, bonus, level;
+        public int id, antymatery, level;
         public string name, description;
 
-        public List_Structures(int i, string n, int a, int l, int b, string d)
+        public List_Structures(int i, string n, int a, int l, string d)
         {
             this.id = i;
             this.name = n;
             this.antymatery = a;
             this.level = l;
-            this.bonus = b;
             this.description = d;
         }
     }
@@ -32,8 +31,8 @@ public class GUIStructures : MonoBehaviour
     {
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
-        structures.Add(new List_Structures(1, "Space Base", 10, 0, 1, "Space Base gives more place +1 for max recruited admirals."));
-        structures.Add(new List_Structures(2, "Scout", 100, 0, 1, "Ten budynek umozliwia wyszukiwanie nowych admiralow. Kazdy poziom zwieksza +1 listy proponowanych admiralow."));
+        structures.Add(new List_Structures(1, "Space Base", 25, 0, "Space Base gives more place +1 for max recruited admirals."));
+        structures.Add(new List_Structures(2, "Scout", 10, 0, "Scout can find the better allies."));
         CheckButtons();
     }
 
@@ -47,7 +46,7 @@ public class GUIStructures : MonoBehaviour
     {
         for (int nr = 0; nr < structures.Count; nr++)
         {
-            if (structures[nr].level < 1)
+            if (structures[nr].level < 3)
             {
                 if (stats.Get_Data_From("Alliance_Antymatery") >= (structures[nr].antymatery * (structures[nr].level + 1)))
                 {
@@ -89,7 +88,7 @@ public class GUIStructures : MonoBehaviour
 
     public void BtnBuy(int nr)
     {
-        if (structures[nr].level < 1)
+        if (structures[nr].level < 3)
         {
             if (stats.Get_Data_From("Alliance_Antymatery") >= (structures[nr].antymatery * (structures[nr].level + 1)))
             {
@@ -102,7 +101,7 @@ public class GUIStructures : MonoBehaviour
                 ShowInformation(nr, "Earn!");
             }
         }
-        else if (structures[nr].level >= 2)
+        else if (structures[nr].level >= 3)
         {
             ShowInformation(nr, "MAX LVL!");
         }

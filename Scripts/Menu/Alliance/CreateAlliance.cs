@@ -12,6 +12,7 @@ public class CreateAlliance : MonoBehaviour
     private statystyki stats;
     private GUIOverview GUIOverview;
     private GUIPlanetOperations GUIPlanetOperations;
+    [SerializeField] private XmlOperations xmlOperations;
 
     private void Start()
     {
@@ -38,6 +39,7 @@ public class CreateAlliance : MonoBehaviour
                 stats.Set_String_Data("Alliance_Name", AllianceDataInput[0].text);
                 stats.Set_String_Data("Alliance_Tag", AllianceDataInput[1].text);
                 stats.Set_String_Data("Alliance_Avatar", "http://www.owiki.de/images/2/28/Flottenadmiral.PNG");
+                stats.Set_Data("MemberID", 0);
                 stats.Set_Data("Space Base", 0);
                 stats.Set_Data("Scout", 0);
                 stats.Set_Data("Aliiance_Antymatery", 0);

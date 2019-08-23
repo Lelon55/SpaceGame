@@ -41,7 +41,7 @@ Rev: 1.04
 - PVP System,
 
 ## Status
-Already refactoring, optimizing the code. Now.
+Already refactoring, optimizing the code.
 In the future I would like to add a PVP, PVM system.
 
 ## Sources

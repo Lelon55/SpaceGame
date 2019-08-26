@@ -18,7 +18,7 @@ Systems: Android (from 4.3 to the highest version);
 Free space: 30 MB.
 
 ## Technologies
-- C#,
+- C#, LINQ to XML, XML
 - Microsoft Visual Studio 2017,
 - Unity Engine 2018.1.6.f1,
 - GIMP 2 (for create graphics).
@@ -34,17 +34,15 @@ I try to apply programming principles such as:
 - SunShine Android Native Share.
 
 ## Version
-Rev: 1.03
+Rev: 1.04
 
 ## Next
 - PVM for alliance,
 - PVP System,
-- Refactoring
-- Optimizing.
 
 ## Status
-Already refactoring, optimizing the code. Now, I am preparing alliance for the SpaceGame.
-In the future I would like to add a PVP system.
+Already refactoring, optimizing the code.
+In the future I would like to add a PVP, PVM system.
 
 ## Sources
 If you would like to play or test the SpaceGame, you can download and install on own smartphone or tablet (only Android).

@@ -9,32 +9,15 @@ public class XmlOperations : MonoBehaviour {
     internal class MemberList
     {
         public int Value;
-        public string ValueString;
-        public float ValueFloat;
 
         public MemberList(int value)
         {
             Value = value;
         }
-
-        public MemberList(string value)
-        {
-            ValueString = value;
-        }
-
-        public MemberList(float value)
-        {
-            ValueFloat = value;
-        }
     }
 
     internal List<MemberList> AllyID = new List<MemberList>();
     internal List<MemberList> AllyMemberID = new List<MemberList>();
-    internal List<MemberList> AllyName = new List<MemberList>();
-    internal List<MemberList> AllyPoint = new List<MemberList>();
-    internal List<MemberList> AllyLife = new List<MemberList>();
-    internal List<MemberList> AllySteer = new List<MemberList>();
-    internal List<MemberList> AllyMaxLasers = new List<MemberList>();
 
     internal XDocument documentXML;
 
@@ -130,68 +113,21 @@ public class XmlOperations : MonoBehaviour {
         foreach (var item in queryID)
         {
             AllyMemberID.Add(new MemberList(int.Parse(item.Value)));
-            Debug.Log("MID: " + item.Value);
         }
     }
 
-    internal void LoadAllyName(string path)
+    internal string LoadAllyData(string path, string withTag, int memberID)
     {
         XDocument root = LoadXML(path);
-        var queryID = from allyID in root.Root.Descendants("Name")
-                      select allyID;
+        var queryID = from allyID in root.Root.Elements("Ally")
+                      where int.Parse(allyID.Attribute("MemberID").Value) == memberID
+                      select allyID.Element(withTag);
 
         foreach (var item in queryID)
         {
-            AllyName.Add(new MemberList(item.Value));
+            return item.Value;
         }
-    }
-
-    internal void LoadAllyPoint(string path)
-    {
-        XDocument root = LoadXML(path);
-        var queryID = from allyID in root.Root.Descendants("Point")
-                      select allyID;
-
-        foreach (var item in queryID)
-        {
-            AllyPoint.Add(new MemberList(int.Parse(item.Value)));
-        }
-    }
-
-    internal void LoadAllyLife(string path)
-    {
-        XDocument root = LoadXML(path);
-        var queryID = from allyID in root.Root.Descendants("Life")
-                      select allyID;
-
-        foreach (var item in queryID)
-        {
-            AllyLife.Add(new MemberList(int.Parse(item.Value)));
-        }
-    }
-
-    internal void LoadAllySteer(string path)
-    {
-        XDocument root = LoadXML(path);
-        var queryID = from allyID in root.Root.Descendants("Steer")
-                      select allyID;
-
-        foreach (var item in queryID)
-        {
-            AllySteer.Add(new MemberList(int.Parse(item.Value)));
-        }
-    }
-
-    internal void LoadAllyMaxLasers(string path)
-    {
-        XDocument root = LoadXML(path);
-        var queryID = from allyID in root.Root.Descendants("MaxLasers")
-                      select allyID;
-
-        foreach (var item in queryID)
-        {
-            AllyMaxLasers.Add(new MemberList(float.Parse(item.Value)));
-        }
+        return "";
     }
 
     internal int CountItems(string path, string withTag)

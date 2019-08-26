@@ -47,14 +47,14 @@ public class MembersList : MonoBehaviour
         ContainerMemberList.sizeDelta = new Vector2(330f, CountToGetContainerHeight());
     }
 
-    internal string GetDescription(int id)
+    private string GetDescription(int memberID)
     {
-        return "Point: " + xmlOperations.AllyPoint[id].Value + "\nLife: " + xmlOperations.AllyLife[id].Value + "\nSteer: " + xmlOperations.AllySteer[id].Value + "\nMax lasers: " + xmlOperations.AllyMaxLasers[id].ValueFloat;
+        return "Point: " + GetAllyData("Point", memberID) + "\nLife: " + GetAllyData("Life", memberID) + "\nSteer: " + GetAllyData("Steer", memberID) + "\nMax lasers: " + GetAllyData("MaxLasers", memberID);
     }
 
-    private void ShowInformation(int id)
+    private void ShowInformation(int memberID, int id)
     {
-        GUIPlanetOperations.Subject_Information(0, 0, 0, 0, xmlOperations.AllyName[id].ValueString, GetDescription(id), scoutProposition.GetSpriteShip(xmlOperations.AllyID[id].Value));
+        GUIPlanetOperations.Subject_Information(0, 0, 0, 0, GetAllyData("Name", memberID), GetDescription(memberID), scoutProposition.GetSpriteShip(xmlOperations.AllyID[id].Value));
     }
 
     private void DeleteMember(int id)
@@ -83,21 +83,21 @@ public class MembersList : MonoBehaviour
         button.transform.localPosition = position;
     }
 
-    private void GenerateBtnFight(int id, GameObject parent)
+    private void GenerateBtnFight(int memberID, GameObject parent)
     {
         InstantiateButtons(optionsAllyShip[0], parent, new Vector3(0f, 25f, 0f));
     }
 
-    private void GenerateBtnInfo(int id, GameObject parent)
+    private void GenerateBtnInfo(int memberID, int id, GameObject parent)
     {
         InstantiateButtons(optionsAllyShip[1], parent, new Vector3(110f, 25f, 0f));
-        button.onClick.AddListener(delegate () { ShowInformation(id); });
+        button.onClick.AddListener(delegate () { ShowInformation(memberID, id); });
     }
 
-    private void GenerateBtnDelete(int id, GameObject parent)
+    private void GenerateBtnDelete(int memberID, GameObject parent)
     {
         InstantiateButtons(optionsAllyShip[2], parent, new Vector3(55f, -20f, 0f));
-        button.onClick.AddListener(delegate () { this.DeleteMember(id); });
+        button.onClick.AddListener(delegate () { this.DeleteMember(memberID); });
         button.onClick.AddListener(delegate () { this.ReloadScene(); });
     }
 
@@ -115,20 +115,20 @@ public class MembersList : MonoBehaviour
 
                 GenerateImage(i, allyContainer);
                 GenerateBtnFight(xmlOperations.AllyMemberID[i].Value, allyContainer);
-                GenerateBtnInfo(i, allyContainer);
+                GenerateBtnInfo(xmlOperations.AllyMemberID[i].Value, i, allyContainer);
                 GenerateBtnDelete(xmlOperations.AllyMemberID[i].Value, allyContainer);
             }
         }
+    }
+
+    private string GetAllyData(string withTag, int memberID)
+    {
+        return xmlOperations.LoadAllyData("Allies.xml", withTag, memberID);
     }
 
     private void LoadAllyData()
     {
         xmlOperations.LoadAllyID("Allies.xml");
         xmlOperations.LoadAllyMemberID("Allies.xml");
-        xmlOperations.LoadAllyName("Allies.xml");
-        xmlOperations.LoadAllyPoint("Allies.xml");
-        xmlOperations.LoadAllyLife("Allies.xml");
-        xmlOperations.LoadAllySteer("Allies.xml");
-        xmlOperations.LoadAllyMaxLasers("Allies.xml");
     }
 }

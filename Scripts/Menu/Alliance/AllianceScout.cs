@@ -53,7 +53,7 @@ public class AllianceScout : MonoBehaviour
             if (AllianceStats.CompareMemberToLength())//if true do it 
             {
                 page = 1;
-                //Cost();
+                Cost();
                 FindMember();
             }
             else

@@ -13,7 +13,7 @@ This project was created for learn C#, Unity and used plugins.
 * [Status](#status)
 * [Sources](#sources)
 * [Download](#download)
-* [Social media](#socialmedia)
+* [Social media](#social-media)
 
 ## Required
 Systems: Android (from 4.3 to the highest version);

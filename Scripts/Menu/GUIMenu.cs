@@ -8,22 +8,23 @@ public class GUIMenu : MonoBehaviour
     private int page = 0; //1menu, 2tworcy, 3politykaprywatnosc
 
     public Canvas[] Canvases;
-    private bool mute_sound;
     public Image BtnSoundOption;
     public Sprite[] ImgBtnSoundOption;
+
+    private bool muteSound;
     private GUIOperations GUIOperations;
 
     private void Start()
     {
         GUIOperations = GameObject.Find("Interface").GetComponent<GUIOperations>();
-        mute_sound = bool.Parse(PlayerPrefs.GetString("sound_option"));
-        Sound_mute(mute_sound);
+        muteSound = bool.Parse(PlayerPrefs.GetString("sound_option"));
+        Sound_mute(muteSound);
     }
 
     public void BtnSound()
     {
-        mute_sound = !mute_sound;
-        Sound_mute(mute_sound);
+        muteSound = !muteSound;
+        Sound_mute(muteSound);
     }
 
     public void BtnOpenScene(string scene_name)
@@ -69,10 +70,10 @@ public class GUIMenu : MonoBehaviour
     private void LateUpdate()
     {
         GUIOperations.Steer_Canvas(Canvases, page);
-        Application_Quit();
+        ApplicationQuit();
     }
 
-    private void Set_Sound_Options(float volume, int nr_img, string option)
+    private void SetSoundOptions(float volume, int nr_img, string option)
     {
         AudioListener.volume = volume;
         BtnSoundOption.sprite = ImgBtnSoundOption[nr_img];
@@ -84,15 +85,15 @@ public class GUIMenu : MonoBehaviour
     {
         if (mute)
         {
-            Set_Sound_Options(0f, 0, "true");
+            SetSoundOptions(0f, 0, "true");
         }
         else
         {
-            Set_Sound_Options(1f, 1, "false");
+            SetSoundOptions(1f, 1, "false");
         }
     }
 
-    private void Application_Quit()
+    private void ApplicationQuit()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {

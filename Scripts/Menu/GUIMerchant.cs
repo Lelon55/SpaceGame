@@ -5,12 +5,12 @@ using UnityEngine.UI;
 using System.Linq;
 
 public class GUIMerchant : MonoBehaviour {
-    private class List_boxes
+    private class ListBoxes
     {
         public int id, how_much, cost;
         public string resource;
 
-        public List_boxes(int i, string r, int h_w, int c)
+        public ListBoxes(int i, string r, int h_w, int c)
         {
             this.id = i;
             this.resource = r;
@@ -19,7 +19,7 @@ public class GUIMerchant : MonoBehaviour {
         }
     }
 
-    private List<List_boxes> boxes = new List<List_boxes>();
+    private List<ListBoxes> boxes = new List<ListBoxes>();
     private statystyki staty;
     private GUIOverview GUIOverview;
 
@@ -27,12 +27,12 @@ public class GUIMerchant : MonoBehaviour {
     {
         GUIOverview = GameObject.Find("Interface").GetComponent<GUIOverview>();
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
-        boxes.Add(new List_boxes(1, "Metal", 250, 10));
-        boxes.Add(new List_boxes(2, "Crystal", 250, 10));
-        boxes.Add(new List_boxes(3, "Deuter", 250, 10));
-        boxes.Add(new List_boxes(4, "Metal", 1000, 30));
-        boxes.Add(new List_boxes(5, "Crystal", 1000, 30));
-        boxes.Add(new List_boxes(6, "Deuter", 1000, 30));
+        boxes.Add(new ListBoxes(1, "Metal", 250, 10));
+        boxes.Add(new ListBoxes(2, "Crystal", 250, 10));
+        boxes.Add(new ListBoxes(3, "Deuter", 250, 10));
+        boxes.Add(new ListBoxes(4, "Metal", 1000, 30));
+        boxes.Add(new ListBoxes(5, "Crystal", 1000, 30));
+        boxes.Add(new ListBoxes(6, "Deuter", 1000, 30));
     }
 
     public void BtnBuyBox(int number)

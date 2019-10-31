@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Destroy_point : MonoBehaviour {
-
-	private void Start () {
+public class Destroy_point : MonoBehaviour
+{
+    private void Start()
+    {
         Destroy(gameObject, 0.5f);
     }
-	
 }

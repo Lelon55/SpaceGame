@@ -21,12 +21,12 @@ public class GUIShipPanel : MonoBehaviour
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
     }
 
-    private bool Set_BonusPanel()
+    private bool SetBonusPanel()
     {
         return activate_bonus >= 1;
     }
 
-    private void Info_ShipPanel()
+    private void InformationShip()
     {
         imgShip.sprite = skin_ship[stats.Get_Data_From("Ship_Id")];
         imgLaser.sprite = skin_laser[stats.Get_Data_From("Laser")];
@@ -36,17 +36,17 @@ public class GUIShipPanel : MonoBehaviour
         panelChanceDrop.rectTransform.sizeDelta = new Vector2(150f * GUIPlanetOperations.Change_result(stats.Get_Chance_Drop(), 18), 20f);
     }
 
-    private void Info_BonusPanel()
+    private void InformationBonus()
     {
-        Bonus_Panel[0].SetActive(Set_BonusPanel());
-        View_Bonus("Shield", 1);
-        View_Bonus("Combustion", 2);
-        View_Bonus("Laser Technology", 3);
-        View_Bonus("Mining Technology", 4);
-        View_Bonus("Antymatery Technology", 5);
+        Bonus_Panel[0].SetActive(SetBonusPanel());
+        ViewBonus("Shield", 1);
+        ViewBonus("Combustion", 2);
+        ViewBonus("Laser Technology", 3);
+        ViewBonus("Mining Technology", 4);
+        ViewBonus("Antymatery Technology", 5);
     }
 
-    private void View_Bonus(string technology, int nr)
+    private void ViewBonus(string technology, int nr)
     {
         if (stats.Get_Float_Data_From(technology) == 3f || stats.Get_Data_From(technology) == 3)
         {
@@ -61,7 +61,7 @@ public class GUIShipPanel : MonoBehaviour
 
     private void LateUpdate()
     {
-        Info_ShipPanel();
-        Info_BonusPanel();
+        InformationShip();
+        InformationBonus();
     }
 }

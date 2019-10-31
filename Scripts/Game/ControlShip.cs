@@ -5,10 +5,9 @@ using UnityEngine.SceneManagement;
 public class ControlShip : MonoBehaviour
 {
     [SerializeField] private Tutorial[] tutorial;
-    public Vector2 Steer = new Vector2(10, 0); //predkosc statku dla rigidbody
     private Vector2 movement;
-    internal Rigidbody2D gravity_ship;
-    internal float gravity_bullet = -1.0f;
+    internal Rigidbody2D gravityShip;
+    private float gravityBullet;
     private statystyki staty;
     private SetCountdown SetCountdown;
 
@@ -16,21 +15,8 @@ public class ControlShip : MonoBehaviour
     {
         staty = GameObject.Find("spaceship").GetComponent<statystyki>();
         SetCountdown = GameObject.Find("Main Camera").GetComponent<SetCountdown>();
-        gravity_ship = GetComponent<Rigidbody2D>();
+        gravityShip = GetComponent<Rigidbody2D>();
         SetShipSettings();
-
-    }
-
-    private void SetSteer()
-    {
-        if (staty.Get_Data_From("Life") == 1 && staty.Get_String_Data_From("Ship_Name") != "Light Hunter")
-        {
-            Steer.x = 7;
-        }
-        else
-        {
-            Steer.x = staty.Get_Data_From("Speed_Ship");
-        }
     }
 
     private Vector2 SetCollider()
@@ -45,20 +31,33 @@ public class ControlShip : MonoBehaviour
     private void SetShipSettings()
     {
         GetComponent<BoxCollider2D>().size = SetCollider();
-        SetSteer();
+    }
+
+    private Vector2 SetSteer(float x, float y)
+    {
+        return new Vector2(x, y);
+    }
+
+    private Vector2 GetSteer()
+    {
+        if (staty.Get_Data_From("Life") == 1 && staty.Get_String_Data_From("Ship_Name") != "Light Hunter")
+        {
+            return SetSteer(7, 0);
+        }
+        return SetSteer(staty.Get_Data_From("Speed_Ship"), 0);
     }
 
     private void SetDirection(float input, float left, float right)
     {
-        movement = new Vector2(Steer.x * input, 0);
+        movement = new Vector2(GetSteer().x * input, 0);
 
         if (Input.GetKey("left"))
         {
-            movement.x = Steer.x * left;
+            movement.x = GetSteer().x * left;
         }
         if (Input.GetKey("right"))
         {
-            movement.x = Steer.x * right;
+            movement.x = GetSteer().x * right;
         }
     }
 
@@ -85,10 +84,19 @@ public class ControlShip : MonoBehaviour
         }
     }
 
-    private void SetGravity(float gravityShip, float gravityBullet)
+    private void SetGravityShip(float value)
     {
-        gravity_ship.gravityScale = gravityShip;
-        gravity_bullet = gravityBullet;
+        gravityShip.gravityScale = value;
+    }
+
+    internal float GetGravityBullet()
+    {
+        return gravityBullet;
+    }
+
+    private void SetGravityBullet(float value)
+    {
+        gravityBullet = value;
     }
 
     private void SetSpeedShipBullet()
@@ -98,22 +106,30 @@ public class ControlShip : MonoBehaviour
             switch (staty.Get_Distance())
             {
                 case 150:
-                    SetGravity(-15f, -2f);
+                    SetGravityShip(-15f);
+                    SetGravityBullet(-2f);
                     break;
                 case 500:
-                    SetGravity(-20f, -2.5f);
+                    SetGravityShip(-20f);
+                    SetGravityBullet(-2.5f);
                     break;
                 case 0:
-                    SetGravity(-10f, -1f);
+                    SetGravityShip(-10f);
+                    SetGravityBullet(-1f);
                     break;
             }
         }
     }
 
+    private void ShipMove()
+    {
+        gravityShip.velocity = movement;
+    }
+
     private void Update()
     {
-        gravity_ship.velocity = movement;
+        ShipMove();
         SetSpeedShipBullet();
-        SetSteer();
+        GetSteer();
     }
 }

@@ -76,10 +76,10 @@ public class GUIOverview : MonoBehaviour
     {
         ShowCharsLimit();
         GUIoper.Steer_Canvas(Canvases, page);
-        Steer_Panel_Resources();
+        SteerPanelResources();
     }
 
-    private void Steer_Panel_Resources()
+    private void SteerPanelResources()
     {
         if (page == 0 || page == 1 || page >= 12)//nothing
         {
@@ -128,20 +128,33 @@ public class GUIOverview : MonoBehaviour
 
     public void BtnResearch()
     {
-        Check_Level("Laboratory", "Build laboratory", 4);
+        CheckLevel("Laboratory", "Build laboratory", 4);
     }
 
     public void BtnShop()
     {
-        Check_Level("Hangar", "Build Hangar", 7);
+        CheckLevel("Hangar", "Build Hangar", 7);
     }
 
     public void BtnScout()
     {
-        Check_Level("Scout", "Build structure Scout", 20);
+        CheckLevel("Scout", "Build structure Scout", 20);
     }
 
-    private void Check_Level(string subject, string message, int nr_page)
+    public void BtnExploration()
+    {
+        if (staty.Get_Data_From("Deuter") >= staty.LuckyConsumption()) //albo 0 jak ma szczescie, albo zwraca wartosc GetConsumption
+        {
+            staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") - staty.LuckyConsumption());
+            BtnOpenScene("Game");
+        }
+        else
+        {
+            View_CanvasMessage("Not enough deuter");
+        }
+    }
+
+    private void CheckLevel(string subject, string message, int nr_page)
     {
         if (staty.Get_Data_From(subject) >= 1)
         {
@@ -191,7 +204,7 @@ public class GUIOverview : MonoBehaviour
         {
             View_CanvasMessage("Please enter the planet name");
         }
-        //PlayerPrefs.DeleteAll();
+       // PlayerPrefs.DeleteAll();
     }
 
     public void ChangeAdmiralName()
@@ -216,25 +229,12 @@ public class GUIOverview : MonoBehaviour
         }
     }
 
-    public void BtnExploration()
-    {
-        if (staty.Get_Data_From("Deuter") >= staty.LuckyConsumption()) //albo 0 jak ma szczescie, albo zwraca wartosc GetConsumption
-        {
-            staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") - staty.LuckyConsumption());
-            BtnOpenScene("Game");
-        }
-        else
-        {
-            View_CanvasMessage("Not enough deuter");
-        }
-    }
-
     public void EarnAntymatery()
     {
         GUIPlanetOperations.Turn_On_Ads("antymatery");
     }
 
-    public void Add_antymatery_for_FB()
+    public void AddAntymateryForFB()
     {
         if (staty.Get_Data_From("Collected_Antymatery") == 0)
         {

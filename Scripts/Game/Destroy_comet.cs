@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Destroy_comet : MonoBehaviour {
-
+public class Destroy_comet : MonoBehaviour
+{
     public int life = 0;
     public Sprite podniszczone, niezniszczone;
-	private SpriteRenderer Comet;
+    private SpriteRenderer Comet;
     private GUIOperations GUIOperations;
 
     public GameObject Explosion;
@@ -51,12 +51,12 @@ public class Destroy_comet : MonoBehaviour {
         if (niszczenie.gameObject.tag == "Pocisk" && life >= 1)
         {
             life -= 1;
-			Destroy_comets();
+            Destroy_comets();
         }
         else if (niszczenie.gameObject.tag == "Player")
         {
-			life = 0;
+            life = 0;
             Destroy_comets();
         }
-    } 
+    }
 }

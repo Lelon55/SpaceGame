@@ -20,7 +20,7 @@ public class PlanetControl : MonoBehaviour {
         {
             Earth.SetActive(true);
             rotation_y += Time.deltaTime * 60;
-            Earth.transform.rotation = Quaternion.Euler(0, rotation_y, -30f);
+            Earth.transform.rotation = Quaternion.Euler(0, Time.deltaTime * 60, -30f);
         }
         else
         {

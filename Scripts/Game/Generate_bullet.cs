@@ -35,7 +35,7 @@ public class Generate_bullet : MonoBehaviour {
         LaserSkin.transform.localScale = new Vector2(0.5f, MinBullets / MaxBullets);
     }
 
-    private void Shorten_Reloading()
+    private void ShortenReloading()
     {
         if (Stats.Get_Comets() == 50)
         {
@@ -47,7 +47,7 @@ public class Generate_bullet : MonoBehaviour {
         }
     }
 
-    private void Check_Bullets()
+    private void CheckBullets()
     {
         if (MinBullets <= 0f)
         {
@@ -63,9 +63,9 @@ public class Generate_bullet : MonoBehaviour {
     private void Update()
     {
         MaxBullets = Stats.Get_Float_Data_From("Max_Lasers");
-        Gravity.gravityScale = ControlShip.gravity_bullet;
-        Check_Bullets();
-        Shorten_Reloading();
+        Gravity.gravityScale = ControlShip.GetGravityBullet();
+        CheckBullets();
+        ShortenReloading();
     }
 
     private void LateUpdate()

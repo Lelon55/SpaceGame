@@ -44,7 +44,7 @@ public class GUIResources : MonoBehaviour
         ResourcesAtPanel[4].text = stats.Get_Data_From("Antymatery").ToString("N0");
     }
 
-    private void InfoResourcesPanel()
+    private void ResourcesInformation()
     {
         PanelResource[0].rectTransform.sizeDelta = GUIPlanetOperations.CountVector("Metal", "Capacity_Metal", 30f);
         PanelResource[1].rectTransform.sizeDelta = GUIPlanetOperations.CountVector("Crystal", "Capacity_Crystal", 30f);
@@ -70,7 +70,7 @@ public class GUIResources : MonoBehaviour
     {
         SetColourCapacity();
         CheckCapacity();
-        InfoResourcesPanel();
+        ResourcesInformation();
         FillingOfCapacities();
         ShowIncome();
     }

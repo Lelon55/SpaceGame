@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class GUIStructures : MonoBehaviour
 {
-    private class List_Structures
+    private class ListStructures
     {
         public int id, antymatery, level;
         public string name, description;
 
-        public List_Structures(int i, string n, int a, int l, string d)
+        public ListStructures(int i, string n, int a, int l, string d)
         {
             this.id = i;
             this.name = n;
@@ -20,7 +20,7 @@ public class GUIStructures : MonoBehaviour
         }
     }
 
-    private List<List_Structures> structures = new List<List_Structures>();
+    private List<ListStructures> structures = new List<ListStructures>();
     private statystyki stats;
     private GUIPlanetOperations GUIPlanetOperations;
 
@@ -31,9 +31,8 @@ public class GUIStructures : MonoBehaviour
     {
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
-        structures.Add(new List_Structures(1, "Space Base", 25, 0, "Space Base gives more place +1 for max recruited admirals."));
-        structures.Add(new List_Structures(2, "Scout", 10, 0, "Scout can find the better allies."));
-        CheckButtons();
+        structures.Add(new ListStructures(1, "Space Base", 25, 0, "Space Base gives more place +1 for max recruited admirals."));
+        structures.Add(new ListStructures(2, "Scout", 10, 0, "Scout can find the better allies."));
     }
 
     private void CheckStructures() //narazie max 1lvl
@@ -42,31 +41,17 @@ public class GUIStructures : MonoBehaviour
         structures[1].level = stats.Get_Data_From("Scout");
     }
 
-    private void CheckButtons()
+    private void SetButtons()
     {
         for (int nr = 0; nr < structures.Count; nr++)
         {
-            if (structures[nr].level < 3)
-            {
-                if (stats.Get_Data_From("Alliance_Antymatery") >= (structures[nr].antymatery * (structures[nr].level + 1)))
-                {
-                    text_button[nr].text = "BUY " + "(" + (structures[nr].level + 1) + ")";
-                }
-                else
-                {
-                    text_button[nr].text = "EARN " + "(" + (structures[nr].level + 1) + ")";
-                }
-            }
-            else
-            {
-                text_button[nr].text = "MAX LVL";
-            }
+            text_button[nr].text = GUIPlanetOperations.CheckLevel(structures[nr].level, 3, Cost(nr));
         }
     }
 
     private void SetPropertiesUp(int nr)
     {
-        stats.Set_Data("Alliance_Antymatery", stats.Get_Data_From("Alliance_Antymatery") - structures[nr].antymatery * (structures[nr].level + 1));
+        stats.Set_Data("Alliance_Antymatery", stats.Get_Data_From("Alliance_Antymatery") - Cost(nr));
         structures[nr].level += 1;
     }
 
@@ -90,12 +75,12 @@ public class GUIStructures : MonoBehaviour
     {
         if (structures[nr].level < 3)
         {
-            if (stats.Get_Data_From("Alliance_Antymatery") >= (structures[nr].antymatery * (structures[nr].level + 1)))
+            if (stats.Get_Data_From("Alliance_Antymatery") >= Cost(nr))
             {
                 SetPropertiesUp(nr);
                 SetStructures(nr);
             }
-            else if (stats.Get_Data_From("Alliance_Antymatery") < (structures[nr].antymatery * (structures[nr].level + 1)))
+            else if (stats.Get_Data_From("Alliance_Antymatery") < Cost(nr))
             {
                 GUIPlanetOperations.Turn_On_Ads("antymatery");
                 ShowInformation(nr, "Earn!");
@@ -110,12 +95,12 @@ public class GUIStructures : MonoBehaviour
     private void LateUpdate()
     {
         CheckStructures();
-        CheckButtons();
+        SetButtons();
     }
 
     private void ShowInformation(int nr, string description)
     {
-        GUIPlanetOperations.Subject_Information(0, 0, 0, Cost(structures[nr].antymatery, structures[nr].level),
+        GUIPlanetOperations.Subject_Information(0, 0, 0, Cost(nr),
         structures[nr].name + " (" + structures[nr].level.ToString() + ")", description, SpriteStructures[nr]);
     }
 
@@ -124,9 +109,9 @@ public class GUIStructures : MonoBehaviour
         ShowInformation(nr, structures[nr].description);
     }
 
-    private int Cost(int cost, int level)
+    private int Cost(int nr)
     {
-        return cost * (level + 1);
+        return structures[nr].antymatery * (structures[nr].level + 1);
     }
 }
 

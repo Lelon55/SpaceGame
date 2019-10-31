@@ -85,6 +85,43 @@ public class GUIPlanetOperations : MonoBehaviour
         txtButton[nr].color = color;
     }
 
+    internal string SetButtonText(int level, bool value)
+    {
+        if (value)
+        {
+            return "BUY " + "(" + level + ")";
+        }
+        return "EARN " + "(" + level + ")";
+    }
+
+    internal string CheckLevel(int level, int maxLevel, int metalCost, int crystalCost, int deuterCost)
+    {
+        if (level < maxLevel)
+        {
+            return SetButtonText(level + 1, CheckCost(metalCost, crystalCost, deuterCost));
+        }
+        return "MAX LVL";
+    }
+
+    internal string CheckLevel(int level, int maxLevel, int antymatery)
+    {
+        if (level < maxLevel)
+        {
+            return SetButtonText(level + 1, CheckCost(antymatery));
+        }
+        return "MAX LVL";
+    }
+
+    private bool CheckCost(int antymatery)
+    {
+        return stats.Get_Data_From("Alliance_Antymatery") >= antymatery;
+    }
+
+    private bool CheckCost(int metal, int crystal, int deuter)
+    {
+        return stats.Get_Data_From("Metal") >= metal && stats.Get_Data_From("Crystal") >= crystal && stats.Get_Data_From("Deuter") >= deuter;
+    }
+
     internal void Check_buttons(bool have, Text[] txtButton, int nr, int antymatery, int price)
     {
         if (have)
@@ -118,6 +155,14 @@ public class GUIPlanetOperations : MonoBehaviour
     internal int CountSpentResources(int metalCost, int crystalCost, int deuterCost)
     {
         return metalCost + crystalCost + deuterCost;
+    }
+
+    internal void SetSpentResources(int metal, int crystal, int deuter)
+    {
+        stats.Set_Data("Metal", stats.Get_Data_From("Metal") - metal);
+        stats.Set_Data("Crystal", stats.Get_Data_From("Crystal") - crystal);
+        stats.Set_Data("Deuter", stats.Get_Data_From("Deuter") - deuter);
+        stats.Set_Data("Spent_Resources", stats.Get_Data_From("Spent_Resources") + CountSpentResources(metal, crystal, deuter));
     }
 
     #endregion

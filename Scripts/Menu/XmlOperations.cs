@@ -4,8 +4,8 @@ using UnityEngine;
 using System.Linq;
 using System.Xml.Linq;
 
-public class XmlOperations : MonoBehaviour {
-
+public class XmlOperations : MonoBehaviour
+{
     internal class MemberList
     {
         public int Value;
@@ -23,12 +23,12 @@ public class XmlOperations : MonoBehaviour {
 
     internal void SaveXML(string path)
     {
-        documentXML.Save(path);
+        documentXML.Save(GetPath(path));
     }
 
     internal XDocument LoadXML(string path)
     {
-        return XDocument.Load(path);
+        return XDocument.Load(GetPath(path));
     }
 
     internal void CreateXMLFile(string path, int memberID, int ID, string name, int point, int life, int steer, float maxLasers)
@@ -43,7 +43,7 @@ public class XmlOperations : MonoBehaviour {
                         new XElement("Life", life),
                         new XElement("Steer", steer),
                         new XElement("MaxLasers", maxLasers))));
-                        SaveXML(path);
+        SaveXML(path);
     }
 
     internal void ClearFile(string path)
@@ -72,8 +72,8 @@ public class XmlOperations : MonoBehaviour {
                 new XElement("Life", life),
                 new XElement("Steer", steer),
                 new XElement("MaxLasers", maxLasers)));
-                documentXML = root.Document;
-                SaveXML(path);
+        documentXML = root.Document;
+        SaveXML(path);
     }
 
     internal void DeleteAlly(string path, int memberID)
@@ -96,7 +96,7 @@ public class XmlOperations : MonoBehaviour {
     {
         XDocument root = LoadXML(path);
         var queryID = from allyID in root.Root.Descendants("ID")
-                    select allyID;
+                      select allyID;
 
         foreach (var item in queryID)
         {
@@ -136,4 +136,18 @@ public class XmlOperations : MonoBehaviour {
         return root.Descendants(withTag).Count();
     }
 
+    internal string GetPath(string fileName)
+    {
+        switch (Application.platform)
+        {
+            case RuntimePlatform.WindowsEditor:
+                return Application.dataPath + "/Resources/" + fileName;
+            case RuntimePlatform.Android:
+                return "jar:file://" + Application.dataPath + "/Resources/" + fileName;
+            case RuntimePlatform.IPhonePlayer:
+                return Application.persistentDataPath + "/Resources/" + fileName;
+            default:
+                return fileName;
+        }
+    }
 }

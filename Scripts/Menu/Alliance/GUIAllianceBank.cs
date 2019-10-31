@@ -18,7 +18,6 @@ public class GUIAllianceBank : MonoBehaviour {
         Setting_Alliance = GameObject.Find("CanvasesAlliance").GetComponent<GUISettingsAlliance>();
     }
 	
-	// Update is called once per frame
 	private void LateUpdate () {
         AllianceData[0].text = stats.Get_Data_From("Alliance_Antymatery").ToString(); //Alliance antymatery
         AllianceData[1].text = stats.Get_Data_From("Antymatery").ToString(); // player antymatery

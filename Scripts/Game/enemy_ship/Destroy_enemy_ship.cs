@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Destroy_enemy_ship : MonoBehaviour
 {
-
     public int life = 5;
     public Sprite undamaged, close_to_destruction, destroyed;
     private SpriteRenderer ship;
@@ -21,7 +20,7 @@ public class Destroy_enemy_ship : MonoBehaviour
         undamaged = ship.sprite;
     }
 
-    private void Generate_explosion()
+    private void GenerateExplosion()
     {
         Vector3 Explosion_vector = new Vector2(transform.position.x, transform.position.y);
         Instantiate(Explosion, Explosion_vector, transform.rotation);
@@ -43,18 +42,18 @@ public class Destroy_enemy_ship : MonoBehaviour
         }
     }
 
-    private void Destroy_ship()
+    private void DestroyShip()
     {
         if (life < 1)
         {
             Destroy(gameObject);
             Destroy(blockade);
-            Generate_explosion();
-            Drop_from_enemy();
+            GenerateExplosion();
+            DropFromEnemy();
         }
     }
 
-    private int Get_Damage()//2 more damage, 1 normal damage
+    private int GetDamage()//2 more damage, 1 normal damage
     {
         if (staty.more_damage == 1)
         {
@@ -67,12 +66,12 @@ public class Destroy_enemy_ship : MonoBehaviour
     {
         if (niszczenie.gameObject.tag == "Pocisk" && life >= 1)
         {
-            life -= Get_Damage();
-            Destroy_ship();
+            life -= GetDamage();
+            DestroyShip();
         }
     }
 
-    private void Drop_from_enemy()
+    private void DropFromEnemy()
     {
         if (!dropped)
         {

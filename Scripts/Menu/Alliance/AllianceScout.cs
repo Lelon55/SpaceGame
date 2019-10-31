@@ -129,7 +129,7 @@ public class AllianceScout : MonoBehaviour
 
     private void SetMembers(int id)
     {
-        if (stats.Get_Data_From("MemberID") < 1)
+        if (stats.Get_Data_From("MemberID") <= 0)
         {
             xmlOperations.CreateXMLFile("Allies.xml", GetIDToAddMember(), id, ScoutProposition.GetName(id), ScoutProposition.GetPoint(), ScoutProposition.GetLife(id), ScoutProposition.GetSteer(id), ScoutProposition.GetMaxLasers(id));
         }
@@ -137,6 +137,7 @@ public class AllianceScout : MonoBehaviour
         {
             xmlOperations.AddAlly("Allies.xml", GetIDToAddMember(), id, ScoutProposition.GetName(id), ScoutProposition.GetPoint(), ScoutProposition.GetLife(id), ScoutProposition.GetSteer(id), ScoutProposition.GetMaxLasers(id));
         }
+
     }
 
     private void Work()

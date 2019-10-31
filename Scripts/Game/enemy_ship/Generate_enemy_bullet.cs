@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Generate_enemy_bullet : MonoBehaviour {
-
+public class Generate_enemy_bullet : MonoBehaviour
+{
     public Vector2 speed = new Vector2(10f, 0f); //predkosc statku dla rigidbody
     private Vector2 movement;
     public Rigidbody2D gravity;
@@ -10,33 +10,35 @@ public class Generate_enemy_bullet : MonoBehaviour {
     public Transform enemy;
 
     private float min_cooling;
-	private float cooling;
+    private float cooling;
 
     private bool moving = false;
     public float reaction_movement; //max 0.2 min 0.01
 
-	public GameObject bullet_ship;
-	private int nr_laser;
-	public AudioClip[] Sound_laser;
+    public GameObject bullet_ship;
+    private int nr_laser;
+    public AudioClip[] Sound_laser;
 
-	private void Start(){
+    private void Start()
+    {
         player = GameObject.Find("spaceship").GetComponent<Transform>();
-		nr_laser = Random.Range(0, 7);
+        nr_laser = Random.Range(0, 7);
         min_cooling = Random.Range(0.7f, 1.7f);
-		PlayerPrefs.SetInt("nr_enemy_laser", nr_laser);
+        PlayerPrefs.SetInt("nr_enemy_laser", nr_laser);
     }
 
-	private IEnumerator Count()
-	{
-		while (true) {
-			yield return new WaitForSeconds (cooling); // czas Tick
-            cooling = Random.Range(min_cooling, min_cooling+1f);
-            Generate_bullet(Random.Range(0, 3)); //generuje co iles wczytanych sekund
+    private IEnumerator Count()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(cooling); // czas Tick
+            cooling = Random.Range(min_cooling, min_cooling + 1f);
+            GenerateBullet(Random.Range(0, 3)); //generuje co iles wczytanych sekund
             StopCoroutine("Count");
         }
-	}
+    }
 
-    public void Generate_bullet(int nr)
+    public void GenerateBullet(int nr)
     {
         if (moving == false)
         {
@@ -48,10 +50,10 @@ public class Generate_enemy_bullet : MonoBehaviour {
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             StartCoroutine("Count");
-            Movement_enemy();
+            MovementEnemy();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -59,8 +61,8 @@ public class Generate_enemy_bullet : MonoBehaviour {
         //brak strzalu, ale ma szukac wroga od ściany do ściany
         StopCoroutine("Count");
     }
-    
-    private void Movement_enemy()
+
+    private void MovementEnemy()
     {
         movement = new Vector2(speed.x, speed.y);
 
@@ -82,5 +84,4 @@ public class Generate_enemy_bullet : MonoBehaviour {
         }
         gravity.velocity = movement;
     }
-
 }

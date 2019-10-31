@@ -28,9 +28,9 @@ public class SetCountdown : MonoBehaviour {
             }
             else if (countdown <= 1f)
             {
+                CanvasCountdown.enabled = false;
                 countdown = 0f;
                 doCountdown = true;
-                CanvasCountdown.enabled = false;
             }
         }
 

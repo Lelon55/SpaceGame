@@ -13,11 +13,11 @@ public class statystyki : MonoBehaviour {
     public int LoadedScene = 0;
 
     #region Gameplay Variables
-    private int Dropped_Metal;
-    private int Dropped_Crystal;
-    private int Dropped_Deuter;
-    private int Dropped_Antymatery;
-    private int Comets;
+    private int droppedMetal;
+    private int droppedCrystal;
+    private int droppedDeuter;
+    private int droppedAntymatery;
+    private int comets;
     #endregion
     #region Bonus Variables
     internal int immortal = 0;
@@ -31,14 +31,14 @@ public class statystyki : MonoBehaviour {
     {
         Time.timeScale = 1;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        Bonus_from_research();
+        BonusFromResearch();
         StartCoroutine("Add_Resources");
         ticks = Get_Data_From("ticks");
         Life = Get_Life();
-        New_game();
+        NewGame();
     }
 
-    private void New_game()
+    private void NewGame()
     {
         if (Get_Data_From("New_game") <= 0)
         {
@@ -82,59 +82,59 @@ public class statystyki : MonoBehaviour {
     }
 
     #region Gameplay methods
-    internal int Get_Score()
-    {
-        return Get_Distance() + Get_Comets();
-    }
     internal int Get_Distance()
     {
         return (int)transform.position.y;
     }
     internal int Get_Comets()
     {
-        return Comets;
+        return comets;
     }
-    internal void Add_Comets(int value_comets)
+    internal int Get_Score()
     {
-        Comets += value_comets;
+        return Get_Distance() + Get_Comets();
+    }
+    internal void Add_Comets(int value)
+    {
+        comets += value;
     }
     internal int Get_Dropped_Metal()
     {
-        return Dropped_Metal;
+        return droppedMetal;
     }
     internal void Add_Dropped_Metal(int value)
     {
-        Dropped_Metal += value;
+        droppedMetal += value;
     }
     internal int Get_Dropped_Crystal()
     {
-        return Dropped_Crystal;
+        return droppedCrystal;
     }
     internal void Add_Dropped_Crystal(int value)
     {
-        Dropped_Crystal += value;
+        droppedCrystal += value;
     }
     internal int Get_Dropped_Deuter()
     {
-        return Dropped_Deuter;
+        return droppedDeuter;
     }
     internal void Add_Dropped_Deuter(int value)
     {
-        Dropped_Deuter += value;
+        droppedDeuter += value;
     }
     internal int Get_Dropped_Antymatery()
     {
-        return Dropped_Antymatery;
+        return droppedAntymatery;
     }
     internal void Add_Dropped_Antymatery(int value)
     {
-        Dropped_Antymatery += value;
+        droppedAntymatery += value;
     }
     internal void Change_Antymatery(int value_antymatery)
     {
         PlayerPrefs.SetInt("Antymatery", Get_Data_From("Antymatery") + value_antymatery);
     }
-    private void Set_Resources(string name, string capacity, string income)
+    private void SetResources(string name, string capacity, string income)
     {
         if (Get_Data_From(name) < Get_Data_From(capacity))
         {
@@ -149,7 +149,7 @@ public class statystyki : MonoBehaviour {
     {
         return 1 + Get_Data_From(name);
     }
-    private void Check_Records(int value, string name_record)
+    private void CheckRecords(int value, string name_record)
     {
         if (PlayerPrefs.GetInt(name_record) <= value)
         {
@@ -205,8 +205,8 @@ public class statystyki : MonoBehaviour {
     {
         if (SceneManager.GetActiveScene().name == "Game")
         {
-            Check_Records(Get_Score(), "Player_Record");
-            Check_Records(Get_Comets(), "Comets_Record");
+            CheckRecords(Get_Score(), "Player_Record");
+            CheckRecords(Get_Comets(), "Comets_Record");
         }
     }
 
@@ -217,16 +217,16 @@ public class statystyki : MonoBehaviour {
 
         if (ticks >= 31)
         {//default 31
-            Set_Resources("Metal", "Capacity_Metal", "Income_Metal");
-            Set_Resources("Crystal", "Capacity_Crystal", "Income_Crystal");
-            Set_Resources("Deuter", "Capacity_Deuter", "Income_Deuter");
+            SetResources("Metal", "Capacity_Metal", "Income_Metal");
+            SetResources("Crystal", "Capacity_Crystal", "Income_Crystal");
+            SetResources("Deuter", "Capacity_Deuter", "Income_Deuter");
             ticks = 1;
         }
         StopCoroutine("Add_Resources");
         StartCoroutine("Add_Resources");
     }
 
-    private int Set_Bonus(string name)
+    private int SetBonus(string name)
     {
         if (Get_Data_From(name) == 3 || Get_Float_Data_From(name) == 3f)
         {
@@ -235,13 +235,13 @@ public class statystyki : MonoBehaviour {
         return 0;
     }
 
-    private void Bonus_from_research()
+    private void BonusFromResearch()
     {
-        immortal = Set_Bonus("Shield");
-        free_exploration = Set_Bonus("Combustion");
-        more_damage = Set_Bonus("Laser Technology");
-        more_resource = Set_Bonus("Mining Technology");
-        more_antymateries = Set_Bonus("Antymatery Technology");
+        immortal = SetBonus("Shield");
+        free_exploration = SetBonus("Combustion");
+        more_damage = SetBonus("Laser Technology");
+        more_resource = SetBonus("Mining Technology");
+        more_antymateries = SetBonus("Antymatery Technology");
     }
 
     internal int LoadLuckyForConsumption()

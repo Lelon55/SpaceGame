@@ -15,7 +15,7 @@ public class MembersList : MonoBehaviour
     private Button button;
 
     #region toGeneration
-    [SerializeField] private GameObject Container;
+    [SerializeField] private GameObject container;
     [SerializeField] private Image spriteAllyShip;
     [SerializeField] private Button[] optionsAllyShip;
     #endregion
@@ -62,11 +62,6 @@ public class MembersList : MonoBehaviour
         xmlOperations.DeleteAlly("Allies.xml", id);
     }
 
-    internal void ReloadScene()
-    {
-        GUIPlanetOperations.GUIoper.BtnOpen(ReloadMessage);
-    }
-
     private void GenerateImage(int id, GameObject parent)
     {
         Image imageAlly = Instantiate(spriteAllyShip, MemberList.transform.position, MemberList.transform.rotation) as Image;
@@ -109,7 +104,7 @@ public class MembersList : MonoBehaviour
             SetHeightContainer();
             for (int i = 0; i < xmlOperations.CountItems("Allies.xml", "Ally"); i++)
             {
-                GameObject allyContainer = Instantiate(Container, MemberList.transform.position, MemberList.transform.rotation) as GameObject;
+                GameObject allyContainer = Instantiate(container, MemberList.transform.position, MemberList.transform.rotation) as GameObject;
                 allyContainer.transform.SetParent(MemberList.transform);
                 allyContainer.transform.localPosition = new Vector3(ContainerMemberList.transform.localPosition.x, CountToGetElementHeight(i), ContainerMemberList.transform.localPosition.y);
 
@@ -124,6 +119,11 @@ public class MembersList : MonoBehaviour
     private string GetAllyData(string withTag, int memberID)
     {
         return xmlOperations.LoadAllyData("Allies.xml", withTag, memberID);
+    }
+
+    internal void ReloadScene()
+    {
+        GUIPlanetOperations.GUIoper.BtnOpen(ReloadMessage);
     }
 
     private void LoadAllyData()

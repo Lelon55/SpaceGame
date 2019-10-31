@@ -6,13 +6,13 @@ using System.Linq;
 
 public class GUILasers : MonoBehaviour
 {
-    private class List_lasers
+    private class ListLasers
     {
         public int id, price, require_lvl;
         public bool haveornothave;
         public string name;
 
-        public List_lasers(int i, string n, int p, int rl, bool hoh)
+        public ListLasers(int i, string n, int p, int rl, bool hoh)
         {
             this.id = i;
             this.name = n;
@@ -22,7 +22,7 @@ public class GUILasers : MonoBehaviour
         }
     }
 
-    private List<List_lasers> lasers = new List<List_lasers>();
+    private List<ListLasers> lasers = new List<ListLasers>();
     private statystyki staty;
     public Text[] text_button;
     public GameObject[] laserss;
@@ -33,13 +33,13 @@ public class GUILasers : MonoBehaviour
     {
         staty = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
-        lasers.Add(new List_lasers(0, "RED", 5, 0, true));
-        lasers.Add(new List_lasers(1, "GREEN", 5, 1, false));
-        lasers.Add(new List_lasers(2, "BLUE", 5, 1, false));
-        lasers.Add(new List_lasers(3, "WHITE", 5, 2, false));
-        lasers.Add(new List_lasers(4, "PURPLE", 5, 2, false));
-        lasers.Add(new List_lasers(5, "WHITE-RED", 5, 2, false));
-        lasers.Add(new List_lasers(6, "GREEN-DARK GREEN", 5, 3, false));
+        lasers.Add(new ListLasers(0, "RED", 5, 0, true));
+        lasers.Add(new ListLasers(1, "GREEN", 5, 1, false));
+        lasers.Add(new ListLasers(2, "BLUE", 5, 1, false));
+        lasers.Add(new ListLasers(3, "WHITE", 5, 2, false));
+        lasers.Add(new ListLasers(4, "PURPLE", 5, 2, false));
+        lasers.Add(new ListLasers(5, "WHITE-RED", 5, 2, false));
+        lasers.Add(new ListLasers(6, "GREEN-DARK GREEN", 5, 3, false));
     }
 
     private void CheckLaser()

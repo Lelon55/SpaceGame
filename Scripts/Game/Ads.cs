@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Advertisements;
+using UnityEngine.SceneManagement;
 
 public class Ads : MonoBehaviour 
 {
-    private const string ID = "2678027";
+    private const string ID = "3283559";
     private const string ads = "rewardedVideo";
     private string type_reward = "resources";
     internal bool pokazane;
@@ -15,7 +16,26 @@ public class Ads : MonoBehaviour
 	private void Start()
 	{
 		Advertisement.Initialize (ID, true);
-	}
+
+        StartCoroutine(ShowBannerWhenReady());
+        Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_LEFT);
+    }
+
+    private IEnumerator ShowBannerWhenReady()
+    {
+        if (SceneManager.GetActiveScene().name == "Menu")
+        {
+            while (!Advertisement.IsReady("banner"))
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+            Advertisement.Banner.Show("banner");
+        }
+        else
+        {
+            Advertisement.Banner.Hide();
+        }
+    }
 
     public void Show_to_earn(string t_reward)
     {
@@ -29,9 +49,9 @@ public class Ads : MonoBehaviour
         }
     }
 
-    private void Status(ShowResult wynik)
+    private void Status(ShowResult result)
     {
-        switch (wynik)
+        switch (result)
         {
             case ShowResult.Finished:
                 Earn(type_reward);

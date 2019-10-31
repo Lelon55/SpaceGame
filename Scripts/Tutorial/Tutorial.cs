@@ -41,14 +41,14 @@ public class Tutorial : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        Check_Mission(staty.mission, value_bullets, value_comets, value_wall);
+        CheckMission(staty.mission, value_bullets, value_comets, value_wall);
     }
 
     private void ShowText(string _txtMission)
     {
         TxtMission.text = _txtMission;
         anim.SetBool("check", true);
-        StartCoroutine(Turn_Text());
+        StartCoroutine(TurnText());
         AudioSource.PlayClipAtPoint(powerup, staty.transform.position);
     }
 
@@ -61,7 +61,7 @@ public class Tutorial : MonoBehaviour {
         return "mission complete";
     }
 
-    private void Check_Mission(int _nr_mission, float _value_bullets, int _value_comets, bool _wall)
+    private void CheckMission(int _nr_mission, float _value_bullets, int _value_comets, bool _wall)
     {
         if (nr_mission == _nr_mission && _done == false && Generate_bullet.MinBullets >= _value_bullets && staty.Get_Comets() >= _value_comets && _wall == wall)
         {
@@ -73,18 +73,18 @@ public class Tutorial : MonoBehaviour {
     {
         ShowText(ReturnText());
         _done = true;
-        StartCoroutine(Skip_Tutorial());
+        StartCoroutine(SkipTutorial());
         AudioSource.PlayClipAtPoint(powerup, staty.transform.position);
     }
 
-    private IEnumerator Turn_Text()
+    private IEnumerator TurnText()
     {
         yield return new WaitForSeconds(animacja.clip.length);
         anim.SetBool("check", false);
         staty.Set_Data("on_off_shot", 1);
     }
 
-    private IEnumerator Skip_Tutorial()
+    private IEnumerator SkipTutorial()
     {
         yield return new WaitForSeconds(animacja.clip.length + 1f);
         anim.SetBool("check", false);
@@ -92,10 +92,10 @@ public class Tutorial : MonoBehaviour {
         staty.Set_Data("on_off_shot", 0);
         PlayerPrefs.Save();
         Destroy(gameObject, 0.2f);
-        Next_Scene();
+        NextScene();
     }
 
-    private void Next_Scene()
+    private void NextScene()
     {
         if (staty.Get_Data_From("first_tutorial") == 0)
         {

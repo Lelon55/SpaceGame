@@ -5,7 +5,6 @@ using System.Collections;
 public class TriggersColliders : MonoBehaviour
 {
     private GUIGame menu;
-    private SpriteRenderer imgShip;
     private Shake_Camera shake;
 
     public AudioClip Defeat, PowerUp;
@@ -15,11 +14,15 @@ public class TriggersColliders : MonoBehaviour
 
     private void Start()
     {
-        imgShip = GetComponent<SpriteRenderer>();
         menu = GameObject.Find("Main Camera").GetComponent<GUIGame>();
         shake = GameObject.Find("Main Camera").GetComponent<Shake_Camera>();
         GUIOperations = GameObject.Find("spaceship").GetComponent<GUIOperations>();
         Skins = GameObject.Find("spaceship").GetComponent<Skins>();
+    }
+
+    private void SetVisibilityShip(bool value)
+    {
+        GetComponent<SpriteRenderer>().enabled = value;
     }
 
     private IEnumerator Count()
@@ -62,34 +65,28 @@ public class TriggersColliders : MonoBehaviour
         {
             menu.staty.Life -= 1;
             shake.ShakeCamera();
-            if (menu.staty.Life == 0)
-            {
-                GameOver();
-            }
+            GameOver();
         }
         else if (playerek.gameObject.tag == "kometa" && menu.staty.immortal == 0)
         {
             menu.staty.Life -= menu.staty.Life;
-            if (menu.staty.Life == 0)
-            {
-                GameOver();
-                shake.ShakeCamera();
-            }
+            shake.ShakeCamera();
+            GameOver();
         }
     }
 
     private void GameOver()
     {
-        imgShip.enabled = false;
-        Skins.ParticleShip[0].SetActive(false);
-        Skins.ParticleShip[1].SetActive(false);
-        Skins.ParticleShip[2].SetActive(false);
-        AudioSource.PlayClipAtPoint(Defeat, transform.position);
-        StartCoroutine(Count());
-        StopCoroutine(Count());
-        Handheld.Vibrate();
-        Debug.Log("Wykryto kolizje");
-        PlayerPrefs.Save();
+        if (menu.staty.Life == 0)
+        {
+            SetVisibilityShip(false);
+            Skins.ParticleOff();
+            AudioSource.PlayClipAtPoint(Defeat, transform.position);
+            StartCoroutine(Count());
+            StopCoroutine(Count());
+            Handheld.Vibrate();
+            PlayerPrefs.Save();
+        }
     }
 
     private void DropFromMoon()

@@ -33,6 +33,13 @@ public class Skins : MonoBehaviour {
         ParticleShip[number].SetActive(true);
     }
 
+    internal void ParticleOff()
+    {
+        ParticleShip[0].SetActive(false);
+        ParticleShip[1].SetActive(false);
+        ParticleShip[2].SetActive(false);
+    }
+
     private void Update()
     {
         if (SceneManager.GetActiveScene().name != "Menu")
@@ -55,9 +62,7 @@ public class Skins : MonoBehaviour {
             }
             else if (staty.Get_Distance() < 150)
             {
-                ParticleShip[0].SetActive(false);
-                ParticleShip[1].SetActive(false);
-                ParticleShip[2].SetActive(false);
+                ParticleOff();
             }
         }
     }

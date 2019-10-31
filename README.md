@@ -12,6 +12,8 @@ This project was created for learn C#, Unity and used plugins.
 * [Next](#next)
 * [Status](#status)
 * [Sources](#sources)
+* [Download](#download)
+* [Social media](#social-media)
 
 ## Required
 Systems: Android (from 4.3 to the highest version);
@@ -46,5 +48,11 @@ In the future I would like to add a PVP, PVM system.
 
 ## Sources
 If you would like to play or test the SpaceGame, you can download and install on own smartphone or tablet (only Android).
-Google Play: https://play.google.com/store/apps/details?id=com.Lelon55.SpaceGame
-Instagram: https://www.instagram.com/lelongames/
+
+## Download
+- Google Play: https://play.google.com/store/apps/details?id=com.Lelon55.SpaceGame
+
+## Social media
+- Instagram: https://www.instagram.com/lelongames/
+- Facebook: https://www.facebook.com/LelonGames/ 
+- Youtube: https://www.youtube.com/channel/UCfrd1hpZHg6-Er0FBOdh2Nw

@@ -31,9 +31,10 @@ public class GUIShips : MonoBehaviour {
     }
 
     internal List<ListShips> ships = new List<ListShips>();
-    public Sprite[] SpriteShips;
     public GameObject[] go_ships;
     public Text[] text_button;
+
+    [SerializeField] private Skins skin;
     private statystyki staty;
     private GUIPlanetOperations GUIPlanetOperations;
 
@@ -79,12 +80,12 @@ public class GUIShips : MonoBehaviour {
                 staty.Set_Float_Data("Max_Lasers", ships[nr].max_lasers);
                 staty.Set_String_Data("Ship_Name", ships[nr].name);
                 PlayerPrefs.Save();
-                GUIPlanetOperations.Subject_Information(0, 0, 0, ships[nr].price, ships[nr].name, "Bought!", SpriteShips[nr]);
+                GUIPlanetOperations.Subject_Information(0, 0, 0, ships[nr].price, ships[nr].name, "Bought!", skin.skin_statku[nr]);
             }
             else if (staty.Get_Data_From("Antymatery") < ships[nr].price)
             {
                 GUIPlanetOperations.Turn_On_Ads("antymatery");
-                GUIPlanetOperations.Subject_Information(0, 0, 0, ships[nr].price, ships[nr].name, "Too Small Antymatery", SpriteShips[nr]);
+                GUIPlanetOperations.Subject_Information(0, 0, 0, ships[nr].price, ships[nr].name, "Too Small Antymatery", skin.skin_statku[nr]);
             }
         }
     }
@@ -97,6 +98,6 @@ public class GUIShips : MonoBehaviour {
 
     public void Info_ships(int nr)
     {
-        GUIPlanetOperations.Subject_Information(0, 0, 0, ships[nr].price, ships[nr].name, ships[nr].description, SpriteShips[nr]);
+        GUIPlanetOperations.Subject_Information(0, 0, 0, ships[nr].price, ships[nr].name, ships[nr].description, skin.skin_statku[nr]);
     }
 }

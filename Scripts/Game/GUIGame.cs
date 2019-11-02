@@ -60,11 +60,14 @@ public class GUIGame : MonoBehaviour
 
     private void GameplayDatasToSave()
     {
-        staty.Set_Data("Metal", staty.Get_Data_From("Metal") + staty.Get_Dropped_Metal());
-        staty.Set_Data("Crystal", staty.Get_Data_From("Crystal") + staty.Get_Dropped_Crystal());
-        staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") + staty.Get_Dropped_Deuter());
-        staty.Set_Data("Destroyed_Comets", staty.Get_Data_From("Destroyed_Comets") + staty.Get_Comets());
-        staty.Change_Antymatery(staty.Get_Dropped_Antymatery());
+        if (SceneManager.GetActiveScene().name == "Game")
+        {
+            staty.Set_Data("Metal", staty.Get_Data_From("Metal") + staty.Get_Dropped_Metal());
+            staty.Set_Data("Crystal", staty.Get_Data_From("Crystal") + staty.Get_Dropped_Crystal());
+            staty.Set_Data("Deuter", staty.Get_Data_From("Deuter") + staty.Get_Dropped_Deuter());
+            staty.Set_Data("Destroyed_Comets", staty.Get_Data_From("Destroyed_Comets") + staty.Get_Comets());
+            staty.Change_Antymatery(staty.Get_Dropped_Antymatery());
+        }
     }
 
     public void BtnOpenScene(string name_scene)
@@ -77,7 +80,6 @@ public class GUIGame : MonoBehaviour
 
     public void BtnRestart()
     {
-        Handheld.Vibrate();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         staty.Set_Data("ticks", staty.ticks);
     }

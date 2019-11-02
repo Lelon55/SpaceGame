@@ -23,10 +23,11 @@ public class GUILasers : MonoBehaviour
     }
 
     private List<ListLasers> lasers = new List<ListLasers>();
-    private statystyki staty;
     public Text[] text_button;
     public GameObject[] laserss;
-    public Sprite[] SpriteLasers;
+
+    [SerializeField] private Skins skin;
+    private statystyki staty;
     private GUIPlanetOperations GUIPlanetOperations;
 
     private void Start()
@@ -61,13 +62,13 @@ public class GUILasers : MonoBehaviour
                 staty.Change_Antymatery(-lasers[nr].price);
                 staty.Set_Data("Laser", lasers[nr].id);
                 PlayerPrefs.Save();
-                GUIPlanetOperations.Subject_Information(0, 0, 0, lasers[nr].price, lasers[nr].name, "Bought!", SpriteLasers[nr]);
+                GUIPlanetOperations.Subject_Information(0, 0, 0, lasers[nr].price, lasers[nr].name, "Bought!", skin.skin_laseru[nr]);
 
             }
             else if (staty.Get_Data_From("Antymatery") < lasers[nr].price)
             {
                 GUIPlanetOperations.Turn_On_Ads("antymatery");
-                GUIPlanetOperations.Subject_Information(0, 0, 0, lasers[nr].price, lasers[nr].name, "Too Small Antymatery!", SpriteLasers[nr]);
+                GUIPlanetOperations.Subject_Information(0, 0, 0, lasers[nr].price, lasers[nr].name, "Too Small Antymatery!", skin.skin_laseru[nr]);
             }
         }
     }

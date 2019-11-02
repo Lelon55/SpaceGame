@@ -18,13 +18,13 @@ public class GUIMenu : MonoBehaviour
     {
         GUIOperations = GameObject.Find("Interface").GetComponent<GUIOperations>();
         muteSound = bool.Parse(PlayerPrefs.GetString("sound_option"));
-        Sound_mute(muteSound);
+        SoundMute(muteSound);
     }
 
     public void BtnSound()
     {
         muteSound = !muteSound;
-        Sound_mute(muteSound);
+        SoundMute(muteSound);
     }
 
     public void BtnOpenScene(string scene_name)
@@ -81,7 +81,7 @@ public class GUIMenu : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    private void Sound_mute(bool mute)
+    private void SoundMute(bool mute)
     {
         if (mute)
         {

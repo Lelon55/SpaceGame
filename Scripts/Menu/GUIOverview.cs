@@ -168,7 +168,6 @@ public class GUIOverview : MonoBehaviour
 
     public void BtnOpenScene(string name_scene)
     {
-        Handheld.Vibrate();
         SceneManager.LoadScene(name_scene);
         staty.Set_Data("ticks", staty.ticks);
         PlayerPrefs.Save();

@@ -13,18 +13,29 @@ public class Generate_enemy_bullet : MonoBehaviour
     private float cooling;
 
     private bool moving = false;
-    public float reaction_movement; //max 0.2 min 0.01
+    [SerializeField] private float reaction_movement; //max 0.2 min 0.01
+    float reactionMovement;
 
     public GameObject bullet_ship;
-    private int nr_laser;
-    public AudioClip[] Sound_laser;
+
+    [SerializeField] private Generate_bullet Generate_bullet;
 
     private void Start()
     {
         player = GameObject.Find("spaceship").GetComponent<Transform>();
-        nr_laser = Random.Range(0, 7);
         min_cooling = Random.Range(0.7f, 1.7f);
-        PlayerPrefs.SetInt("nr_enemy_laser", nr_laser);
+        PlayerPrefs.SetInt("nr_enemy_laser", Random.Range(0, 7));
+        SetReactionMovement(Random.Range(0.02f, 0.2f));
+    }
+
+    private void SetReactionMovement(float value)
+    {
+        reactionMovement = value;
+    }
+
+    private float GetReactionMovement()
+    {
+        return reactionMovement;
     }
 
     private IEnumerator Count()
@@ -38,13 +49,12 @@ public class Generate_enemy_bullet : MonoBehaviour
         }
     }
 
-    public void GenerateBullet(int nr)
+    private void GenerateBullet(int nr)
     {
         if (moving == false)
         {
-            Vector2 pozycja_pocisku = new Vector2(transform.position.x - 0.02f, transform.position.y - 0.5f);
-            Instantiate(bullet_ship, pozycja_pocisku, bullet_ship.transform.rotation);
-            AudioSource.PlayClipAtPoint(Sound_laser[nr], transform.position);
+            Vector2 bulletPosition = new Vector2(transform.position.x - 0.02f, transform.position.y - 0.5f);
+            Generate_bullet.CreateBullet(bullet_ship, bulletPosition, Generate_bullet.laser_sound[nr], transform.position);
         }
     }
 
@@ -68,13 +78,12 @@ public class Generate_enemy_bullet : MonoBehaviour
 
         if (enemy.position.x > player.position.x + 0.3f)
         {
-            movement.x = speed.x * -reaction_movement;
+            movement.x = speed.x * -GetReactionMovement();
             moving = true;
-
         }
         else if (enemy.position.x < player.position.x - 0.3f)
         {
-            movement.x = speed.x * reaction_movement;
+            movement.x = speed.x * GetReactionMovement();
             moving = true;
         }
         else if (enemy.position.x == player.position.x || enemy.position.x <= player.position.x + 0.2f || enemy.position.x >= player.position.x - 0.2f)

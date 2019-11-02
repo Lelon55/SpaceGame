@@ -6,7 +6,6 @@ public class Generate_bullet : MonoBehaviour {
 
 	public GameObject shot;
 	public AudioClip[] laser_sound;
-	private int nr_sound;
     private float Cooling = 2.5f;
     public float MaxBullets, MinBullets;
     private SpriteRenderer LaserSkin;
@@ -82,32 +81,35 @@ public class Generate_bullet : MonoBehaviour {
         }
     }
 
-    private void GenerateBullet()
+    private void ShowBullet(int nr)
     {
         if (MinBullets >= MaxBullets)
         {
-            //Debug.Log("daj odpoczac");
+            //dzwiek przegrzanego dzialka
         }
         else if (MinBullets <= MaxBullets)
         {
             MinBullets++;
-            Vector2 bullet_position = new Vector2(Stats.transform.position.x + LaserPosition.x + 0.02f, Stats.transform.position.y + LaserPosition.y);
-            nr_sound = Random.Range(0, 3);
-            Instantiate(shot, bullet_position, shot.transform.rotation);
-            AudioSource.PlayClipAtPoint(laser_sound[nr_sound], Stats.transform.position);
-            //Debug.Log("wystrzelono: " + nr + "liczba: " + min_bullets);
+            Vector2 bulletPosition = new Vector2(Stats.transform.position.x + LaserPosition.x + 0.02f, Stats.transform.position.y + LaserPosition.y);
+            CreateBullet(shot, bulletPosition, laser_sound[nr], Stats.transform.position);
         }
     }
 
-    public void Shoot_bullet()
+    internal void CreateBullet(GameObject bullet, Vector2 bulletPosition, AudioClip laserSound, Vector3 soundPosition)
+    {
+        Instantiate(bullet, bulletPosition, bullet.transform.rotation);
+        AudioSource.PlayClipAtPoint(laserSound, soundPosition);
+    }
+
+    public void ShootBullet()
     {
         if (Countdown.doCountdown && (SceneManager.GetActiveScene().name == "Game"))
         {
-            GenerateBullet();
+            ShowBullet(Random.Range(0, 3));
         }
         if (Countdown.doCountdown && Stats.Get_Data_From("on_off_shot") == 1 && (SceneManager.GetActiveScene().name == "Tutorial"))
         {
-            GenerateBullet();
+            ShowBullet(Random.Range(0, 3));
         }
     }
 }

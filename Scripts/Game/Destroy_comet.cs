@@ -25,10 +25,10 @@ public class Destroy_comet : MonoBehaviour
 
     private void LateUpdate()
     {
-        Comet.sprite = Show_Comet();
+        Comet.sprite = ShowComet();
     }
 
-    private Sprite Show_Comet()
+    private Sprite ShowComet()
     {
         if (life >= 2)
         {
@@ -37,7 +37,7 @@ public class Destroy_comet : MonoBehaviour
         return podniszczone;
     }
 
-    private void Destroy_comets()
+    private void DestroyComets()
     {
         if (life < 1)
         {
@@ -46,17 +46,17 @@ public class Destroy_comet : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D niszczenie)
+    private void OnCollisionEnter2D(Collision2D destroy)
     {
-        if (niszczenie.gameObject.tag == "Pocisk" && life >= 1)
+        if (destroy.gameObject.tag == "Pocisk" && life >= 1)
         {
             life -= 1;
-            Destroy_comets();
+            DestroyComets();
         }
-        else if (niszczenie.gameObject.tag == "Player")
+        else if (destroy.gameObject.tag == "Player")
         {
             life = 0;
-            Destroy_comets();
+            DestroyComets();
         }
     }
 }

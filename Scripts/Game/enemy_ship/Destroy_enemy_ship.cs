@@ -75,10 +75,7 @@ public class Destroy_enemy_ship : MonoBehaviour
     {
         if (!dropped)
         {
-            staty.Add_Dropped_Metal(10);
-            staty.Add_Dropped_Crystal(10);
-            staty.Add_Dropped_Deuter(10);
-            staty.Set_Data("Destroyed_Enemy_Ships", staty.Get_Data_From("Destroyed_Enemy_Ships") + 1);
+            staty.AddDroppedResources(10, 10, 10, "Destroyed_Enemy_Ships");
             dropped = true;
         }
     }

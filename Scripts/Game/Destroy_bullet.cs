@@ -27,9 +27,7 @@ public class Destroy_bullet : MonoBehaviour
 
     private void GenerateResources()
     {
-        staty.Add_Dropped_Metal(GetDrop());
-        staty.Add_Dropped_Crystal(GetDrop());
-        staty.Add_Dropped_Deuter(GetDrop());
+        staty.AddDroppedResources(GetDrop(), GetDrop(), GetDrop());
     }
 
     private int LuckyAntymatery()

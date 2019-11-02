@@ -53,6 +53,7 @@ public class GUIOperations : MonoBehaviour {
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
     #endregion
 
     #region InternetConnection

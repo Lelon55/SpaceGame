@@ -134,6 +134,21 @@ public class statystyki : MonoBehaviour {
     {
         PlayerPrefs.SetInt("Antymatery", Get_Data_From("Antymatery") + value_antymatery);
     }
+
+    internal void AddDroppedResources(int metal, int crystal, int deuter, string whereData)
+    {
+        Add_Dropped_Metal(metal);
+        Add_Dropped_Crystal(crystal);
+        Add_Dropped_Deuter(deuter);
+        Set_Data(whereData, Get_Data_From(whereData) + 1);
+    }
+
+    internal void AddDroppedResources(int metal, int crystal, int deuter)
+    {
+        Add_Dropped_Metal(metal);
+        Add_Dropped_Crystal(crystal);
+        Add_Dropped_Deuter(deuter);
+    }
     private void SetResources(string name, string capacity, string income)
     {
         if (Get_Data_From(name) < Get_Data_From(capacity))

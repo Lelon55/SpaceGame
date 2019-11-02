@@ -12,10 +12,10 @@ public class Enemy_life : MonoBehaviour
 
     private void LateUpdate()
     {
-        Aktulanypasek(0.2f * destroy.life);
+        HealthBar(0.2f * destroy.life);
     }
 
-    private void Aktulanypasek(float size)
+    private void HealthBar(float size)
     {
         transform.localScale = new Vector2(size, 0.2f);
     }

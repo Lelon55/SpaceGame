@@ -6,13 +6,13 @@ public class GUIShipPanel : MonoBehaviour
 {
     public Text ShipName;
     public Image imgShip, imgLaser;
-    public Sprite[] skin_ship, skin_laser;
     public Image panelConsumption, panelLife, panelChanceDrop;
 
     public GameObject[] Bonus_Panel;
-    private int activate_bonus;
+    private int activateBonus;
 
     private statystyki stats;
+    [SerializeField] private Skins skin;
     private GUIPlanetOperations GUIPlanetOperations;
 
     private void Start()
@@ -21,15 +21,10 @@ public class GUIShipPanel : MonoBehaviour
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
     }
 
-    private bool SetBonusPanel()
-    {
-        return activate_bonus >= 1;
-    }
-
     private void InformationShip()
     {
-        imgShip.sprite = skin_ship[stats.Get_Data_From("Ship_Id")];
-        imgLaser.sprite = skin_laser[stats.Get_Data_From("Laser")];
+        imgShip.sprite = skin.skin_statku[stats.Get_Data_From("Ship_Id")];
+        imgLaser.sprite = skin.skin_laseru[stats.Get_Data_From("Laser")];
         ShipName.text = stats.Get_String_Data_From("Ship_Name");
         panelConsumption.rectTransform.sizeDelta = new Vector2(150f * GUIPlanetOperations.Change_result(stats.Get_Consumption(), 15), 20f);
         panelLife.rectTransform.sizeDelta = new Vector2(150f * GUIPlanetOperations.Change_result(stats.Get_Life(), 6), 20f);
@@ -38,7 +33,7 @@ public class GUIShipPanel : MonoBehaviour
 
     private void InformationBonus()
     {
-        Bonus_Panel[0].SetActive(SetBonusPanel());
+        Bonus_Panel[0].SetActive(GetBonusPanel());
         ViewBonus("Shield", 1);
         ViewBonus("Combustion", 2);
         ViewBonus("Laser Technology", 3);
@@ -46,11 +41,21 @@ public class GUIShipPanel : MonoBehaviour
         ViewBonus("Antymatery Technology", 5);
     }
 
+    private bool GetBonusPanel()
+    {
+        return activateBonus >= 1;
+    }
+
+    private void SetBonusPanel()
+    {
+        activateBonus += 1;
+    }
+
     private void ViewBonus(string technology, int nr)
     {
         if (stats.Get_Float_Data_From(technology) == 3f || stats.Get_Data_From(technology) == 3)
         {
-            activate_bonus += 1;
+            SetBonusPanel();
             Bonus_Panel[nr].SetActive(true);
         }
         else

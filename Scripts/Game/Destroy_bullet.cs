@@ -10,13 +10,13 @@ public class Destroy_bullet : MonoBehaviour
     public GameObject point, antymatery;
     public TextScript textScript;
 
-    private Shake_Camera shake;
+    private ControlCamera controlCamera;
     private GUIOperations GUIOperations;
 
     private void Start()
     {
         staty = GameObject.Find("spaceship").GetComponent<statystyki>();
-        shake = GameObject.Find("Main Camera").GetComponent<Shake_Camera>();
+        controlCamera = GameObject.Find("Main Camera").GetComponent<ControlCamera>();
         GUIOperations = GameObject.Find("spaceship").GetComponent<GUIOperations>();
     }
 
@@ -25,7 +25,7 @@ public class Destroy_bullet : MonoBehaviour
         return Random.Range(0, 5 + (staty.Get_Data_From("Mining Technology") * 2) + ReturnMaxDropResources());
     }
 
-    private void GenerateResources()
+    private void AddResourcesFromDrop()
     {
         staty.AddDroppedResources(GetDrop(), GetDrop(), GetDrop());
     }
@@ -48,7 +48,7 @@ public class Destroy_bullet : MonoBehaviour
                     staty.Add_Dropped_Antymatery(1);
                     GUIOperations.Generate(transform.position.x + 1f, transform.position.y, transform.rotation, antymatery);
                 }
-                GenerateResources();
+                AddResourcesFromDrop();
                 textScript.check = false;//po kolizji przywraca false, aby sie nie powtarzala animacja
             }
             GUIOperations.Generate(transform.position.x + 0f, transform.position.y, transform.rotation, point);
@@ -57,7 +57,7 @@ public class Destroy_bullet : MonoBehaviour
         else if (destroy.gameObject.tag == "Enemy" || destroy.gameObject.tag == "Pocisk_wroga")
         {
             Destroy(gameObject, 0.01f);
-            shake.ShakeCamera();
+            controlCamera.Shake();
         }
     }
 

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shake_Camera : MonoBehaviour
+public class ControlCamera : MonoBehaviour
 {
-    internal void ShakeCamera()
+    internal void Shake()
     {
         GetComponent<Animator>().SetTrigger("shake");
     }

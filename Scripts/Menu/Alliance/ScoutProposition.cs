@@ -6,9 +6,9 @@ public class ScoutProposition : MonoBehaviour
 {
     private statystyki stats;
     private GUIShips GUIShips;
+    [SerializeField] private Skins skin;
 
     private int point;
-    [SerializeField] private Sprite[] spriteShips;
 
     private void Start()
     {
@@ -69,7 +69,7 @@ public class ScoutProposition : MonoBehaviour
 
     internal Sprite GetSpriteShip(int id)
     {
-        return spriteShips[id];
+        return skin.skin_statku[id];
     }
 
     internal int GetShipsMaxRange()

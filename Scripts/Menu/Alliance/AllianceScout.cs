@@ -7,26 +7,26 @@ public class AllianceScout : MonoBehaviour
 {
     private statystyki stats;
     private GUIPlanetOperations GUIPlanetOperations;
-    private GUIOperations GUIoper;
     [SerializeField] private XmlOperations xmlOperations;
+
+    private GUIOperations GUIoper;
     private ScoutProposition ScoutProposition;
     private MembersList MembersList;
 
-    private int ID;
+    private int MemberID;
 
-    [SerializeField] private AllianceStats AllianceStats;
     [SerializeField] private GUIOverview GUIOverview;
 
     [SerializeField] private GameObject PropositionsList;
     [SerializeField] internal Image Sprite_MemberShip;
     [SerializeField] private Text TxtDescription;
     [SerializeField] private GameObject[] Buttons;
-    [SerializeField] private int page;
-    private const int cost = 1; // 0 = przywitanie, 1 szuka, 2 wyniki wyszukania
+    [SerializeField] private int page; // 0 = przywitanie, 1 szuka, 2 wyniki wyszukania
+    private const int cost = 1; 
 
     private void Start()
     {
-        page = 0;
+        SetPageID(0);
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         ScoutProposition = GetComponent<ScoutProposition>();
         MembersList = GetComponent<MembersList>();
@@ -35,9 +35,19 @@ public class AllianceScout : MonoBehaviour
         Work();
     }
 
+    private int GetPageID()
+    {
+        return page;
+    }
+
+    private void SetPageID(int value)
+    {
+        page = value;
+    }
+
     private void RandomID(int id)
     {
-        ID = id;
+        MemberID = id;
     }
 
     private void Cost()
@@ -50,9 +60,9 @@ public class AllianceScout : MonoBehaviour
     {
         if (stats.Get_Data_From("Alliance_Antymatery") >= cost)
         {
-            if (AllianceStats.CompareMemberToLength())//if true do it 
+            if (MembersList.CompareMemberToLength())//if true do it 
             {
-                page = 1;
+                SetPageID(1);
                 Cost();
                 FindMember();
             }
@@ -70,19 +80,19 @@ public class AllianceScout : MonoBehaviour
 
     public void BtnLeaveIt()
     {
-        page = 0;
+        SetPageID(0);
     }
 
     public void InfoShips()
     {
-        GUIPlanetOperations.Subject_Information(0, 0, 0, 0, ScoutProposition.GetName(ID), ScoutProposition.GetDescription(ID), ScoutProposition.GetSpriteShip(ID));
+        GUIPlanetOperations.Subject_Information(0, 0, 0, 0, ScoutProposition.GetName(MemberID), ScoutProposition.GetDescription(MemberID), ScoutProposition.GetSpriteShip(MemberID));
     }
 
     public void AddMember()
     {
-        if (AllianceStats.CompareMemberToLength())
+        if (MembersList.CompareMemberToLength())
         {
-            SetMembers(ID);
+            SetMembers(MemberID);
             stats.Set_Data("MemberID", GetIDToAddMember());
             BtnLeaveIt();
             MembersList.ReloadScene();
@@ -95,7 +105,7 @@ public class AllianceScout : MonoBehaviour
 
     #endregion
 
-    private string Get_AdmiralName()
+    private string GetAdmiralName()
     {
         return stats.Get_String_Data_From("Admiral_Name");
     }
@@ -113,7 +123,7 @@ public class AllianceScout : MonoBehaviour
     private void FindMember()
     {
         RandomID(ScoutProposition.GetShipsMaxRange());
-        FindShip(ID);
+        FindShip(MemberID);
     }
 
     private void FindShip(int id)
@@ -140,23 +150,30 @@ public class AllianceScout : MonoBehaviour
 
     }
 
+    private void ShowDescription(string value)
+    {
+        TxtDescription.text = value;
+    }
+
+    private void SetButtonsVisibility(bool value1, bool value2, bool value3, bool value4)
+    {
+        Buttons[0].SetActive(value1);  //search
+        Buttons[1].SetActive(value2); //add
+        Buttons[2].SetActive(value3); //info
+        PropositionsList.SetActive(value4);
+    }
+
     private void Work()
     {
-        if (page == 0)
+        if (GetPageID() == 0)
         {
-            TxtDescription.text = "Hi " + Get_AdmiralName() + "!\nI am a scout. I help in finding members for the alliance. Are you interested in this?";
-            Buttons[0].SetActive(true);  //search
-            Buttons[1].SetActive(false); //add
-            Buttons[2].SetActive(false); //info
-            PropositionsList.SetActive(false);
+            ShowDescription("Hi " + GetAdmiralName() + "!\nI am a scout. I help in finding members for the alliance. Are you interested in this?");
+            SetButtonsVisibility(true, false, false, false);
         }
-        else if (page == 1)
+        else if (GetPageID() == 1)
         {
-            TxtDescription.text = "I found them!";
-            Buttons[0].SetActive(false); //search
-            Buttons[1].SetActive(true); //add
-            Buttons[2].SetActive(true); //info
-            PropositionsList.SetActive(true);
+            ShowDescription("I found them!");
+            SetButtonsVisibility(false, true, true, true);
         }
     }
 

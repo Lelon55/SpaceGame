@@ -11,11 +11,12 @@ public class Skins : MonoBehaviour {
 	public ParticleSystem[] ps;
     public GameObject[] ParticleShip;
     public SpriteRenderer aura, ship, laser;
-    public Sprite[] auras, skin_laseru, skin_statku, podniszczony_ship, podniszczony_bardziej;
+    public Sprite[] auras, skin_laseru, skin_statku, podniszczony_ship, destroyed;
 
     private void Start()
     {
         staty = GameObject.Find("spaceship").GetComponent<statystyki>();
+        SetShipRandomSprite();
     }
 
     private void LateUpdate()
@@ -23,7 +24,7 @@ public class Skins : MonoBehaviour {
         if (SceneManager.GetActiveScene().name != "Menu")
         {
             CheckImmortal();
-            CheckSpriteShip();
+            SetSprites();
         }
     }
 
@@ -93,13 +94,31 @@ public class Skins : MonoBehaviour {
         }
     }
 
-    private void CheckSpriteShip()
+    private void SetShipRandomSprite()
+    {
+        if (SceneManager.GetActiveScene().name == "Menu")
+        {
+            ship.sprite = skin_statku[Random.Range(0, skin_statku.Length)];
+        }
+    }
+
+    private void SetShipSprite()
+    {
+        ship.sprite = skin_statku[staty.Get_Data_From("Ship_Id")];
+    }
+
+    private void SetLaserSprite()
+    {
+        laser.sprite = skin_laseru[staty.Get_Data_From("Laser")];
+    }
+
+    private void SetSprites()
     {
         if (!done)
         {
             done = true;
-            laser.sprite = skin_laseru[staty.Get_Data_From("Laser")];
-            ship.sprite = skin_statku[staty.Get_Data_From("Ship_Id")];
+            SetShipSprite();
+            SetLaserSprite();
         }
     }
 
@@ -115,7 +134,7 @@ public class Skins : MonoBehaviour {
             switch (staty.Life)
             {
                 case 1:
-                    ship.sprite = SetCollisionSkin(podniszczony_bardziej, staty.Get_Data_From("Ship_Id"));
+                    ship.sprite = SetCollisionSkin(destroyed, staty.Get_Data_From("Ship_Id"));
                     break;
                 case 2:
                     ship.sprite = SetCollisionSkin(podniszczony_ship, staty.Get_Data_From("Ship_Id"));

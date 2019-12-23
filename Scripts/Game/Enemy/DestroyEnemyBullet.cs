@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Destroy_enemy_bullet : MonoBehaviour
+public class DestroyEnemyBullet : MonoBehaviour
 {
     private void FixedUpdate()
     {

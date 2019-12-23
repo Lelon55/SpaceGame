@@ -23,6 +23,7 @@ public class MembersList : MonoBehaviour
     public GameObject MemberList;
     public RectTransform ContainerMemberList;
     public Canvas ShowInfoAllyID, ReloadMessage;
+    public Text[] AllianceData;
 
     private void Start()
     {
@@ -32,9 +33,23 @@ public class MembersList : MonoBehaviour
         LoadAllies();
     }
 
+    private int MembersLength() // 1 lvl of base = 1 member
+    {
+        return stats.Get_Data_From("Space Base");
+    }
+
+    private int GetNumberOfMembers()
+    {
+        if (stats.Get_Data_From("MemberID") >= 1)
+        {
+            return xmlOperations.CountItems("Allies.xml", "Ally");
+        }
+        return 0;
+    }
+
     private float CountToGetContainerHeight()
     {
-        return 110f * xmlOperations.CountItems("Allies.xml", "Ally");
+        return 110f * GetNumberOfMembers();
     }
 
     private float CountToGetElementHeight(int elementID)
@@ -102,7 +117,7 @@ public class MembersList : MonoBehaviour
         {
             LoadAllyData();
             SetHeightContainer();
-            for (int i = 0; i < xmlOperations.CountItems("Allies.xml", "Ally"); i++)
+            for (int i = 0; i < GetNumberOfMembers(); i++)
             {
                 GameObject allyContainer = Instantiate(container, MemberList.transform.position, MemberList.transform.rotation) as GameObject;
                 allyContainer.transform.SetParent(MemberList.transform);
@@ -130,5 +145,25 @@ public class MembersList : MonoBehaviour
     {
         xmlOperations.LoadAllyID("Allies.xml");
         xmlOperations.LoadAllyMemberID("Allies.xml");
+    }
+
+    private void ResetMembers()
+    {
+        if (GetNumberOfMembers() <= 0)
+        {
+            stats.Set_Data("MemberID", 0);
+        }
+    }
+
+    internal bool CompareMemberToLength()
+    {
+        return MembersLength() > GetNumberOfMembers();
+    }
+
+    private void LateUpdate()
+    {
+        ResetMembers();
+        AllianceData[0].text = "Members: " + GetNumberOfMembers() + "/" + MembersLength();
+        AllianceData[1].text = stats.Get_Data_From("Alliance_Antymatery").ToString();
     }
 }

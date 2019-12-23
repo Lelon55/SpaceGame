@@ -5,9 +5,9 @@ using UnityEngine.UI;
 public class TextScript : MonoBehaviour
 {
     private statystyki stats;
-    private Animator animator;
+    internal Animator animator;
     internal bool check;
-    private Text txtPowerUP;
+    private Text textToShow;
 
     public AudioClip powerup;
 
@@ -15,38 +15,45 @@ public class TextScript : MonoBehaviour
     {
         stats = GameObject.Find("spaceship").GetComponent<statystyki>();
         animator = GetComponent<Animator>();
-        txtPowerUP = GameObject.Find("txtPowerUp").GetComponent<Text>();
+        textToShow = GetComponent<Text>();
     }
 
     private void Update()
     {
         if ((stats.Get_Distance() == 150 || stats.Get_Distance() == 500) && !check)
         {
-            StartAnimations("speed up");
+            ShowText("speed up", TurnText(), powerup, stats.transform.position);
+            StartAnimations();
         }
         if ((stats.Get_Comets() == 50 || stats.Get_Comets() == 150) && !check)
         {
-            StartAnimations("fast reload");
+            ShowText("fast reload", TurnText(), powerup, stats.transform.position);
+            StartAnimations();
         }
     }
 
-    private void SetText(string text)
+    internal void SetText(string value)
     {
-        txtPowerUP.text = text;
+        textToShow.text = value;
     }
 
-    private void StartAnimations(string text)
+    internal void ShowText(string text, IEnumerator iEnumerator, AudioClip clip, Vector3 position)
     {
         SetText(text);
-        animator.SetBool("check", true);
-        check = animator.GetBool("check");
-        StartCoroutine(Throw());
-        AudioSource.PlayClipAtPoint(powerup, stats.transform.position);
+        StartCoroutine(iEnumerator);
+        AudioSource.PlayClipAtPoint(clip, position);
     }
 
-    private IEnumerator Throw()
+    internal void StartAnimations()
+    {
+        animator.SetBool("check", true);
+        check = animator.GetBool("check");
+    }
+
+    internal IEnumerator TurnText()
     {
         yield return new WaitForSeconds(GetComponent<Animation>().clip.length);
         animator.SetBool("check", false);
+        stats.Set_Data("on_off_shot", 1);
     }
 }

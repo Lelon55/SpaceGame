@@ -18,24 +18,32 @@ public class GUISettingsAlliance : MonoBehaviour {
     internal readonly int cost = 1;
     public RawImage Avatar;
 
+    [SerializeField] private InputField antymateryBank;
+
     private void Start () {
         stats = GameObject.Find("Scripts").GetComponent<statystyki>();
         GUIOverview = GameObject.Find("Interface").GetComponent<GUIOverview>();
         GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
         AllianceDataInput[2].text = stats.Get_String_Data_From("Alliance_Avatar");
         GUIPlanetOperations.SetAvatar(AllianceDataInput[2].text, "Alliance_Avatar", Avatar);
-        Get_Alliance_Data();
+        GetAllianceData();
     }
 
     private void LateUpdate()
     {
-        ActivePanels();
+        ShowActivePanels();
         txtLength[0].text = GUIPlanetOperations.ReturnLength(AllianceDataInput[0]);
         txtLength[1].text = GUIPlanetOperations.ReturnLength(AllianceDataInput[1]);
+        txtLength[2].text = GUIPlanetOperations.ReturnLength(AllianceDataInput[2]);
+        txtLength[3].text = GUIPlanetOperations.ReturnLength(AllianceDataInput[3]);
         AllianceData[1].text = ShowCost_SetAllianceData();
+        AllianceData[2].text = ShowCost_CreateAlliance();
+
+        AllianceData[3].text = stats.Get_Data_From("Alliance_Antymatery").ToString(); //Alliance antymatery
+        AllianceData[4].text = stats.Get_Data_From("Antymatery").ToString(); // player antymatery
     }
 
-    internal void Get_Alliance_Data()
+    internal void GetAllianceData()
     {
         AllianceDataInput[0].text = stats.Get_String_Data_From("Alliance_Name");
         AllianceDataInput[1].text = stats.Get_String_Data_From("Alliance_Tag");
@@ -43,12 +51,12 @@ public class GUISettingsAlliance : MonoBehaviour {
 
         AllianceData[0].text = stats.Get_String_Data_From("Alliance_Name");
     }
-    private bool Has_Ally() //jesli true to mam klan, jesli false czyli ze no clan to nie mam klanu
+    private bool HasAlly() 
     {
-        return Check_Name(AllianceDataInput[0]) == true && Check_Tag(AllianceDataInput[1]) == true;
+        return CheckName(AllianceDataInput[0]) == true && CheckTag(AllianceDataInput[1]) == true;
     }
 
-    internal string ShowCost_CreateAllianceData()
+    internal string ShowCost_CreateAlliance()
     {
         return stats.Get_Data_From("Antymatery") + "/" + cost;
     }
@@ -58,31 +66,31 @@ public class GUISettingsAlliance : MonoBehaviour {
         return stats.Get_Data_From("Alliance_Antymatery") + "/" + cost;
     }
 
-    internal bool Check_Name(InputField AllianceName)
+    internal bool CheckName(InputField AllianceName)
     {
         return AllianceName.text != "no alliance" || AllianceName.text != "";
     }
 
-    internal bool Check_Tag(InputField AllianceTag)
+    internal bool CheckTag(InputField AllianceTag)
     {
         return AllianceTag.text != "no tag" || AllianceTag.text != "";
     }
 
-    internal bool Check_Antymateries(int value_cost)
+    internal bool CheckAntymateries(int value_cost)
     {
         return stats.Get_Data_From("Antymatery") >= value_cost;
     }
 
     public void Change_Alliance_Data()
     {
-        if (Has_Ally())
+        if (HasAlly())
         {
             if (stats.Get_Data_From("Antymatery") >= cost)
             {
                 stats.Set_Data("Alliance_Antymatery", stats.Get_Data_From("Alliance_Antymatery")-cost);
                 stats.Set_String_Data("Alliance_Name", AllianceDataInput[0].text);
                 stats.Set_String_Data("Alliance_Tag", AllianceDataInput[1].text);
-                Get_Alliance_Data();
+                GetAllianceData();
                 GUIOverview.page = 15;
             }
             else
@@ -115,7 +123,7 @@ public class GUISettingsAlliance : MonoBehaviour {
             stats.Set_Data("Scout", 0);
             stats.Set_Data("Alliance_Antymatery", 0);
             xmlOperations.ClearFile("Allies.xml");
-            Get_Alliance_Data();
+            GetAllianceData();
             CanvasDelete.enabled = false;
             GUIOverview.page = 12;
         }
@@ -125,7 +133,57 @@ public class GUISettingsAlliance : MonoBehaviour {
         }
     }
 
-    private void ActivePanels()
+    public void BtnCreateAlliance()
+    {
+        if (stats.Get_Data_From("Antymatery") >= cost)
+        {
+            if (CheckName(AllianceDataInput[0]) && CheckTag(AllianceDataInput[1]))
+            {
+                stats.Change_Antymatery(-cost);
+                stats.Set_String_Data("Alliance_Name", AllianceDataInput[3].text);
+                stats.Set_String_Data("Alliance_Tag", AllianceDataInput[4].text);
+                stats.Set_String_Data("Alliance_Avatar", "http://www.owiki.de/images/2/28/Flottenadmiral.PNG");
+                stats.Set_Data("MemberID", 0);
+                stats.Set_Data("Space Base", 0);
+                stats.Set_Data("Scout", 0);
+                stats.Set_Data("Aliiance_Antymatery", 0);
+                GetAllianceData();
+                GUIOverview.page = 15;
+            }
+            else
+            {
+                GUIOverview.View_CanvasMessage("Empty Name or Tag!");
+            }
+        }
+        else
+        {
+            GUIOverview.View_CanvasMessage("Too small Antymateries!");
+        }
+    }
+
+    public void BtnPayToBank()
+    {
+        int antymatery = int.Parse(antymateryBank.text);
+        if (antymatery >= 0)
+        {
+            if (CheckAntymateries(antymatery))
+            {
+                stats.Change_Antymatery(-antymatery);
+                stats.Set_Data("Alliance_Antymatery", stats.Get_Data_From("Alliance_Antymatery") + antymatery);
+                GUIOverview.View_CanvasMessage("You paid: " + antymatery);
+            }
+            else
+            {
+                GUIOverview.View_CanvasMessage("Too small Antymateries!");
+            }
+        }
+        else
+        {
+            GUIOverview.View_CanvasMessage("Haha. Funny!");
+        }
+    }
+
+    private void ShowActivePanels()
     {
         panels[0].SetActive(SetActivePanels(GUIOverview.page));
         panels[1].SetActive(SetActivePanels(GUIOverview.page));
@@ -138,7 +196,7 @@ public class GUISettingsAlliance : MonoBehaviour {
 
     public void SetAllianceAvatar()
     {
-        if (Has_Ally() && AllianceDataInput[2].text != "")
+        if (HasAlly() && AllianceDataInput[2].text != "")
         {
             GUIPlanetOperations.SetAvatar(AllianceDataInput[2].text, "Alliance_Avatar", Avatar);
         }

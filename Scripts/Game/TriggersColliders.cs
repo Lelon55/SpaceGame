@@ -5,7 +5,7 @@ using System.Collections;
 public class TriggersColliders : MonoBehaviour
 {
     private GUIGame menu;
-    private Shake_Camera shake;
+    private ControlCamera controlCamera;
 
     public AudioClip Defeat, PowerUp;
     public GameObject ExploredMoons;
@@ -15,7 +15,7 @@ public class TriggersColliders : MonoBehaviour
     private void Start()
     {
         menu = GameObject.Find("Main Camera").GetComponent<GUIGame>();
-        shake = GameObject.Find("Main Camera").GetComponent<Shake_Camera>();
+        controlCamera = GameObject.Find("Main Camera").GetComponent<ControlCamera>();
         GUIOperations = GameObject.Find("spaceship").GetComponent<GUIOperations>();
         Skins = GameObject.Find("spaceship").GetComponent<Skins>();
     }
@@ -36,41 +36,41 @@ public class TriggersColliders : MonoBehaviour
         return Random.Range(2, 6 + (menu.staty.Get_Data_From("Mining Technology") * 2));
     }
 
-    private void OnTriggerEnter2D(Collider2D player)
+    private void OnTriggerEnter2D(Collider2D playerek)
     {
         if (SceneManager.GetActiveScene().name != "Menu")
         {
-            if (player.gameObject.tag == "Scena" || player.gameObject.tag == "Magnetic_storm")
+            if (playerek.gameObject.tag == "Scena" || playerek.gameObject.tag == "Magnetic_storm")
             {
                 menu.staty.LoadedScene += 1;
             }
-            if (player.gameObject.tag == "Moon" || player.gameObject.tag == "Tesla")
+            if (playerek.gameObject.tag == "Moon" || playerek.gameObject.tag == "Tesla")
             {
-                DropFromMoon();
+                AddResourcesFromDropMoon();
                 GUIOperations.Generate(transform.position.x, transform.position.y + 3.5f, transform.rotation, ExploredMoons);
             }
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D player)
+    private void OnCollisionEnter2D(Collision2D playerek)
     {
-        if ((player.gameObject.tag == "Pocisk_wroga" || player.gameObject.tag == "kometa") && menu.staty.immortal == 1)
+        if ((playerek.gameObject.tag == "Pocisk_wroga" || playerek.gameObject.tag == "kometa") && menu.staty.immortal == 1)
         {
             menu.staty.immortal = 0;
-            shake.ShakeCamera();
+            controlCamera.Shake();
             Handheld.Vibrate();
             Debug.Log("Wykryto kolizje. Usuwam niesmiertelnosc");
         }
-        else if (player.gameObject.tag == "Pocisk_wroga" && menu.staty.immortal == 0)
+        else if (playerek.gameObject.tag == "Pocisk_wroga" && menu.staty.immortal == 0)
         {
             menu.staty.Life -= 1;
-            shake.ShakeCamera();
+            controlCamera.Shake();
             GameOver();
         }
-        else if (player.gameObject.tag == "kometa" && menu.staty.immortal == 0)
+        else if (playerek.gameObject.tag == "kometa" && menu.staty.immortal == 0)
         {
             menu.staty.Life -= menu.staty.Life;
-            shake.ShakeCamera();
+            controlCamera.Shake();
             GameOver();
         }
     }
@@ -89,9 +89,9 @@ public class TriggersColliders : MonoBehaviour
         }
     }
 
-    private void DropFromMoon()
+    private void AddResourcesFromDropMoon()
     {
-        menu.staty.AddDroppedResources(GetDrop(), GetDrop(), GetDrop(), "ExploredMoons");
+        menu.staty.AddDroppedResources(GetDrop(), GetDrop(), GetDrop(), "Explored_Moons");
     }
 }
 	

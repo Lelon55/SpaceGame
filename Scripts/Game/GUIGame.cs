@@ -17,15 +17,19 @@ public class GUIGame : MonoBehaviour
     public Animator[] anim;
     private GUIOperations GUIOperations;
 
+    private SpriteRenderer healthBar;
+
     private void Start()
     {
         staty = GameObject.Find("spaceship").GetComponent<statystyki>();
         GUIOperations = GameObject.Find("Interface").GetComponent<GUIOperations>();
+        healthBar = GameObject.Find("player_life").GetComponent<SpriteRenderer>();
     }
 
     private void LateUpdate()
     {
         Pages();
+        staty.ShowCurrentlyHealthBar(healthBar, 0.2f * staty.Life);
     }
 
     private void Update()

@@ -14,7 +14,7 @@ public class Generate_bullet : MonoBehaviour {
 	private statystyki Stats;
     private ControlShip ControlShip;
 	private Rigidbody2D Gravity;
-    private Skins Skins;
+    internal Skins Skins;
     private SetCountdown Countdown;
 
     private void Start()
@@ -34,15 +34,25 @@ public class Generate_bullet : MonoBehaviour {
         LaserSkin.transform.localScale = new Vector2(0.5f, MinBullets / MaxBullets);
     }
 
+    private void SetCooling(float value)
+    {
+        Cooling = value;
+    }
+
+    private float GetCooling()
+    {
+        return Cooling;
+    }
+
     private void ShortenReloading()
     {
         if (Stats.Get_Comets() == 50)
         {
-            Cooling = 2.0f;
+            SetCooling(2.0f);
         }
         else if (Stats.Get_Comets() == 150)
         {
-            Cooling = 1.5f;
+            SetCooling(1.5f);
         }
     }
 
@@ -50,12 +60,12 @@ public class Generate_bullet : MonoBehaviour {
     {
         if (MinBullets <= 0f)
         {
-            StopCoroutine("Start_Count");
+            StopCoroutine("StartCount");
             MinBullets = 0f;
         }
         else
         {
-            StartCoroutine("Start_Count");
+            StartCoroutine("StartCount");
         }
     }
 
@@ -72,11 +82,11 @@ public class Generate_bullet : MonoBehaviour {
         ShowLaserConsumption();
     }
 
-    private IEnumerator Start_Count()
+    private IEnumerator StartCount()
     {
         while (true)
         {
-            yield return new WaitForSeconds(Cooling); // czas Tick
+            yield return new WaitForSeconds(GetCooling()); // czas Tick
             MinBullets--; //odejmuje wszystko po 2sek
         }
     }

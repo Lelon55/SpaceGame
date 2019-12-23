@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class ControlShip : MonoBehaviour
 {
     [SerializeField] private Tutorial[] tutorial;
+
     private Vector2 movement;
     internal Rigidbody2D gravityShip;
     private float gravityBullet;
@@ -94,9 +95,9 @@ public class ControlShip : MonoBehaviour
         return gravityBullet;
     }
 
-    private void SetGravityBullet(float value)
+    private void SetGravityBullet(float GravityBullet)
     {
-        gravityBullet = value;
+        gravityBullet = GravityBullet;
     }
 
     private void SetSpeedShipBullet()

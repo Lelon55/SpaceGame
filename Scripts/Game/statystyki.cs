@@ -276,4 +276,9 @@ public class statystyki : MonoBehaviour {
         }
         return 0;
     }
+
+    internal void ShowCurrentlyHealthBar(SpriteRenderer healthBar, float size)
+    {
+        healthBar.transform.localScale = new Vector2(size, 0.2f);
+    }
 }

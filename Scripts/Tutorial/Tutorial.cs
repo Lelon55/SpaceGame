@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Tutorial : MonoBehaviour {
-    [SerializeField] private Text TxtMission;
+    [SerializeField] private TextScript textScript;
     [SerializeField] private string txtMission;
 
     public int nr_mission = 0 ;
@@ -15,10 +15,6 @@ public class Tutorial : MonoBehaviour {
 
     [SerializeField] private bool _done = false;
     [SerializeField] internal bool wall = false; 
-
-    public Animation animacja;
-    public Animator anim;
-    public AudioClip powerup;
 
     private Generate_bullet Generate_bullet;
     private statystyki staty;
@@ -34,7 +30,8 @@ public class Tutorial : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Player")
         {
-            ShowText(txtMission);
+            textScript.ShowText(txtMission, textScript.TurnText(), textScript.powerup, staty.transform.position);
+            textScript.StartAnimations();
             staty.mission += 1;
         }
     }
@@ -44,12 +41,12 @@ public class Tutorial : MonoBehaviour {
         CheckMission(staty.mission, value_bullets, value_comets, value_wall);
     }
 
-    private void ShowText(string _txtMission)
+    private void CheckMission(int _nr_mission, float _value_bullets, int _value_comets, bool _wall)
     {
-        TxtMission.text = _txtMission;
-        anim.SetBool("check", true);
-        StartCoroutine(TurnText());
-        AudioSource.PlayClipAtPoint(powerup, staty.transform.position);
+        if (nr_mission == _nr_mission && _done == false && Generate_bullet.MinBullets >= _value_bullets && staty.Get_Comets() >= _value_comets && _wall == wall)
+        {
+            Success();
+        }
     }
 
     private string ReturnText()
@@ -61,36 +58,19 @@ public class Tutorial : MonoBehaviour {
         return "mission complete";
     }
 
-    private void CheckMission(int _nr_mission, float _value_bullets, int _value_comets, bool _wall)
-    {
-        if (nr_mission == _nr_mission && _done == false && Generate_bullet.MinBullets >= _value_bullets && staty.Get_Comets() >= _value_comets && _wall == wall)
-        {
-            Success();
-        }
-    }
-
     private void Success()
     {
-        ShowText(ReturnText());
-        _done = true;
+        textScript.ShowText(ReturnText(), SkipTutorial(), textScript.powerup, staty.transform.position);
+        textScript.StartAnimations();
         StartCoroutine(SkipTutorial());
-        AudioSource.PlayClipAtPoint(powerup, staty.transform.position);
-    }
-
-    private IEnumerator TurnText()
-    {
-        yield return new WaitForSeconds(animacja.clip.length);
-        anim.SetBool("check", false);
-        staty.Set_Data("on_off_shot", 1);
+        _done = true;
     }
 
     private IEnumerator SkipTutorial()
     {
-        yield return new WaitForSeconds(animacja.clip.length + 1f);
-        anim.SetBool("check", false);
-        staty.Set_Data("ticks", staty.ticks);
+        yield return new WaitForSeconds(textScript.GetComponent<Animation>().clip.length + 1f);
+        textScript.animator.SetBool("check", false);
         staty.Set_Data("on_off_shot", 0);
-        PlayerPrefs.Save();
         Destroy(gameObject, 0.2f);
         NextScene();
     }
@@ -106,6 +86,8 @@ public class Tutorial : MonoBehaviour {
             if (nr_mission == 6)
             {
                 SceneManager.LoadScene("Planet");
+                staty.Set_Data("ticks", staty.ticks);
+                PlayerPrefs.Save();
             }
         }
     }

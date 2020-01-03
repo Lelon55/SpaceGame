@@ -7,21 +7,22 @@ public class GenerateEnemyBullet : MonoBehaviour
 
     public GameObject bullet_ship;
     public SpriteRenderer bullet;
+    public Rigidbody2D GravityBullet;
     [SerializeField] private Generate_bullet Generate_bullet;
     [SerializeField] private Skins Skins;
     private EnemyControl EnemyControl;
-
 
     private void Start()
     {
         EnemyControl = GameObject.Find("enemy_spaceship").GetComponentInChildren<EnemyControl>();
         SetCooling(Random.Range(0.5f, 1.7f));
-        SetRandomLaser(Random.Range(0, Skins.skin_laseru.Length));
+        SetGravityBullet(Random.Range(0.8f, 1.5f));
+        SetSkinLaser(Random.Range(0, Skins.skin_laseru.Length));
     }
 
-    private void SetCooling(float Cooling)
+    private void SetCooling(float cooling)
     {
-        this.Cooling = Cooling;
+        this.Cooling = cooling;
     }
 
     private float GetCooling()
@@ -29,9 +30,14 @@ public class GenerateEnemyBullet : MonoBehaviour
         return Cooling;
     }
 
-    private void SetRandomLaser(int value)
+    private void SetGravityBullet(float gravityBullet)
     {
-        bullet.sprite = Skins.skin_laseru[value];
+        GravityBullet.gravityScale = gravityBullet;
+    }
+
+    private void SetSkinLaser(int ID)
+    {
+        bullet.sprite = Skins.skin_laseru[ID];
     }
 
     private IEnumerator CountToGenerate()
@@ -40,17 +46,17 @@ public class GenerateEnemyBullet : MonoBehaviour
         {
             yield return new WaitForSeconds(Cooling);
             SetCooling(Random.Range(0.5f, 1.7f));
-            GenerateBullet(Random.Range(0, 3)); 
+            ShowBullet(Random.Range(0, Generate_bullet.laser_sound.Length)); 
             StopCoroutine("CountToGenerate");
         }
     }
 
-    private void GenerateBullet(int nr)
+    private void ShowBullet(int ID)
     {
         if (!EnemyControl.GetEnemyMoving())
         {
             Vector2 bulletPosition = new Vector2(transform.position.x - 0.02f, transform.position.y - 0.5f);
-            Generate_bullet.CreateBullet(bullet_ship, bulletPosition, Generate_bullet.laser_sound[nr], transform.position);
+            Generate_bullet.CreateBullet(bullet_ship, bulletPosition, Generate_bullet.laser_sound[ID], transform.position);
         }
     }
 
@@ -62,9 +68,9 @@ public class GenerateEnemyBullet : MonoBehaviour
             EnemyControl.MovementEnemy();
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
-        //brak strzalu, ale ma szukac wroga od ściany do ściany
         StopCoroutine("CountToGenerate");
     }
 }

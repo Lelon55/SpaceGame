@@ -25,7 +25,7 @@ public class TriggersColliders : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = value;
     }
 
-    private IEnumerator Count()
+    private IEnumerator SetPage()
     {
         yield return new WaitForSeconds(0.1f);
         menu.page = 2;
@@ -82,8 +82,8 @@ public class TriggersColliders : MonoBehaviour
             SetVisibilityShip(false);
             Skins.ParticleOff();
             AudioSource.PlayClipAtPoint(Defeat, transform.position);
-            StartCoroutine(Count());
-            StopCoroutine(Count());
+            StartCoroutine(SetPage());
+            StopCoroutine(SetPage());
             Handheld.Vibrate();
             PlayerPrefs.Save();
         }

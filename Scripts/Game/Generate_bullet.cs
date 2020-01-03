@@ -12,8 +12,8 @@ public class Generate_bullet : MonoBehaviour {
 
     private Vector2 LaserPosition;
 	private statystyki Stats;
-    private ControlShip ControlShip;
-	private Rigidbody2D Gravity;
+    private ShipControl ShipControl;
+	private Rigidbody2D GravityBullet;
     internal Skins Skins;
     private SetCountdown Countdown;
 
@@ -22,21 +22,26 @@ public class Generate_bullet : MonoBehaviour {
         LaserPosition = new Vector2(0f, 0.5f);
         Stats = GameObject.Find("spaceship").GetComponent<statystyki>();
         Countdown = GameObject.Find("Main Camera").GetComponent<SetCountdown>();
-        ControlShip = GameObject.Find("spaceship").GetComponent<ControlShip>();
+        ShipControl = GameObject.Find("spaceship").GetComponent<ShipControl>();
         Skins = GameObject.Find("spaceship").GetComponent<Skins>();
         LaserSkin = GameObject.Find("laser_life").GetComponent<SpriteRenderer>();
-        Gravity = GetComponent<Rigidbody2D>();
+        GravityBullet = GetComponent<Rigidbody2D>();
+        SetSkinLaser();
+    }
+
+    private void SetSkinLaser()
+    {
+        LaserSkin.sprite = Skins.laser.sprite;
     }
 
     private void ShowLaserConsumption()
     {
-        LaserSkin.sprite = Skins.laser.sprite;
         LaserSkin.transform.localScale = new Vector2(0.5f, MinBullets / MaxBullets);
     }
 
-    private void SetCooling(float value)
+    private void SetCooling(float cooling)
     {
-        Cooling = value;
+        Cooling = cooling;
     }
 
     private float GetCooling()
@@ -72,7 +77,7 @@ public class Generate_bullet : MonoBehaviour {
     private void Update()
     {
         MaxBullets = Stats.Get_Float_Data_From("Max_Lasers");
-        Gravity.gravityScale = ControlShip.GetGravityBullet();
+        GravityBullet.gravityScale = ShipControl.GetGravityBullet();
         CheckBullets();
         ShortenReloading();
     }
@@ -86,8 +91,8 @@ public class Generate_bullet : MonoBehaviour {
     {
         while (true)
         {
-            yield return new WaitForSeconds(GetCooling()); // czas Tick
-            MinBullets--; //odejmuje wszystko po 2sek
+            yield return new WaitForSeconds(GetCooling()); 
+            MinBullets--; 
         }
     }
 
@@ -95,7 +100,7 @@ public class Generate_bullet : MonoBehaviour {
     {
         if (MinBullets >= MaxBullets)
         {
-            //dzwiek przegrzanego dzialka
+            AudioSource.PlayClipAtPoint(laser_sound[3], Stats.transform.position);
         }
         else if (MinBullets <= MaxBullets)
         {

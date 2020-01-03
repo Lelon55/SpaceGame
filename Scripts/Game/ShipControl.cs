@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class ControlShip : MonoBehaviour
+public class ShipControl : MonoBehaviour
 {
     [SerializeField] private Tutorial[] tutorial;
 

@@ -63,7 +63,6 @@ public class GUILasers : MonoBehaviour
                 staty.Set_Data("Laser", lasers[nr].id);
                 PlayerPrefs.Save();
                 GUIPlanetOperations.Subject_Information(0, 0, 0, lasers[nr].price, lasers[nr].name, "Bought!", skin.skin_laseru[nr]);
-
             }
             else if (staty.Get_Data_From("Antymatery") < lasers[nr].price)
             {

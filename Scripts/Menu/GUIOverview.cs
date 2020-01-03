@@ -76,28 +76,29 @@ public class GUIOverview : MonoBehaviour
     {
         ShowCharsLimit();
         GUIoper.Steer_Canvas(Canvases, page);
-        SteerPanelResources();
+        SteerUpperPanel();
     }
 
-    private void SteerPanelResources()
+    private void SetVisibilityResources(bool resources, bool fieldPlanet, bool antymatery)
     {
-        if (page == 0 || page == 1 || page >= 12)//nothing
+        antymatery_field_planet[0].SetActive(resources);
+        antymatery_field_planet[1].SetActive(fieldPlanet);
+        antymatery_field_planet[2].SetActive(antymatery);
+    }
+
+    private void SteerUpperPanel()
+    {
+        if (page == 0 || page == 1 || page >= 12)
         {
-            antymatery_field_planet[0].SetActive(false);
-            antymatery_field_planet[1].SetActive(false);
-            antymatery_field_planet[2].SetActive(false);
+            SetVisibilityResources(false, false, false);
         }
-        else if (page >= 2 && page <= 5)//resources
+        else if (page >= 2 && page <= 5)
         {
-            antymatery_field_planet[0].SetActive(true);
-            antymatery_field_planet[1].SetActive(true);
-            antymatery_field_planet[2].SetActive(false);
+            SetVisibilityResources(true, true, false);
         }
-        else if (page >= 6 && page <= 11)//antymatery
+        else if (page >= 6 && page <= 11)
         {
-            antymatery_field_planet[0].SetActive(true);
-            antymatery_field_planet[1].SetActive(false);
-            antymatery_field_planet[2].SetActive(true);
+            SetVisibilityResources(true, false, true);
         }
     }
 

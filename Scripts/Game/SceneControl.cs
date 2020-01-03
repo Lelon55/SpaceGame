@@ -4,8 +4,7 @@ using System.Collections;
 
 public class SceneControl : MonoBehaviour
 {
-    public int max_scen; 
-    public int min_scen = 0;
+    private int max_scen, min_scen;
 
     public GameObject[] scena;
     private int nrScene;

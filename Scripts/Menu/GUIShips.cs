@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Linq;
 
 public class GUIShips : MonoBehaviour {
@@ -40,8 +41,11 @@ public class GUIShips : MonoBehaviour {
 
     private void Start()
     {
-        staty = GameObject.Find("Scripts").GetComponent<statystyki>();
-        GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
+        if (SceneManager.GetActiveScene().name == "Planet")
+        {
+            staty = GameObject.Find("Scripts").GetComponent<statystyki>();
+            GUIPlanetOperations = GameObject.Find("Interface").GetComponent<GUIPlanetOperations>();
+        }
         ships.Add(new ListShips(0, "Light Hunter", "Life: 1 \nChance drop antymatery: 5% \nConsumption: 5 deuter \nSteer: 9 \nMax lasers: 3", 1, 0.05, 5, 10, 5.0f, 9, 3.0f, true)); // (id, nazwa, opis, zycie, sznasadropu w double, szansadropu w int, koszt, posiadanie)
         ships.Add(new ListShips(1, "Light Hunter", "Life: 1 \nChance drop antymatery: 5% \nConsumption: 5 deuter \nSteer: 9 \nMax lasers: 3", 1, 0.05, 5, 10, 5.0f, 9, 3.0f, false));
         ships.Add(new ListShips(2, "Light Hunter", "Life: 1 \nChance drop antymatery: 5% \nConsumption: 5 deuter \nSteer: 9 \nMax lasers: 3", 1, 0.05, 5, 10, 5.0f, 9, 3.0f, false));

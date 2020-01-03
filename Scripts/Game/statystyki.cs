@@ -281,4 +281,22 @@ public class statystyki : MonoBehaviour {
     {
         healthBar.transform.localScale = new Vector2(size, 0.2f);
     }
+
+    internal int GetDamage()
+    {
+        if (more_damage == 1)
+        {
+            return 2;
+        }
+        return 1;
+    }
+
+    internal int AddToMaxDropResources()
+    {
+        if (more_resource == 1)
+        {
+            return 5;
+        }
+        return 0;
+    }
 }

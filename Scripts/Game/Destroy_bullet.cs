@@ -22,7 +22,7 @@ public class Destroy_bullet : MonoBehaviour
 
     private int GetDrop()
     {
-        return Random.Range(0, 5 + (staty.Get_Data_From("Mining Technology") * 2) + ReturnMaxDropResources());
+        return Random.Range(0, 5 + (staty.Get_Data_From("Mining Technology") * 2) + staty.AddToMaxDropResources());
     }
 
     private void AddResourcesFromDrop()
@@ -67,14 +67,5 @@ public class Destroy_bullet : MonoBehaviour
         {
             Destroy(gameObject, 0.01f);
         }
-    }
-
-    private int ReturnMaxDropResources()
-    {
-        if (staty.more_resource == 1)
-        {
-            return 5;
-        }
-        return 0;
     }
 }

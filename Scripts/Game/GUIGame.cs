@@ -17,7 +17,7 @@ public class GUIGame : MonoBehaviour
     public Animator[] anim;
     private GUIOperations GUIOperations;
 
-    private SpriteRenderer healthBar;
+    [SerializeField] private SpriteRenderer healthBar;
 
     private void Start()
     {
